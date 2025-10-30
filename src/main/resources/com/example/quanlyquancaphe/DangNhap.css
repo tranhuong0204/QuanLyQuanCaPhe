@@ -1,0 +1,19 @@
+.background_left{
+    -fx-background-image: url("images/hinhnencafe.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+.background_right {
+    -fx-background-color: linear-gradient(to bottom right, #f4e3d4, #f4e3d4);
+}
+
+.transparent-box {
+    -fx-background-color: rgba(210, 180, 140, 0.4); /* trắng mờ */
+    -fx-background-radius: 10; /* bo góc nếu muốn */
+    -fx-padding: 20;
+}
+.background_box{
+
+}
