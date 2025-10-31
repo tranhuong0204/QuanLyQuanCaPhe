@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://github.com/tranhuong0204/QuanLyQuanCaPhe/"><img src="https://vps029.manageserver.in/menu/wp-content/uploads/2024/04/Hot-Coffee.png" alt="QCPN" width="200"></a>
+  <a href="https://github.com/tranhuong0204/QuanLyQuanCaPhe/"><img src="https://vps029.manageserver.in/menu/wp-content/uploads/2024/04/Hot-Coffee.png" alt="QCPN" width="400" height="300"></a>
   <br>
   QuanCaPheNho
   <br>
@@ -27,7 +27,8 @@
 
 
 ## Prerequisites (Windows)
-- Java 17+ (JDK)
+- Java 25+ (JDK)
+- JavaFX 21.0.6+
 - Maven
 - Git
 - Optional: Database server (SQL Server / MySQL / SQLite)
