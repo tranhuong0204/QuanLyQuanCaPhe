@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://github.com/tranhuong0204/QuanLyQuanCaPhe/"><img src="https://www.google.com/imgres?q=coffee&imgurl=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fthumbnails%2F025%2F282%2F026%2Fsmall%2Fstock-of-mix-a-cup-coffee-latte-more-motive-top-view-foodgraphy-generative-ai-photo.jpg&imgrefurl=https%3A%2F%2Fwww.vecteezy.com%2Ffree-photos%2Fcoffee&docid=pP8zlusA736SFM&tbnid=9ylDIRqyya1mFM&vet=12ahUKEwiTtNnckc-QAxXWYvUHHXb8Lo4QM3oECBUQAA..i&w=300&h=200&hcb=2&ved=2ahUKEwiTtNnckc-QAxXWYvUHHXb8Lo4QM3oECBUQAA" alt="QCPN" width="200"></a>
+  <a href="https://github.com/tranhuong0204/QuanLyQuanCaPhe/"><img src="https://vps029.manageserver.in/menu/wp-content/uploads/2024/04/Hot-Coffee.png" alt="QCPN" width="200"></a>
   <br>
   QuanCaPheNho
   <br>
@@ -15,7 +15,6 @@
   <a href="#download">Download</a> •
 </p>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
 
 ## Key Features
 
@@ -48,7 +47,7 @@ mvn clean package
 java -jar target/QuanLyQuanCaPhe-1.0-SNAPSHOT.jar
 
 # Or run from IntelliJ IDEA: open project, let Maven import, run main class `com.example.quanlyquancaphe.Launcher`
-
+```
 ## Credits
 
 This software are being built by :
