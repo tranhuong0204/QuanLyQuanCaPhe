@@ -1,0 +1,92 @@
+/* Gentle blended background for KhuyenMai view */
+.km-root {
+  -fx-background-color: linear-gradient(to bottom right,
+      #F9EBDE 0%,
+      derive(#815854, 55%) 35%,
+      #F9EBDE 100%);
+}
+
+/* Optional: soften inner containers */
+.km-root > .center > * {
+  -fx-background-color: rgba(255,255,255,0.6);
+  -fx-background-radius: 12;
+  -fx-padding: 10;
+}
+
+/* Dark-brown TitledPane */
+.titled-pane {
+  -fx-text-fill: #F9EBDE;
+}
+.titled-pane > .title {
+  -fx-background-color: linear-gradient(to right, #6f4a3c, #815854);
+  -fx-background-radius: 10 10 0 0;
+  -fx-padding: 10 12;
+}
+.titled-pane > .title > .text {
+  -fx-fill: #F9EBDE;
+  -fx-font-weight: bold;
+}
+.titled-pane > .content {
+  -fx-background-color: rgba(255,255,255,0.75);
+  -fx-background-radius: 0 0 10 10;
+}
+
+/* Dark-brown TableView */
+.table-view {
+  -fx-background-color: #3e2b24;
+  -fx-background-radius: 10;
+  -fx-control-inner-background: #3e2b24;
+  -fx-control-inner-background-alt: #49342c;
+  -fx-padding: 6;
+}
+.table-view .column-header-background {
+  -fx-background-color: linear-gradient(to bottom, #674d40, #5a4237);
+  -fx-background-radius: 10 10 0 0;
+}
+.table-view .column-header, .table-view .filler {
+  -fx-text-fill: #F9EBDE;
+}
+.table-view .table-row-cell {
+  -fx-text-fill: #F9EBDE;
+}
+.table-view .table-row-cell:odd {
+  -fx-background-color: #49342c;
+}
+.table-view .table-row-cell:even {
+  -fx-background-color: #3e2b24;
+}
+.table-view .table-row-cell:selected {
+  -fx-background-color: #815854;
+  -fx-text-fill: #F9EBDE;
+}
+.table-view .column-header .label {
+  -fx-text-fill: #F9EBDE;
+}
+
+/* Header text color variants for TableView */
+.table-view.header-brown .column-header .label,
+.table-view.header-brown .filler .label {
+  -fx-text-fill: #5a4237; /* brown text for headers */
+}
+.table-view.header-black .column-header .label,
+.table-view.header-black .filler .label {
+  -fx-text-fill: #1d1b1a; /* near-black text */
+}
+
+/* Inputs to match vibe */
+.text-field, .text-area, .date-picker, .combo-box-base {
+  -fx-background-radius: 8;
+}
+.button {
+  -fx-background-radius: 8;
+}
+
+/* Top bar: gentle blend between #F9EBDE and #815854; fallback solid brown layer */
+.km-topbar {
+  -fx-background-color:
+      linear-gradient(to right, #F9EBDE, #815854),
+      #6f4a3c; /* fallback */
+}
+.km-topbar .label {
+  -fx-text-fill: #2b1d18; /* dark coffee text */
+}
