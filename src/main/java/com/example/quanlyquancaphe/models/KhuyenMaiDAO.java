@@ -7,7 +7,9 @@ import java.util.List;
 
 public class KhuyenMaiDAO {
     public List<KhuyenMai> findAll(Connection conn) throws SQLException {
-        String sql = "SELECT maKM, tenKM, giaTri, ngayBatDau, ngayKetThuc, moTa FROM KHUYENMAI ORDER BY maKM";
+        // Order by numeric part of maKM so KM002 < KM010
+        String sql = "SELECT maKM, tenKM, giaTri, ngayBatDau, ngayKetThuc, moTa FROM KHUYENMAI " +
+                     "ORDER BY TRY_CAST(SUBSTRING(LTRIM(RTRIM(maKM)),3,10) AS INT)";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             List<KhuyenMai> list = new ArrayList<>();
@@ -19,16 +21,16 @@ public class KhuyenMaiDAO {
     }
 
     public String nextCode(Connection conn) throws SQLException {
-        // Compute next code from MAX(maKM) like KM001 -> KM002
-        String sql = "SELECT MAX(maKM) FROM KHUYENMAI";
+        // Robust: compute MAX numeric tail with locking to avoid race conditions
+        String sql = "SELECT ISNULL(MAX(TRY_CAST(SUBSTRING(LTRIM(RTRIM(maKM)), 3, 10) AS INT)), 0) " +
+                     "FROM KHUYENMAI WITH (UPDLOCK, HOLDLOCK)";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            String max = null;
-            if (rs.next()) max = rs.getString(1);
-            int next = 1;
-            if (max != null && max.matches("KM\\d{3,}")) {
-                next = Integer.parseInt(max.substring(2)) + 1;
+            int maxNum = 0;
+            if (rs.next()) {
+                maxNum = rs.getInt(1);
             }
+            int next = maxNum + 1;
             return String.format("KM%03d", next);
         }
     }
@@ -77,4 +79,3 @@ public class KhuyenMaiDAO {
         return new KhuyenMai(maKM, tenKM, giaTri, bd, kt, moTa);
     }
 }
-
