@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.KhuyenMaiController" prefWidth="900" prefHeight="600" stylesheets="@KhuyenMai.css" styleClass="km-root">
+    <top>
+        <HBox spacing="10" alignment="CENTER" styleClass="km-topbar">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <Label text="Quản lý khuyến mãi" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12" />
+            </padding>
+            <TitledPane text="Thông tin khuyến mãi" expanded="true">
+                <content>
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="140" halignment="RIGHT" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
+                        <children>
+                            <Label text="Mã" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="txtMa" promptText="Tự sinh (VD: KM001)" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                            <Label text="Tên" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="txtTen" promptText="Giảm giá mùa hè" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Phần trăm (%)" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <TextField fx:id="txtPhanTram" promptText="10" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                            <Label text="Ghi chú" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <TextArea fx:id="txtGhiChu" promptText="Mô tả ngắn" prefRowCount="2" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                            <Label text="Ngày bắt đầu" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                            <DatePicker fx:id="dpNgayBatDau" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                            <Label text="Ngày kết thúc" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                            <DatePicker fx:id="dpNgayKetThuc" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                        </children>
+                    </GridPane>
+                </content>
+            </TitledPane>
+
+            <HBox spacing="10">
+                <Button fx:id="btnThem" text="Thêm" onAction="#onThem"/>
+                <Button fx:id="btnSua" text="Sửa" onAction="#onSua"/>
+                <Button fx:id="btnXoa" text="Xóa" onAction="#onXoa"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="cbKieuLoc"/>
+                <TextField fx:id="txtTimKiem" promptText="Nhập từ khóa hoặc %"/>
+                <Button text="Tìm" onAction="#onTim"/>
+            </HBox>
+
+            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown">
+                <columns>
+                    <TableColumn fx:id="colMa" text="Mã" prefWidth="100"/>
+                    <TableColumn fx:id="colTen" text="Tên" prefWidth="220"/>
+                    <TableColumn fx:id="colPhanTram" text="Phần trăm" prefWidth="100"/>
+                    <TableColumn fx:id="colNgayBatDau" text="Ngày bắt đầu" prefWidth="160"/>
+                    <TableColumn fx:id="colNgayKetThuc" text="Ngày kết thúc" prefWidth="160"/>
+                    <TableColumn fx:id="colGhiChu" text="Ghi chú" prefWidth="200"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>
