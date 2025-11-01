@@ -16,6 +16,7 @@
             </styleClass>
          </Label>
          <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
+         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
         </VBox>
     </left>
     <center>
