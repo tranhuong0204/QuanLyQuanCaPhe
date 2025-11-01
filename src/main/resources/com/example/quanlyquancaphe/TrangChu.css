@@ -1,0 +1,24 @@
+.label-custom {
+    -fx-background-color:  rgb(255, 235, 205);
+    -fx-border-color: transparent transparent rgb(139,69,19) transparent;
+    -fx-border-width: 2px 0 2px 0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+
+    -fx-cursor: hand;
+}
+
+/* Hover effect -fx-padding: 10 20; */
+.label-custom:hover {
+    -fx-background-color: #ffa726;
+    -fx-font-size: 13;
+    -fx-text-fill: #000;
+}
+
+/* Selected label */
+.label-selected {
+    -fx-background-color: #ffa726;
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+    -fx-border-color: transparent transparent rgb(139,69,19) transparent;
+}

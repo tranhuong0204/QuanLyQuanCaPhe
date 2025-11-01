@@ -35,6 +35,12 @@ public class DangNhapController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        if (username.isEmpty() || password.isEmpty()) {
+            statusLabel.setText("Vui lòng nhập đầy đủ thông tin.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
         try (Connection conn = DatabaseConnection.getConnection()) {
             String sql = "SELECT * FROM TAIKHOAN WHERE tenTaiKhoan = ? AND matKhau = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);

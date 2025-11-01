@@ -3,6 +3,8 @@ module com.example.quanlyquancaphe {
     requires javafx.fxml;
     requires java.sql;
     requires javafx.base;
+    requires javafx.graphics;
+
 
 
     opens com.example.quanlyquancaphe to javafx.fxml;

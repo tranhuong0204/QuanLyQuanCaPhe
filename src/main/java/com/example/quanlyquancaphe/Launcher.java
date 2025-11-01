@@ -17,9 +17,12 @@ public class Launcher extends Application{
 //        primaryStage.setTitle("Đăng Nhập");
 //        primaryStage.setScene(new Scene(root));
 //        primaryStage.show();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
+//        Scene scene = new Scene(root);
+//        scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.css").toExternalForm());
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.fxml"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
