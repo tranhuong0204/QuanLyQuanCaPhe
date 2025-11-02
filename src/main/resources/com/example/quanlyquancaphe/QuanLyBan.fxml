@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,51 +12,73 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="774.0" styleClass="root" stylesheets="@QuanLyBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1029.0" styleClass="root" stylesheets="@QuanLyBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="64.0" prefWidth="742.0" AnchorPane.bottomAnchor="607.6" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <HBox alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="64.0" prefWidth="742.0" styleClass="hbox" AnchorPane.bottomAnchor="607.6" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Label styleClass="label-top" text="Quản Lý Bàn">
+            <Label styleClass="label-title" text="Quản Lý Bàn">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <Pane layoutX="14.0" layoutY="96.0" prefHeight="576.0" prefWidth="582.0">
+      <Pane layoutX="27.0" layoutY="96.0" prefHeight="576.0" prefWidth="813.0">
          <children>
-            <TableView layoutX="15.0" layoutY="49.0" prefHeight="513.0" prefWidth="558.0">
+            <TableView layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0">
               <columns>
-                <TableColumn prefWidth="116.79998779296875" text="Mã Bàn" />
-                <TableColumn prefWidth="144.800048828125" text="Trạng Thái " />
-                  <TableColumn prefWidth="294.79998779296875" text="Ghi Chú" />
+                <TableColumn prefWidth="107.19998550415039" text="Mã Bàn" />
+                <TableColumn prefWidth="142.40000915527344" text="Vị Trí" />
+                  <TableColumn minWidth="3.2000732421875" prefWidth="96.79998779296875" text="Số Ghế" />
+                  <TableColumn prefWidth="125.60003662109375" text="Trạng Thái" />
+                  <TableColumn prefWidth="311.20001220703125" text="Ghi Chú" />
               </columns>
             </TableView>
-            <TextField layoutX="316.0" layoutY="14.0" prefHeight="25.0" prefWidth="212.0" />
-            <ComboBox layoutX="82.0" layoutY="14.0" prefWidth="150.0" />
-            <Label layoutX="250.0" layoutY="18.0" text="Nội dung :">
+            <TextField layoutX="514.0" layoutY="15.0" prefHeight="25.0" prefWidth="245.0" />
+            <ComboBox layoutX="90.0" layoutY="16.0" prefHeight="25.0" prefWidth="103.0" />
+            <Label layoutX="435.0" layoutY="19.0" styleClass="label-x" text="Nội dung :">
                <padding>
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <Label layoutX="15.0" layoutY="18.0" text="Trạng thái:">
+            <Label layoutX="15.0" layoutY="18.0" styleClass="label-x" text="Trạng thái:">
                <padding>
                   <Insets right="10.0" />
                </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Label>
-            <Button layoutX="542.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" />
-            <FontAwesomeIcon glyphName="SEARCH" layoutX="552.0" layoutY="30.0" />
+            <Button contentDisplay="CENTER" layoutX="769.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" styleClass="icon-button" text="🔎" />
+            <Label layoutX="205.0" layoutY="19.0" styleClass="label-x" text="Vị trí:">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="244.0" layoutY="15.0" prefHeight="25.0" prefWidth="171.0" />
+            <Label layoutX="15.0" layoutY="58.0" styleClass="label-x" text="Số ghế: ">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="90.0" layoutY="55.0" prefHeight="25.0" prefWidth="46.0" />
          </children>
       </Pane>
-      <Button layoutX="622.0" layoutY="144.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="106.0" text="Thêm ">
+      <Button layoutX="883.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Thêm ">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="622.0" layoutY="180.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="106.0" text="Sửa " />
-      <Button layoutX="622.0" layoutY="216.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="106.0" text="Xóa" />
+      <Button layoutX="883.0" layoutY="287.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Xóa" />
+      <Button layoutX="883.0" layoutY="235.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Sửa " />
    </children>
 </AnchorPane>

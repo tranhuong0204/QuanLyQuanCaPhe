@@ -12,7 +12,7 @@
 .label-title {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #3e1f00;
+    -fx-text-fill: #FFFFFF;
     -fx-background-color: #8b5e3b;
     -fx-alignment: center;
     -fx-padding: 10;
@@ -27,8 +27,13 @@
         -fx-padding: 10;
         -fx-background-radius: 5 5 0 0;
 }
+.label-x{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3e1f00;
+}
 .hbox{
-
+    -fx-background-color: #8b5e3b;
 }
 
 /* ==============================
@@ -74,6 +79,7 @@
     -fx-background-color: #d6b18a;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
+    -fx-font-weight:bold;
 }
 .icon-button:hover {
     -fx-background-color: #b98e6f;
@@ -108,6 +114,9 @@
 .table-view .cell:selected {
     -fx-background-color: #cfa47b;
     -fx-text-fill: white;
+}
+.table-column{
+    fx-text-fill:#FFFFFF;
 }
 
 /* ==============================
