@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="600.0" prefWidth="863.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.DashboardController">
     <left>
@@ -17,16 +16,7 @@
             </styleClass>
          </Label>
          <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
-         <Label onMouseClicked="#hienThongKe" prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: #fcb91e; -fx-font-weight: bold;" text="  Thống kê" textFill="#222120">
-            <font>
-               <Font name="Segoe UI Light" size="14.0" />
-            </font>
-         </Label>
-         <Label onMousePressed="#hienThongKe" prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: #fcb91e; -fx-font-weight: bold;" text="  Thống kê" textFill="#222120">
-            <font>
-               <Font name="Segoe UI Light" size="14.0" />
-            </font>
-         </Label>
+         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
         </VBox>
     </left>
     <center>

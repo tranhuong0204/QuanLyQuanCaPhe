@@ -12,47 +12,62 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DashboardController {
-    @FXML
-    private Label taiKhoanlb, thongKelb;
+    @FXML private Label taiKhoanlb;
+    @FXML private Label thongKelb;
+    @FXML private Label KHUYENMAILABEL; // label "KHUYẾN MÃI" từ FXML
     @FXML private StackPane contentPane;
 
     private List<Label> labelList;
 
     @FXML
     public void initialize() {
-        labelList = Arrays.asList(taiKhoanlb, thongKelb);
+        // Gom các label, bỏ qua những label chưa được inject (null)
+        labelList = new ArrayList<>();
+        if (taiKhoanlb != null) labelList.add(taiKhoanlb);
+        if (thongKelb != null) labelList.add(thongKelb);
+        if (KHUYENMAILABEL != null) labelList.add(KHUYENMAILABEL);
 
         for (Label label : labelList) {
             label.getStyleClass().add("label-custom");
+            label.setStyle("-fx-cursor: hand;");
 
             label.setOnMouseClicked(event -> {
                 for (Label l : labelList) {
                     l.getStyleClass().remove("label-selected");
                 }
                 label.getStyleClass().add("label-selected");
-                // 👉 Load nội dung tương ứng
+
+                // Nạp nội dung tương ứng vào contentPane
                 if (label == thongKelb) {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quanlyquancaphe/ThongKe.fxml"));
-                        Node thongKeView = loader.load();
-                        contentPane.getChildren().setAll(thongKeView);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    loadIntoContent("/com/example/quanlyquancaphe/ThongKe.fxml");
+                } else if (label == KHUYENMAILABEL) {
+                    loadIntoContent("/com/example/quanlyquancaphe/KhuyenMai.fxml");
                 }
             });
         }
     }
+
+    private void loadIntoContent(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node view = loader.load();
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(view);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
-    private void hienThongKe(MouseEvent event) throws Exception{
+    private void hienThongKe(MouseEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/ThongKe.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
-//                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

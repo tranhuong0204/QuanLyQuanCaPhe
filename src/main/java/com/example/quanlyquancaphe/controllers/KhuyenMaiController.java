@@ -13,7 +13,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
