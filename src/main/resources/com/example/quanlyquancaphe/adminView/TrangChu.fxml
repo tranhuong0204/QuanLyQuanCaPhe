@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="863.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.DashboardController">
+    <left>
+        <VBox prefHeight="600.0" prefWidth="184.0" spacing="0" style="-fx-background-color: rgb(255, 235, 205);">
+         <Label prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: rgb(139,69,19);" text="Label" />
+         <Label fx:id="taiKhoanlb" prefHeight="47.0" prefWidth="184.0" text="  TÀI KHOẢN" textFill="#281504">
+            <styleClass>
+<!--               <String fx:value="label-custom" />-->
+<!--               <String fx:value="label-selected" />-->
+            </styleClass>
+         </Label>
+         <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
+         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentPane" prefHeight="600.0" prefWidth="566.0" />
+    </center>
+</BorderPane>

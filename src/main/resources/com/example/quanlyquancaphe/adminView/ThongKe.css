@@ -1,0 +1,10 @@
+.area-chart-custom {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 500px;
+}
+
+.combo-box, .tab-pane {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #D3BFA6;
+}

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.KhuyenMaiController" prefWidth="900" prefHeight="600" stylesheets="@KhuyenMai.css" styleClass="km-root">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.KhuyenMaiController" prefWidth="900" prefHeight="600" stylesheets="@KhuyenMai.css" styleClass="km-root">
     <top>
         <HBox spacing="10" alignment="CENTER" styleClass="km-topbar">
             <padding>

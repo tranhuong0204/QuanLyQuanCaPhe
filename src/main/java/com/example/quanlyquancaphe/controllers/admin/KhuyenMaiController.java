@@ -1,4 +1,4 @@
-package com.example.quanlyquancaphe.controllers;
+package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
 import com.example.quanlyquancaphe.models.KhuyenMai;

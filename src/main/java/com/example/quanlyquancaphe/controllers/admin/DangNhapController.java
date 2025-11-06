@@ -1,4 +1,4 @@
-package com.example.quanlyquancaphe;
+package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -10,10 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,6 +32,7 @@ public class DangNhapController {
     private void handleLogin(ActionEvent event) throws Exception{
         String username = usernameField.getText();
         String password = passwordField.getText();
+        //String role =
 
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Vui lòng nhập đầy đủ thông tin.");
@@ -49,15 +48,25 @@ public class DangNhapController {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                String role = rs.getString("chucVu");
                 statusLabel.setText("Đăng nhập thành công!");
                 statusLabel.setStyle("-fx-text-fill: green;");
                 // chuyển sang màn hình chính
-                Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
-                Scene scene = new Scene(root);
+                if("quan ly".equalsIgnoreCase(role)) {
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/adminView/TrangChu.fxml"));
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
+                    Scene scene = new Scene(root);
 //                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
-                stage.setScene(scene);
-                stage.show();
+                    stage.setScene(scene);
+                    stage.show();
+                } else if ("nhan vien".equalsIgnoreCase(role)) {
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/employeeView/TrangChu.fxml"));
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
+                    Scene scene = new Scene(root);
+//                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
+                    stage.setScene(scene);
+                    stage.show();
+                }
                 // chuyển sang màn hình chính nếu cần
             } else {
                 statusLabel.setText("Sai tên đăng nhập hoặc mật khẩu.");
