@@ -1,0 +1,94 @@
+/* ===== NỀN CHUNG ===== */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #d7b39a, #f0e1d3);
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* ===== KHUNG CHÍNH ===== */
+.anchor-pane {
+    -fx-padding: 20;
+}
+
+/* ===== TIÊU ĐỀ ===== */
+.label-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 10 0 20 0;
+}
+
+/* ===== TABLEVIEW ===== */
+.table-view {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-border-color: #8b5e3b;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+/* Dòng tiêu đề */
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+}
+.table-view .column-header, .table-view .label {
+    -fx-text-fill: #3e1f00;
+    -fx-font-weight: bold;
+}
+
+/* Dòng dữ liệu */
+.table-row-cell {
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-border-color: #ecf0f1;
+}
+.table-row-cell:filled:selected {
+    -fx-background-color: #d0e4fc;
+}
+
+/* ===== NÚT ===== */
+.button {
+    -fx-background-radius: 6;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* Nút sửa */
+.button-edit {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+}
+.button-edit:hover {
+    -fx-background-color: #2ecc71;
+}
+
+/* Nút xóa */
+.button-delete {
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+}
+.button-delete:hover {
+    -fx-background-color: #e74c3c;
+}
+
+/* ===== Ô TÌM KIẾM, TEXTFIELD ===== */
+.text-field {
+    -fx-background-color: rgba(255,255,255,0.9);
+    -fx-border-color: #95a5a6;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+/* ===== GIÁ SẢN PHẨM ===== */
+.label-price {
+    -fx-text-fill: #e67e22;
+    -fx-font-weight: bold;
+}
+
+/* ===== ẢNH TRONG BẢNG ===== */
+.image-view {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.3), 5, 0.0, 0, 1);
+    -fx-background-radius: 4;
+}
