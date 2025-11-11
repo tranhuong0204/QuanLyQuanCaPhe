@@ -1,4 +1,4 @@
-package com.example.quanlyquancaphe.controllers.employee;
+package com.example.quanlyquancaphe.controllers.admin;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardController {
-    @FXML private Label banlb;
-    @FXML private Label monlb;
+public class TrangChuController {
+    @FXML private Label taiKhoanlb, monlb;
+    @FXML private Label thongKelb;
     @FXML private Label KHUYENMAILABEL; // label "KHUYẾN MÃI" từ FXML
     @FXML private StackPane contentPane;
 
@@ -26,9 +26,10 @@ public class DashboardController {
     public void initialize() {
         // Gom các label, bỏ qua những label chưa được inject (null)
         labelList = new ArrayList<>();
-        if (banlb != null) labelList.add(banlb);
-        if (monlb != null) labelList.add(monlb);
+        if (taiKhoanlb != null) labelList.add(taiKhoanlb);
+        if (thongKelb != null) labelList.add(thongKelb);
         if (KHUYENMAILABEL != null) labelList.add(KHUYENMAILABEL);
+        labelList.add(monlb);
 
         for (Label label : labelList) {
             label.getStyleClass().add("label-custom");
@@ -41,10 +42,13 @@ public class DashboardController {
                 label.getStyleClass().add("label-selected");
 
                 // Nạp nội dung tương ứng vào contentPane
-                if (label == banlb) {
-                    loadIntoContent("/com/example/quanlyquancaphe/employeeView/SanPham.fxml");
+                if (label == thongKelb) {
+                    loadIntoContent("/com/example/quanlyquancaphe/adminView/ThongKe.fxml");
                 } else if (label == KHUYENMAILABEL) {
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/KhuyenMai.fxml");
+                }
+                else if (label == monlb) {
+                    loadIntoContent("/com/example/quanlyquancaphe/adminView/QLSP.fxml");
                 }
             });
         }
