@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
@@ -17,7 +18,18 @@
          </Label>
          <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
          <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
-         <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504" />
+         <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504">
+            <padding>
+               <Insets left="10.0" />
+            </padding></Label>
+         <Label prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+            <padding>
+               <Insets left="10.0" />
+            </padding>
+         </Label>
         </VBox>
     </left>
     <center>
