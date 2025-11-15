@@ -37,9 +37,9 @@
                   <TableColumn prefWidth="311.20001220703125" text="Ghi Chú" />
               </columns>
             </TableView>
-            <TextField layoutX="514.0" layoutY="15.0" prefHeight="25.0" prefWidth="245.0" />
+            <TextField layoutX="535.0" layoutY="15.0" prefHeight="25.0" prefWidth="224.0" />
             <ComboBox layoutX="90.0" layoutY="16.0" prefHeight="25.0" prefWidth="103.0" />
-            <Label layoutX="435.0" layoutY="19.0" styleClass="label-x" text="Nội dung :">
+            <Label layoutX="435.0" layoutY="19.0" styleClass="label-x" text="Tìm nội dung :">
                <padding>
                   <Insets right="10.0" />
                </padding>

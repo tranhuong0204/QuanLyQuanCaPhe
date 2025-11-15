@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="282.0" prefWidth="478.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+<AnchorPane prefHeight="292.0" prefWidth="478.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
    <children>
       <HBox alignment="CENTER" layoutX="15.2" layoutY="14.0" prefHeight="31.0" prefWidth="448.0" styleClass="hbox" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
          <padding>
@@ -33,19 +32,25 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="135.0" styleClass="label-b" text="Vị trí" AnchorPane.topAnchor="135.0">
+      <Label layoutX="45.0" layoutY="120.0" styleClass="label-b" text="Vị trí" AnchorPane.topAnchor="120.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="48.0" layoutY="186.0" styleClass="label-b" text="Số ghế" AnchorPane.topAnchor="186.0">
+      <Label layoutX="47.0" layoutY="154.0" styleClass="label-b" text="Số ghế" AnchorPane.topAnchor="154.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Button layoutX="194.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="90.0" text="OK" AnchorPane.bottomAnchor="14.800000000000011" />
       <TextField layoutX="134.0" layoutY="86.0" prefHeight="26.0" prefWidth="298.0" />
-      <TextField layoutX="134.0" layoutY="134.0" prefHeight="26.0" prefWidth="298.0" />
-      <TextField layoutX="134.0" layoutY="186.0" prefHeight="26.0" prefWidth="298.0" />
+      <TextField layoutX="134.0" layoutY="119.0" prefHeight="26.0" prefWidth="298.0" />
+      <TextField layoutX="133.0" layoutY="154.0" prefHeight="26.0" prefWidth="298.0" />
+      <Label layoutX="47.0" layoutY="188.0" styleClass="label-b" text="Ghi chú">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="133.0" layoutY="188.0" prefHeight="26.0" prefWidth="298.0" />
    </children>
 </AnchorPane>
