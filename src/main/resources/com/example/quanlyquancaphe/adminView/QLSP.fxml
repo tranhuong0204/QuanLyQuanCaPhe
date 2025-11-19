@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="650" prefWidth="1000" styleClass="qlsp-root" stylesheets="@QLSP.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.QLSPController">
+<BorderPane prefHeight="650" prefWidth="1000" styleClass="qlsp-root" stylesheets="@QLSP.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.QLSPController">
 
 
     <top>
@@ -43,7 +43,7 @@
 
                         <children>
                             <Label text="Mã sản phẩm:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                            <TextField fx:id="txtMaSanPham" editable="false" promptText="SP001" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <TextField fx:id="txtMaSanPham" promptText="SP001" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                             <Label text="Tên sản phẩm:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                             <TextField fx:id="txtTenSanPham" promptText="Cà phê sữa" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -74,8 +74,6 @@
 
             <HBox spacing="10">
                 <Button fx:id="btnThem" onAction="#onThem" text="Thêm" />
-                <Button fx:id="btnSua" onAction="#onSua" text="Sửa" />
-                <Button fx:id="btnXoa" onAction="#onXoa" text="Xóa" />
                 <Region HBox.hgrow="ALWAYS" />
                 <TextField fx:id="txtTimKiem" promptText="Tìm theo tên hoặc mã sản phẩm" />
                 <Button fx:id="btnTim" onAction="#onTim" text="Tìm kiếm" />
