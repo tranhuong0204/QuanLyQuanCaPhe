@@ -19,8 +19,23 @@ public class TrangChuController {
     @FXML private Label thongKelb;
     @FXML private Label KHUYENMAILABEL; // label "KHUYẾN MÃI" từ FXML
     @FXML private StackPane contentPane;
+    @FXML private Label quanLyBan;
 
     private List<Label> labelList;
+    private void openNewWindow(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -29,7 +44,11 @@ public class TrangChuController {
         if (taiKhoanlb != null) labelList.add(taiKhoanlb);
         if (thongKelb != null) labelList.add(thongKelb);
         if (KHUYENMAILABEL != null) labelList.add(KHUYENMAILABEL);
+        if (quanLyBan != null) {
+            labelList.add(quanLyBan);
+        }
         labelList.add(monlb);
+
 
         for (Label label : labelList) {
             label.getStyleClass().add("label-custom");
@@ -49,6 +68,9 @@ public class TrangChuController {
                 }
                 else if (label == monlb) {
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/QLSP.fxml");
+                }
+                else if (label == quanLyBan) {
+                    openNewWindow("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml", "Quản lý bàn");
                 }
             });
         }
@@ -73,4 +95,5 @@ public class TrangChuController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

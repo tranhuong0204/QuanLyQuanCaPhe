@@ -12,7 +12,7 @@ public class BanDAO {
     public List<Ban> getAll() {
         List<Ban> list = new ArrayList<>();
 
-        String sql = "SELECT MaBan, ViTri, SoGhe, TrangThai, GhiChu FROM Ban";
+        String sql = "SELECT maBan, viTri, soGhe, trangThai, ghiChu FROM BAN";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class BanDAO {
     }
 
     public boolean insert(Ban b) {
-        String sql = "INSERT INTO Ban (MaBan, ViTri, SoGhe, TrangThai, GhiChu) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO BAN (maBan, viTri, soGhe, trangThai, ghiChu) VALUES (?,?,?,?,?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -55,7 +55,7 @@ public class BanDAO {
     }
 
     public boolean update(Ban b) {
-        String sql = "UPDATE Ban SET ViTri=?, SoGhe=?, TrangThai=?, GhiChu=? WHERE MaBan=?";
+        String sql = "UPDATE BAN SET viTri=?, soGhe=?, trangThai=?, ghiChu=? WHERE maBan=?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -75,7 +75,7 @@ public class BanDAO {
     }
 
     public boolean delete(String maBan) {
-        String sql = "DELETE FROM Ban WHERE MaBan=?";
+        String sql = "DELETE FROM BAN WHERE maBan=?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

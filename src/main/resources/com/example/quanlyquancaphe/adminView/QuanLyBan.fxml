@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1029.0" styleClass="root" stylesheets="@QuanLyBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1029.0" styleClass="root" stylesheets="@QuanLyBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.QuanLyBanController">
    <children>
       <HBox alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="64.0" prefWidth="742.0" styleClass="hbox" AnchorPane.bottomAnchor="607.6" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <padding>
@@ -28,13 +28,13 @@
       </HBox>
       <Pane layoutX="27.0" layoutY="96.0" prefHeight="576.0" prefWidth="813.0">
          <children>
-            <TableView layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0">
+            <TableView fx:id="tableBan" layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0">
               <columns>
-                <TableColumn prefWidth="107.19998550415039" text="Mã Bàn" />
-                <TableColumn prefWidth="142.40000915527344" text="Vị Trí" />
-                  <TableColumn minWidth="3.2000732421875" prefWidth="96.79998779296875" text="Số Ghế" />
-                  <TableColumn prefWidth="125.60003662109375" text="Trạng Thái" />
-                  <TableColumn prefWidth="311.20001220703125" text="Ghi Chú" />
+                <TableColumn fx:id="colMaBan" prefWidth="107.19998550415039" text="Mã Bàn" />
+                <TableColumn fx:id="colViTri" prefWidth="142.40000915527344" text="Vị Trí" />
+                  <TableColumn fx:id="colSoGhe" minWidth="3.2000732421875" prefWidth="96.79998779296875" text="Số Ghế" />
+                  <TableColumn fx:id="colTrangThai" prefWidth="125.60003662109375" text="Trạng Thái" />
+                  <TableColumn fx:id="colGhiChu" prefWidth="311.20001220703125" text="Ghi Chú" />
               </columns>
             </TableView>
             <TextField layoutX="535.0" layoutY="15.0" prefHeight="25.0" prefWidth="224.0" />

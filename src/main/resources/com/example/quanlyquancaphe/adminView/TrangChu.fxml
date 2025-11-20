@@ -22,7 +22,7 @@
             <padding>
                <Insets left="10.0" />
             </padding></Label>
-         <Label prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
+         <Label fx:id="quanLyBan" prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
             <VBox.margin>
                <Insets />
             </VBox.margin>
