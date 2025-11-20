@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="329.0" prefWidth="478.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+<AnchorPane prefHeight="329.0" prefWidth="478.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.SuaBanController">
     <children>
         <HBox alignment="CENTER" layoutX="15.2" layoutY="14.0" prefHeight="31.0" prefWidth="448.0" styleClass="hbox" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
             <padding>
@@ -43,10 +43,10 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button layoutX="194.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="90.0" text="OK" AnchorPane.bottomAnchor="14.800000000000011" />
-        <TextField layoutX="169.0" layoutY="86.0" prefHeight="26.0" prefWidth="282.0" />
-        <TextField layoutX="169.0" layoutY="119.0" prefHeight="26.0" prefWidth="282.0" />
-        <TextField layoutX="168.0" layoutY="154.0" prefHeight="26.0" prefWidth="282.0" />
+        <Button layoutX="194.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="90.0" text="OK" AnchorPane.bottomAnchor="14.800000000000011" fx:id="btnOK" onAction="#onOK"/>
+        <TextField layoutX="169.0" layoutY="86.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtMaBan"/>
+        <TextField layoutX="169.0" layoutY="119.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtViTri"/>
+        <TextField layoutX="168.0" layoutY="154.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtSoGhe"/>
         <Label layoutX="47.0" layoutY="188.0" styleClass="label-b" text="Trạng thái">
             <font>
                 <Font size="18.0" />
@@ -57,7 +57,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="168.0" layoutY="221.0" prefHeight="26.0" prefWidth="282.0" />
-      <ComboBox layoutX="168.0" layoutY="186.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField layoutX="168.0" layoutY="221.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtGhiChu"/>
+      <ComboBox layoutX="168.0" layoutY="186.0" prefHeight="26.0" prefWidth="182.0" fx:id="cbTrangThai"/>
     </children>
 </AnchorPane>

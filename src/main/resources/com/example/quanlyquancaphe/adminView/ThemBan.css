@@ -30,3 +30,28 @@
     -fx-background-color: #cfa47b;
     -fx-text-fill: white;
 }
+.text-field, .combo-box {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #8b5e3b;
+    -fx-background-color: white;
+    -fx-padding: 4;
+}
+
+.combo-box:hover, .text-field:hover {
+    -fx-border-color: #b0815c;
+}
+
+.combo-box:focused, .text-field:focused {
+    -fx-border-width: 2;
+    -fx-border-color: #5a371d;
+}
+
+/* Popup item ComboBox */
+.list-cell:hover {
+    -fx-background-color: #ecd8c7;
+}
+.list-cell:selected {
+    -fx-background-color: #cfa47b;
+    -fx-text-fill: white;
+}

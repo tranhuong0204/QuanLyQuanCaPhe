@@ -28,7 +28,7 @@
       </HBox>
       <Pane layoutX="27.0" layoutY="96.0" prefHeight="576.0" prefWidth="813.0">
          <children>
-            <TableView fx:id="tableBan" layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0">
+            <TableView fx:id="tableBan" layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0" stylesheets="@tableview.css">
               <columns>
                 <TableColumn fx:id="colMaBan" prefWidth="107.19998550415039" text="Mã Bàn" />
                 <TableColumn fx:id="colViTri" prefWidth="142.40000915527344" text="Vị Trí" />
@@ -37,23 +37,14 @@
                   <TableColumn fx:id="colGhiChu" prefWidth="311.20001220703125" text="Ghi Chú" />
               </columns>
             </TableView>
-            <TextField layoutX="535.0" layoutY="15.0" prefHeight="25.0" prefWidth="224.0" />
-            <ComboBox layoutX="90.0" layoutY="16.0" prefHeight="25.0" prefWidth="103.0" />
-            <Label layoutX="435.0" layoutY="19.0" styleClass="label-x" text="Tìm nội dung :">
+            <TextField fx:id="noiDungTim" layoutX="535.0" layoutY="15.0" prefHeight="33.0" prefWidth="266.0" />
+            <ComboBox fx:id="cbTrangThai" layoutX="90.0" layoutY="16.0" prefHeight="33.0" prefWidth="106.0" />
+            <Label layoutX="428.0" layoutY="23.0" styleClass="label-x" text="Tìm nội dung :">
                <padding>
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <Label layoutX="15.0" layoutY="18.0" styleClass="label-x" text="Trạng thái:">
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Button contentDisplay="CENTER" layoutX="769.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" styleClass="icon-button" text="🔎" />
-            <Label layoutX="205.0" layoutY="19.0" styleClass="label-x" text="Vị trí:">
+            <Label layoutX="15.0" layoutY="23.0" styleClass="label-x" text="Trạng thái:">
                <padding>
                   <Insets right="10.0" />
                </padding>
@@ -61,7 +52,15 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ComboBox layoutX="244.0" layoutY="15.0" prefHeight="25.0" prefWidth="171.0" />
+            <Label layoutX="207.0" layoutY="23.0" styleClass="label-x" text="Vị trí:">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbViTri" layoutX="244.0" layoutY="15.0" prefHeight="25.0" prefWidth="171.0" />
             <Label layoutX="15.0" layoutY="58.0" styleClass="label-x" text="Số ghế: ">
                <padding>
                   <Insets right="10.0" />
@@ -70,15 +69,15 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="90.0" layoutY="55.0" prefHeight="25.0" prefWidth="46.0" />
+            <TextField fx:id="soGhe" layoutX="90.0" layoutY="55.0" prefHeight="25.0" prefWidth="46.0" />
          </children>
       </Pane>
-      <Button layoutX="883.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Thêm ">
+      <Button fx:id="btnThem" layoutX="883.0" layoutY="185.0" mnemonicParsing="false" onAction="#onThem" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Thêm ">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="883.0" layoutY="287.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Xóa" />
-      <Button layoutX="883.0" layoutY="235.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Sửa " />
+      <Button fx:id="btnXoa" layoutX="883.0" layoutY="287.0" mnemonicParsing="false" onAction="#onXoa" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Xóa" />
+      <Button fx:id="btnSua" layoutX="883.0" layoutY="235.0" mnemonicParsing="false" onAction="#onSua" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Sửa" />
    </children>
 </AnchorPane>
