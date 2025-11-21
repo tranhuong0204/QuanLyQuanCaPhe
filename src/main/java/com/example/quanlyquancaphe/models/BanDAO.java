@@ -88,4 +88,23 @@ public class BanDAO {
             return false;
         }
     }
+    public boolean exists(String maBan) {
+        if (maBan == null) return false;
+        maBan = maBan.trim();
+
+        String sql = "SELECT 1 FROM Ban WHERE maBan = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maBan);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

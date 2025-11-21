@@ -56,6 +56,16 @@ public class QuanLyBanController {
         cbTrangThai.valueProperty().addListener((obs, oldV, newV) -> onSearch());
         cbViTri.valueProperty().addListener((obs, oldV, newV) -> onSearch());
         soGhe.textProperty().addListener((obs, oldV, newV) -> onSearch());
+
+        tableBan.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Ban b = tableBan.getSelectionModel().getSelectedItem();
+                if (b != null) {
+                    onSua();
+                }
+            }
+        });
+
     }
 
     // ==================== C O M B O B O X ==========================
@@ -179,6 +189,12 @@ public class QuanLyBanController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
+            // lấy controller và truyền parent
+            Object controller = loader.getController();
+            if (controller instanceof ThemBanController) {
+                ((ThemBanController) controller).setParent(this);
+            }
+
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
@@ -187,6 +203,7 @@ public class QuanLyBanController {
             e.printStackTrace();
         }
     }
+
 
     private void openNewWindowSuaBan(String fxmlPath, String title, Ban selectedBan) {
         try {

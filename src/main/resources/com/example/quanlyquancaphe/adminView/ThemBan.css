@@ -5,6 +5,7 @@
 
 .hbox{
     -fx-background-color: #8b5e3b;
+    -fx-background-radius: 10;
 }
 .title-top{
     -fx-text-fill: #FFFFFF;

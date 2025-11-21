@@ -46,30 +46,65 @@ public class ThemBanController {
     @FXML
     public void initialize() {
         setupComboboxViTri();
-
     }
 
     @FXML
     private void onOK() {
+        // 1. Kiểm tra không để trống
+        String maBan = txtMaBan.getText().trim();
+        String viTri = cbViTri.getValue();
+        String soGheText = txtSoGhe.getText().trim();
+        String ghiChu = txtGhiChu.getText().trim();
 
+        if (maBan.isEmpty() || viTri == null || soGheText.isEmpty() || ghiChu.isEmpty()) {
+            showError("Không được để trống bất cứ trường nào!");
+            return;
+        }
+        // 2. Kiểm tra số ghế phải là số
+        int soGhe;
+        try {
+            soGhe = Integer.parseInt(soGheText);
+            if (soGhe <= 0) {
+                showError("Số ghế phải lớn hơn 0!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showError("Số ghế phải là số hợp lệ!");
+            return;
+        }
+        // 3. Kiểm tra mã bàn có bị trùng không
+        if (banDAO.exists(maBan)) {
+            showError("Mã bàn đã tồn tại! Vui lòng nhập mã khác.");
+            return;
+        }
+        // ==============================
+        // 4. Tạo đối tượng bàn mới
+        // ==============================
         Ban b = new Ban(
-                txtMaBan.getText(),
-                cbViTri.getValue(),
-                Integer.parseInt(txtSoGhe.getText()),
-                "Trống",        // mặc định
-                txtGhiChu.getText()
+                maBan,
+                viTri,
+                soGhe,
+                "Trống",
+                ghiChu
         );
-
+        // ==============================
+        // 5. Thêm vào DB
+        // ==============================
         if (banDAO.insert(b)) {
             parent.loadData();
             close();
         } else {
-            new Alert(Alert.AlertType.ERROR, "Thêm bàn thất bại!").show();
+            showError("Thêm bàn thất bại!");
         }
     }
-
     private void close() {
-        Stage s = (Stage) btnOK.getScene().getWindow();
-        s.close();
+        Stage stage = (Stage) btnOK.getScene().getWindow();
+        stage.close();
     }
+
+
+    private void showError(String msg) {
+        new Alert(Alert.AlertType.ERROR, msg).show();
+    }
+
 }

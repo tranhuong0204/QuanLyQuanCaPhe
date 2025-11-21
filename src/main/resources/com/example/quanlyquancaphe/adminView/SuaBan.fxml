@@ -1,63 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="329.0" prefWidth="478.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.SuaBanController">
+<AnchorPane prefHeight="360.0" prefWidth="520.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.SuaBanController">
     <children>
-        <HBox alignment="CENTER" layoutX="15.2" layoutY="14.0" prefHeight="31.0" prefWidth="448.0" styleClass="hbox" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-            <children>
-                <Label styleClass="title-top" text="Sửa bàn">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
-            </children>
-        </HBox>
-        <Label layoutX="45.0" layoutY="86.0" styleClass="label-b" text="Mã bàn" AnchorPane.topAnchor="86.0">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-        <Label layoutX="15.0" layoutY="132.0">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <Label layoutX="45.0" layoutY="120.0" styleClass="label-b" text="Vị trí" AnchorPane.topAnchor="120.0">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-        <Label layoutX="47.0" layoutY="154.0" styleClass="label-b" text="Số ghế" AnchorPane.topAnchor="154.0">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-        <Button layoutX="194.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="90.0" text="OK" AnchorPane.bottomAnchor="14.800000000000011" fx:id="btnOK" onAction="#onOK"/>
-        <TextField layoutX="169.0" layoutY="86.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtMaBan"/>
-        <TextField layoutX="169.0" layoutY="119.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtViTri"/>
-        <TextField layoutX="168.0" layoutY="154.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtSoGhe"/>
-        <Label layoutX="47.0" layoutY="188.0" styleClass="label-b" text="Trạng thái">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-      <Label layoutX="47.0" layoutY="221.0" styleClass="label-b" text="Ghi chú">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField layoutX="168.0" layoutY="221.0" prefHeight="26.0" prefWidth="282.0" fx:id="txtGhiChu"/>
-      <ComboBox layoutX="168.0" layoutY="186.0" prefHeight="26.0" prefWidth="182.0" fx:id="cbTrangThai"/>
+        <VBox spacing="15" alignment="CENTER" AnchorPane.topAnchor="15" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15">
+            <Label text="Sửa bàn" styleClass="title-top">
+                <font><Font name="System Bold" size="20.0"/></font>
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="120"/>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <children>
+                    <Label text="Mã bàn" GridPane.rowIndex="0" styleClass="label-b"/>
+                    <TextField fx:id="txtMaBan" prefHeight="28" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Vị trí" GridPane.rowIndex="1" styleClass="label-b"/>
+                    <ComboBox fx:id="cbViTri" prefHeight="28" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Số ghế" GridPane.rowIndex="2" styleClass="label-b"/>
+                    <TextField fx:id="txtSoGhe" prefHeight="28" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Trạng thái" GridPane.rowIndex="3" styleClass="label-b"/>
+                    <ComboBox fx:id="cbTrangThai" prefHeight="28" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Ghi chú" GridPane.rowIndex="4" styleClass="label-b"/>
+                    <TextField fx:id="txtGhiChu" prefHeight="28" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
+
+            <Button fx:id="btnOK" text="OK" onAction="#onOK" prefWidth="120" prefHeight="36"/>
+        </VBox>
     </children>
 </AnchorPane>
