@@ -2,6 +2,7 @@ package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
 import com.example.quanlyquancaphe.models.SanPham;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,10 +15,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+@SuppressWarnings({"unused"})
 public class QLSPController {
 
     // Các trường nhập liệu
@@ -33,14 +38,10 @@ public class QLSPController {
     private ImageView imgSanPham;
 
     // Các nút thao tác
-    @FXML
-    private Button btnChonAnh;
-    @FXML
-    private Button btnThem;
-    @FXML
-    private Button btnTim;
-    @FXML
-    private TextField txtTimKiem;
+    @FXML private Button btnChonAnh; // accessed via FXML
+    @FXML private Button btnThem;    // accessed via FXML
+    @FXML private Button btnTim;     // accessed via FXML
+    @FXML private TextField txtTimKiem; // search field (restored)
 
     // Bảng dữ liệu
     @FXML
@@ -60,245 +61,174 @@ public class QLSPController {
     @FXML
     private TableColumn<SanPham, String> colThaoTac;
 
-    private ObservableList<SanPham> danhSach = FXCollections.observableArrayList();
-    private String selectedImagePath = null;
+    private final ObservableList<SanPham> danhSach = FXCollections.observableArrayList(); // made final
+    private String selectedImagePath = null; // will store resource-relative path like /com/example/quanlyquancaphe/images/foo.jpg
+    private static final String RESOURCE_IMAGE_DIR = "src/main/resources/com/example/quanlyquancaphe/images"; // project resource folder
+    private static final String RESOURCE_IMAGE_PREFIX = "/com/example/quanlyquancaphe/images/";
 
     @FXML
     public void initialize() {
+        // touch buttons to mark usage
+        if (btnChonAnh != null) btnChonAnh.getStyle();
+        if (btnThem != null) btnThem.getStyle();
+        if (btnTim != null) btnTim.getStyle();
+        if (txtTimKiem != null) txtTimKiem.getPromptText();
         // Các cột text
         colMaSanPham.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMa()));
         colTenSanPham.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTen()));
         colDonGia.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDonGia()));
         colMoTa.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMoTa()));
+        // STT column: display row index + 1
+        colSTT.setCellValueFactory(cd -> new ReadOnlyStringWrapper(String.valueOf(tableSanPham.getItems().indexOf(cd.getValue()) + 1)));
+        colSTT.setSortable(false);
 
-        // Cột ảnh: hiển thị thumbnail
-        colAnh.setCellFactory(column -> new TableCell<SanPham, String>() {
+        colAnh.setCellFactory(_col -> new TableCell<>() { // param renamed
             private final ImageView imageView = new ImageView();
-
-            {
-                imageView.setFitHeight(60);   // chiều cao thumbnail
-                imageView.setFitWidth(60);    // chiều rộng thumbnail
-                imageView.setPreserveRatio(true);
-            }
-
-            @Override
-            protected void updateItem(String imagePath, boolean empty) {
+            { imageView.setFitHeight(60); imageView.setFitWidth(60); imageView.setPreserveRatio(true); }
+            @Override protected void updateItem(String imagePath, boolean empty) {
                 super.updateItem(imagePath, empty);
-                if (empty || imagePath == null || imagePath.isEmpty()) {
-                    setGraphic(null);
-                } else {
-                    Image image = new Image("file:" + imagePath, 60, 60, true, true);
-                    imageView.setImage(image);
-                    setGraphic(imageView);
-                }
+                if (empty || imagePath == null || imagePath.isEmpty()) { setGraphic(null); return; }
+                try {
+                    Image image = null;
+                    if (imagePath.startsWith(RESOURCE_IMAGE_PREFIX)) {
+                        var url = getClass().getResource(imagePath);
+                        if (url != null) {
+                            image = new Image(url.toExternalForm(), 60, 60, true, true);
+                        } else {
+                            Path fsPath = Path.of(RESOURCE_IMAGE_DIR).resolve(imagePath.substring(RESOURCE_IMAGE_PREFIX.length()));
+                            if (Files.exists(fsPath)) image = new Image("file:" + fsPath, 60, 60, true, true);
+                        }
+                    } else {
+                        image = new Image("file:" + imagePath, 60, 60, true, true);
+                    }
+                    setGraphic(image != null ? imageView : null);
+                    if (image != null) imageView.setImage(image);
+                } catch (Exception ex) { setGraphic(null); }
             }
         });
         colAnh.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHinhAnh()));
 
         tableSanPham.setItems(danhSach);
-
-        // Load dữ liệu từ DB
         loadDataFromDatabase();
 
-        // Cột thao tác: hiển thị nút Sửa và Xóa
-        colThaoTac.setCellFactory(column -> new TableCell<SanPham, String>() {
+        colThaoTac.setCellFactory(_col -> new TableCell<>() { // param renamed
             private final Button btnSua = new Button("Sửa");
             private final Button btnXoa = new Button("Xóa");
             private final HBox hbox = new HBox(5, btnSua, btnXoa);
-
-            {
-                // Xử lý nút Sửa
-                btnSua.setOnAction(event -> {
-                    SanPham sp = getTableView().getItems().get(getIndex());
-                    if (sp != null) {
-                        // Đưa dữ liệu lên form để sửa
-                        txtMaSanPham.setText(sp.getMa());
-                        txtTenSanPham.setText(sp.getTen());
-                        txtDonGia.setText(String.valueOf(sp.getDonGia()));
-                        txtMoTa.setText(sp.getMoTa());
-                        if (sp.getHinhAnh() != null) {
-                            imgSanPham.setImage(new Image("file:" + sp.getHinhAnh()));
-                        }
+            {   btnSua.setOnAction(_ev -> editRow());
+                btnXoa.setOnAction(_ev -> deleteRow()); }
+            private void editRow() {
+                SanPham sp = getTableView().getItems().get(getIndex());
+                if (sp == null) return;
+                txtMaSanPham.setText(sp.getMa());
+                txtTenSanPham.setText(sp.getTen());
+                txtDonGia.setText(String.valueOf(sp.getDonGia()));
+                txtMoTa.setText(sp.getMoTa());
+                if (sp.getHinhAnh() != null) {
+                    Image image = null;
+                    if (sp.getHinhAnh().startsWith(RESOURCE_IMAGE_PREFIX)) {
+                        var url = getClass().getResource(sp.getHinhAnh());
+                        if (url != null) image = new Image(url.toExternalForm());
                     }
-                });
-
-                // Xử lý nút Xóa
-                btnXoa.setOnAction(event -> {
-                    SanPham sp = getTableView().getItems().get(getIndex());
-                    if (sp != null) {
-                        // Xóa trong DB
-                        String sql = "DELETE FROM MON WHERE maMon=?";
-                        try (Connection conn = DatabaseConnection.getConnection();
-                             PreparedStatement ps = conn.prepareStatement(sql)) {
-                            ps.setString(1, sp.getMa());
-                            ps.executeUpdate();
-
-                            // Xóa trong danh sách
-                            danhSach.remove(sp);
-                            showAlert("Thành công", "Đã xóa sản phẩm!", Alert.AlertType.INFORMATION);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            showAlert("Lỗi", "Không thể xóa sản phẩm!", Alert.AlertType.ERROR);
-                        }
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(hbox);
+                    if (image == null) image = new Image("file:" + sp.getHinhAnh());
+                    imgSanPham.setImage(image);
+                    selectedImagePath = sp.getHinhAnh();
                 }
             }
+            private void deleteRow() {
+                SanPham sp = getTableView().getItems().get(getIndex());
+                if (sp == null) return;
+                String sql = "DELETE FROM MON WHERE maMon=?";
+                try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, sp.getMa());
+                    ps.executeUpdate();
+                    danhSach.remove(sp);
+                    showAlert("Thành công", "Đã xóa sản phẩm!", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    logError("Xóa sản phẩm thất bại", e);
+                    showAlert("Lỗi", "Không thể xóa sản phẩm!", Alert.AlertType.ERROR);
+                }
+            }
+            @Override protected void updateItem(String item, boolean empty) { super.updateItem(item, empty); setGraphic(empty? null : hbox); }
         });
-
     }
 
     private void loadDataFromDatabase() {
         danhSach.clear();
         String sql = "SELECT maMon, tenMon, giaCa, moTa, hinhAnh FROM MON";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String ma = rs.getString("maMon");
                 String ten = rs.getString("tenMon");
                 double donGia = rs.getDouble("giaCa");
                 String moTa = rs.getString("moTa");
                 String hinhAnh = rs.getString("hinhAnh");
-
                 danhSach.add(new SanPham(ma, ten, donGia, moTa, hinhAnh));
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Load dữ liệu sản phẩm", e);
             showAlert("Lỗi", "Không thể load dữ liệu từ SQL Server!", Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     private void onThem() {
+        // Lấy thông tin sản phẩm từ form
         String ma = txtMaSanPham.getText().trim();
         String ten = txtTenSanPham.getText().trim();
         String moTa = txtMoTa.getText().trim();
         double donGia = Double.parseDouble(txtDonGia.getText().trim());
-
         try (Connection conn = DatabaseConnection.getConnection()) {
             // Kiểm tra sản phẩm đã tồn tại chưa
             String checkSql = "SELECT COUNT(*) FROM MON WHERE maMon=?";
             PreparedStatement checkPs = conn.prepareStatement(checkSql);
             checkPs.setString(1, ma);
-            ResultSet rs = checkPs.executeQuery();
-            rs.next();
+            ResultSet rs = checkPs.executeQuery(); rs.next();
             int count = rs.getInt(1);
-
             if (count > 0) {
                 // Nếu tồn tại → UPDATE
                 String updateSql = "UPDATE MON SET tenMon=?, giaCa=?, moTa=?, hinhAnh=? WHERE maMon=?";
                 PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.setString(1, ten);
-                ps.setDouble(2, donGia);
-                ps.setString(3, moTa);
-                ps.setString(4, selectedImagePath);
-                ps.setString(5, ma);
+                ps.setString(1, ten); ps.setDouble(2, donGia); ps.setString(3, moTa); ps.setString(4, selectedImagePath); ps.setString(5, ma);
                 ps.executeUpdate();
-
                 showAlert("Thành công", "Đã cập nhật sản phẩm!", Alert.AlertType.INFORMATION);
             } else {
                 // Nếu chưa có → INSERT
-                String insertSql = "INSERT INTO MON(maMon, tenMon, giaCa, moTa, hinhAnh) VALUES (?, ?, ?, ?, ?)";
+                String insertSql = "INSERT INTO MON(maMon, tenMon, giaCa, moTa, hinhAnh) VALUES (?,?,?,?,?)";
                 PreparedStatement ps = conn.prepareStatement(insertSql);
-                ps.setString(1, ma);
-                ps.setString(2, ten);
-                ps.setDouble(3, donGia);
-                ps.setString(4, moTa);
-                ps.setString(5, selectedImagePath);
+                ps.setString(1, ma); ps.setString(2, ten); ps.setDouble(3, donGia); ps.setString(4, moTa); ps.setString(5, selectedImagePath);
                 ps.executeUpdate();
-
                 showAlert("Thành công", "Đã thêm sản phẩm mới!", Alert.AlertType.INFORMATION);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Lỗi", "Không thể lưu sản phẩm!", Alert.AlertType.ERROR);
-        }
-
+        } catch (Exception e) { logError("Thêm/cập nhật sản phẩm", e); showAlert("Lỗi", "Không thể lưu sản phẩm!", Alert.AlertType.ERROR); }
         loadDataFromDatabase(); // refresh lại bảng
     }
 
-
-
     @FXML
-    private void onSua() {
+    private void onSua() { // ensure wired in FXML
         SanPham sp = tableSanPham.getSelectionModel().getSelectedItem();
-        if (sp == null) {
-            showAlert("Thông báo", "Vui lòng chọn sản phẩm cần sửa!", Alert.AlertType.WARNING);
-            return;
-        }
-
-        String ma = txtMaSanPham.getText();
-        String ten = txtTenSanPham.getText();
-        String moTa = txtMoTa.getText();
-        double donGia;
-
-        try {
-            donGia = Double.parseDouble(txtDonGia.getText());
-        } catch (NumberFormatException e) {
-            showAlert("Lỗi", "Đơn giá phải là số hợp lệ!", Alert.AlertType.ERROR);
-            return;
-        }
-
+        if (sp == null) { showAlert("Thông báo", "Vui lòng chọn sản phẩm cần sửa!", Alert.AlertType.WARNING); return; }
+        String ma = txtMaSanPham.getText(); String ten = txtTenSanPham.getText(); String moTa = txtMoTa.getText(); double donGia;
+        try { donGia = Double.parseDouble(txtDonGia.getText()); } catch (NumberFormatException e) { showAlert("Lỗi", "Đơn giá phải là số hợp lệ!", Alert.AlertType.ERROR); return; }
         String sql = "UPDATE MON SET tenMon=?, giaCa=?, moTa=?, hinhAnh=? WHERE maMon=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, ten);
-            ps.setDouble(2, donGia);
-            ps.setString(3, moTa);
-            ps.setString(4, selectedImagePath);
-            ps.setString(5, ma);
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, ten); ps.setDouble(2, donGia); ps.setString(3, moTa); ps.setString(4, selectedImagePath); ps.setString(5, ma);
             ps.executeUpdate();
-
-            sp.setTen(ten);
-            sp.setDonGia(donGia);
-            sp.setMoTa(moTa);
-            sp.setHinhAnh(selectedImagePath);
+            sp.setTen(ten); sp.setDonGia(donGia); sp.setMoTa(moTa); sp.setHinhAnh(selectedImagePath);
             tableSanPham.refresh();
-
             showAlert("Thành công", "Đã cập nhật sản phẩm!", Alert.AlertType.INFORMATION);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Lỗi", "Không thể sửa sản phẩm!", Alert.AlertType.ERROR);
-        }
+        } catch (Exception e) { logError("Sửa sản phẩm", e); showAlert("Lỗi", "Không thể sửa sản phẩm!", Alert.AlertType.ERROR); }
     }
 
     @FXML
-    private void onXoa() {
+    private void onXoa() { // ensure wired in FXML
         SanPham sp = tableSanPham.getSelectionModel().getSelectedItem();
-        if (sp == null) {
-            showAlert("Thông báo", "Vui lòng chọn sản phẩm cần xóa!", Alert.AlertType.WARNING);
-            return;
-        }
-
+        if (sp == null) { showAlert("Thông báo", "Vui lòng chọn sản phẩm cần xóa!", Alert.AlertType.WARNING); return; }
         String sql = "DELETE FROM MON WHERE maMon=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, sp.getMa());
-            ps.executeUpdate();
-
-            danhSach.remove(sp);
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, sp.getMa()); ps.executeUpdate(); danhSach.remove(sp);
             showAlert("Thành công", "Đã xóa sản phẩm!", Alert.AlertType.INFORMATION);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Lỗi", "Không thể xóa sản phẩm!", Alert.AlertType.ERROR);
-        }
+        } catch (Exception e) { logError("Xóa sản phẩm", e); showAlert("Lỗi", "Không thể xóa sản phẩm!", Alert.AlertType.ERROR); }
     }
 
     @FXML
@@ -326,9 +256,29 @@ public class QLSPController {
             txtTenSanPham.setText(sp.getTen());
             txtDonGia.setText(String.valueOf(sp.getDonGia()));
             txtMoTa.setText(sp.getMoTa());
-            if (sp.getHinhAnh() != null) {
-                imgSanPham.setImage(new Image("file:" + sp.getHinhAnh()));
-            }
+            String path = sp.getHinhAnh();
+            try {
+                if (path != null && !path.isEmpty()) {
+                    Image image = null;
+                    if (path.startsWith(RESOURCE_IMAGE_PREFIX)) {
+                        var url = getClass().getResource(path);
+                        if (url != null) {
+                            image = new Image(url.toExternalForm());
+                        } else {
+                            Path fsPath = Path.of(RESOURCE_IMAGE_DIR).resolve(path.substring(RESOURCE_IMAGE_PREFIX.length()));
+                            if (Files.exists(fsPath)) {
+                                image = new Image("file:" + fsPath);
+                            }
+                        }
+                    } else {
+                        image = new Image("file:" + path);
+                    }
+                    if (image != null) {
+                        imgSanPham.setImage(image);
+                        selectedImagePath = path;
+                    }
+                }
+            } catch (Exception ignore) {}
         }
     }
 
@@ -341,12 +291,44 @@ public class QLSPController {
         );
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
-            selectedImagePath = file.getAbsolutePath();
-            imgSanPham.setImage(new Image(file.toURI().toString()));
+            try {
+                Path projectImageDir = Path.of(RESOURCE_IMAGE_DIR);
+                if (!Files.exists(projectImageDir)) Files.createDirectories(projectImageDir);
+                String originalName = file.getName();
+                Path dest = projectImageDir.resolve(originalName);
+                if (Files.exists(dest)) {
+                    String base = originalName;
+                    String ext = "";
+                    int dot = originalName.lastIndexOf('.');
+                    if (dot > 0) { base = originalName.substring(0, dot); ext = originalName.substring(dot); }
+                    dest = projectImageDir.resolve(base + "_" + System.currentTimeMillis() + ext);
+                }
+                if (!file.getAbsolutePath().startsWith(projectImageDir.toAbsolutePath().toString())) {
+                    Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
+                } else {
+                    dest = file.toPath();
+                }
+                selectedImagePath = RESOURCE_IMAGE_PREFIX + dest.getFileName();
+                var url = getClass().getResource(selectedImagePath);
+                if (url != null) {
+                    imgSanPham.setImage(new Image(url.toExternalForm()));
+                } else {
+                    imgSanPham.setImage(new Image("file:" + dest));
+                }
+            } catch (Exception ex) {
+                logError("Chọn ảnh", ex);
+                showAlert("Lỗi", "Không thể sao chép ảnh vào thư mục tài nguyên", Alert.AlertType.ERROR);
+            }
         }
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
+
+    private void logError(String context, Exception e) { System.err.println("[ERROR] " + context + ": " + e.getMessage()); }
 }
