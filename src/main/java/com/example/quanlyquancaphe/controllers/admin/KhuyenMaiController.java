@@ -51,6 +51,7 @@ public class KhuyenMaiController {
     @FXML private TableColumn<KhuyenMaiVM, String> colGhiChu;
 
     @FXML private ListView<String> lstSanPhamApDung; // list of selected products codes/names
+    @FXML private TextField txtSanPhamApDung; // new compact display of selected products
 
     private final ObservableList<KhuyenMaiVM> data = FXCollections.observableArrayList();
     private FilteredList<KhuyenMaiVM> filtered;
@@ -312,7 +313,15 @@ public class KhuyenMaiController {
 
     private void nhanSanPhamChon(ObservableList<SanPham> danhSach) {
         this.sanPhamApDung = danhSach;
-        lstSanPhamApDung.getItems().setAll(danhSach.stream().map(sp -> sp.getMa() + " - " + sp.getTen()).toList());
+        // Update ListView if still present somewhere (ignore if null)
+        if (lstSanPhamApDung != null) {
+            lstSanPhamApDung.getItems().setAll(danhSach.stream().map(sp -> sp.getMa() + " - " + sp.getTen()).toList());
+        }
+        // Fill compact text field with comma-separated product names
+        if (txtSanPhamApDung != null) {
+            String joined = danhSach.stream().map(SanPham::getTen).reduce((a,b) -> a + ", " + b).orElse("");
+            txtSanPhamApDung.setText(joined.isEmpty() ? "(chưa chọn)" : joined);
+        }
     }
 
     // When reading form, you could later persist sanPhamApDung mapping table.

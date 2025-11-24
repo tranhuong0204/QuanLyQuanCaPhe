@@ -32,6 +32,7 @@
                             <RowConstraints />
                             <RowConstraints />
                             <RowConstraints />
+                            <RowConstraints /> <!-- thêm dòng cho sản phẩm áp dụng -->
                         </rowConstraints>
                         <children>
                             <Label text="Mã" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
@@ -51,21 +52,15 @@
 
                             <Label text="Ngày kết thúc" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                             <DatePicker fx:id="dpNgayKetThuc" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                            <!-- New compact product selection row -->
+                            <Label text="Sản phẩm áp dụng" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                            <HBox spacing="8" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                                <Button text="Chọn" onAction="#onChonSanPham"/>
+                                <TextField fx:id="txtSanPhamApDung" promptText="(chưa chọn)" editable="false" HBox.hgrow="ALWAYS"/>
+                            </HBox>
                         </children>
                     </GridPane>
-                </content>
-            </TitledPane>
-
-            <!-- New: chọn sản phẩm áp dụng khuyến mãi -->
-            <TitledPane text="Sản phẩm áp dụng" expanded="true">
-                <content>
-                    <VBox spacing="8">
-                        <HBox spacing="8" alignment="CENTER_LEFT">
-                            <Button text="Chọn sản phẩm" onAction="#onChonSanPham" />
-                            <Label text="Danh sách đã chọn:" />
-                        </HBox>
-                        <ListView fx:id="lstSanPhamApDung" prefHeight="120" />
-                    </VBox>
                 </content>
             </TitledPane>
 
