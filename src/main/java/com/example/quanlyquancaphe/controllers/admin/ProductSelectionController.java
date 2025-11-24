@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.function.Consumer;
 
+@SuppressWarnings({"unused"})
 public class ProductSelectionController {
     @FXML private TableView<SanPham> tableSanPham;
     @FXML private TableColumn<SanPham, Boolean> colChon;
@@ -35,10 +36,10 @@ public class ProductSelectionController {
         colTen.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTen()));
         colChon.setCellValueFactory(data -> new SimpleBooleanProperty(daChon.contains(data.getValue())));
 
-        colChon.setCellFactory(tc -> new TableCell<>() {
+        colChon.setCellFactory(col -> new TableCell<>() {
             private final CheckBox checkBox = new CheckBox();
             {
-                checkBox.setOnAction(e -> {
+                checkBox.setOnAction(_ -> {
                     SanPham sp = getTableView().getItems().get(getIndex());
                     if (checkBox.isSelected()) {
                         if (!daChon.contains(sp)) daChon.add(sp);
@@ -79,7 +80,7 @@ public class ProductSelectionController {
                 danhSach.add(new SanPham(ma, ten, gia, moTa, hinhAnh));
             }
         } catch (Exception e) {
-            showAlert("Lỗi", "Không thể tải danh sách sản phẩm", Alert.AlertType.ERROR, e.getMessage());
+            showError(e.getMessage());
         }
     }
 
@@ -101,12 +102,11 @@ public class ProductSelectionController {
         stage.close();
     }
 
-    private void showAlert(String title, String content, Alert.AlertType type, String details) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(content);
+    private void showError(String details) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText("Không thể tải danh sách sản phẩm");
         alert.setContentText(details);
         alert.showAndWait();
     }
 }
-
