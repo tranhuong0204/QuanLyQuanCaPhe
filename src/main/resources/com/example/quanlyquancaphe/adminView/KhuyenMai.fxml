@@ -56,6 +56,19 @@
                 </content>
             </TitledPane>
 
+            <!-- New: chọn sản phẩm áp dụng khuyến mãi -->
+            <TitledPane text="Sản phẩm áp dụng" expanded="true">
+                <content>
+                    <VBox spacing="8">
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Button text="Chọn sản phẩm" onAction="#onChonSanPham" />
+                            <Label text="Danh sách đã chọn:" />
+                        </HBox>
+                        <ListView fx:id="lstSanPhamApDung" prefHeight="120" />
+                    </VBox>
+                </content>
+            </TitledPane>
+
             <HBox spacing="10">
                 <Button fx:id="btnThem" text="Thêm" onAction="#onThem"/>
                 <Button fx:id="btnSua" text="Sửa" onAction="#onSua"/>

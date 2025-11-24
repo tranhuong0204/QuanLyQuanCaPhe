@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.quanlyquancaphe.controllers.admin.ProductSelectionController"
+      spacing="10" prefWidth="420" prefHeight="400" >
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12" />
+    </padding>
+    <Label text="Chọn sản phẩm áp dụng khuyến mãi" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+    <TableView fx:id="tableSanPham" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="colChon" text="Chọn" prefWidth="60" />
+            <TableColumn fx:id="colMa" text="Mã" prefWidth="100" />
+            <TableColumn fx:id="colTen" text="Tên sản phẩm" prefWidth="220" />
+        </columns>
+    </TableView>
+    <HBox spacing="10">
+        <Button text="Áp dụng" onAction="#onApDung" />
+        <Button text="Hủy" onAction="#onHuy" />
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+</VBox>
+

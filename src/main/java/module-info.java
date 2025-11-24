@@ -13,4 +13,6 @@ module com.example.quanlyquancaphe {
     opens com.example.quanlyquancaphe.controllers.employee to javafx.fxml;
     exports com.example.quanlyquancaphe.controllers.admin;
     opens com.example.quanlyquancaphe.controllers.admin to javafx.fxml;
+    exports com.example.quanlyquancaphe.models;
+    opens com.example.quanlyquancaphe.models to javafx.fxml;
 }

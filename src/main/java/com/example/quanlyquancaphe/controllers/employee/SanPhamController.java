@@ -156,6 +156,7 @@ public class SanPhamController {
                 showDetails(mon);
             });
 
+
             tilePane.getChildren().add(box);
         }
 

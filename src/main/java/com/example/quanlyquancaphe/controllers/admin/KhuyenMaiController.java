@@ -3,6 +3,7 @@ package com.example.quanlyquancaphe.controllers.admin;
 import com.example.quanlyquancaphe.models.DatabaseConnection;
 import com.example.quanlyquancaphe.models.KhuyenMai;
 import com.example.quanlyquancaphe.models.KhuyenMaiDAO;
+import com.example.quanlyquancaphe.models.SanPham;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,11 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -43,11 +49,15 @@ public class KhuyenMaiController {
     @FXML private TableColumn<KhuyenMaiVM, LocalDate> colNgayKetThuc;
     @FXML private TableColumn<KhuyenMaiVM, String> colGhiChu;
 
+    @FXML private ListView<String> lstSanPhamApDung; // list of selected products codes/names
+
     private final ObservableList<KhuyenMaiVM> data = FXCollections.observableArrayList();
     private FilteredList<KhuyenMaiVM> filtered;
     private SortedList<KhuyenMaiVM> sorted;
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final KhuyenMaiDAO dao = new KhuyenMaiDAO();
+
+    private ObservableList<SanPham> sanPhamApDung; // holds selected products
 
     @FXML
     private void initialize() {
@@ -274,6 +284,29 @@ public class KhuyenMaiController {
         });
     }
 
+    @FXML
+    private void onChonSanPham() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quanlyquancaphe/adminView/ProductSelection.fxml"));
+            Scene scene = new Scene(loader.load());
+            ProductSelectionController controller = loader.getController();
+            controller.setCallback(this::nhanSanPhamChon);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Chọn sản phẩm");
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (Exception e) {
+            showError("Không mở được cửa sổ chọn sản phẩm", e);
+        }
+    }
+
+    private void nhanSanPhamChon(ObservableList<SanPham> danhSach) {
+        this.sanPhamApDung = danhSach;
+        lstSanPhamApDung.getItems().setAll(danhSach.stream().map(sp -> sp.getMa() + " - " + sp.getTen()).toList());
+    }
+
+    // When reading form, you could later persist sanPhamApDung mapping table.
     // View-model for TableView (simple)
     public static class KhuyenMaiVM {
         final SimpleStringProperty ma = new SimpleStringProperty();
