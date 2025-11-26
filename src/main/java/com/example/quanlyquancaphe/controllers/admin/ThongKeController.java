@@ -69,7 +69,7 @@ public class ThongKeController implements Initializable {
 //        areaChart.layout();
         AreaChart<String, Number> newChart = new AreaChart<>(xAxis, yAxis);
         newChart.setTitle("Doanh thu năm " + nam);
-        newChart.setPrefWidth(600);
+        newChart.setPrefWidth(900);
         newChart.setPrefHeight(500);
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -109,7 +109,7 @@ public class ThongKeController implements Initializable {
 
         AreaChart<String, Number> newChart = new AreaChart<>(xAxis, yAxis);
         newChart.setTitle("Doanh thu theo năm");
-        newChart.setPrefWidth(600);
+        newChart.setPrefWidth(900);
         newChart.setPrefHeight(500);
 
 //        newChart.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/ThongKe.css").toExternalForm());

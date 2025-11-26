@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="863.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.TrangChuController">
+<BorderPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.TrangChuController">
     <left>
         <VBox prefHeight="600.0" prefWidth="184.0" spacing="0" style="-fx-background-color: rgb(255, 235, 205);">
          <Label prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: rgb(139,69,19);" text="Label" />
@@ -16,12 +16,6 @@
 <!--               <String fx:value="label-selected" />-->
             </styleClass>
          </Label>
-         <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
-         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
-         <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504">
-            <padding>
-               <Insets left="10.0" />
-            </padding></Label>
          <Label fx:id="quanLyBan" prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
             <VBox.margin>
                <Insets />
@@ -30,9 +24,15 @@
                <Insets left="10.0" />
             </padding>
          </Label>
+         <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504">
+            <padding>
+               <Insets left="10.0" />
+            </padding></Label>
+         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
+         <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
         </VBox>
     </left>
     <center>
-        <StackPane fx:id="contentPane" prefHeight="600.0" prefWidth="566.0" />
+        <StackPane fx:id="contentPane" prefHeight="600.0" prefWidth="900.0" />
     </center>
 </BorderPane>
