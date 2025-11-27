@@ -55,6 +55,8 @@ This software are being built by :
 
 - [Thanh Hương](https://github.com/tranhuong0204)
 - [Nguyễn Khôi](https://github.com/sniknerduke)
+- ntngochuyen
+- ngdhiep8905
 
 
 
