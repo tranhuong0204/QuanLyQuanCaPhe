@@ -95,6 +95,11 @@ public class TrangChuController {
                 }
             });
         }
+        // ✅ Chọn mặc định label thống kê
+        if (thongKelb != null) {
+            thongKelb.getStyleClass().add("label-selected");
+            loadIntoContent("/com/example/quanlyquancaphe/adminView/ThongKe.fxml");
+        }
     }
 
     private void loadIntoContent(String fxmlPath) {

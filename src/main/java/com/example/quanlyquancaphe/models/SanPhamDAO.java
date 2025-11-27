@@ -33,5 +33,25 @@ public class SanPhamDAO {
         }
         return list;
     }
+    public static SanPham findByTen(String tenMon, Connection conn) {
+        SanPham sp = null;
+        String sql = "SELECT * FROM SANPHAM WHERE ten = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, tenMon);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                sp = new SanPham(
+                        rs.getString("maMon"),
+                        rs.getString("ten"),
+                        rs.getDouble("donGia"),
+                        rs.getString("hinhAnh")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sp;
+    }
+
 }
 

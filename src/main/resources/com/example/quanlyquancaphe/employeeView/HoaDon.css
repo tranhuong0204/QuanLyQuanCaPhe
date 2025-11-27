@@ -1,7 +1,12 @@
-.scroll-pane {
-    -fx-background-color: transparent;
+.list-cell {
+    -fx-padding: 10;
+    -fx-background-color: #f5f5f5;
+    -fx-background-radius: 6;
+    -fx-border-color: #d7ccc8;
+    -fx-font-size: 14px;
+    -fx-text-fill: #4e342e;
 }
 
-.scroll-pane > .viewport {
-    -fx-background-color: #e6cfc1;
+.list-cell:hover {
+    -fx-background-color: #e0e0e0;
 }

@@ -1,8 +1,8 @@
 package com.example.quanlyquancaphe.controllers.employee;
 
-import com.example.quanlyquancaphe.models.DatabaseConnection;
-import com.example.quanlyquancaphe.models.SanPhamDAO;
-import com.example.quanlyquancaphe.models.SanPham;
+import com.example.quanlyquancaphe.models.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,13 +11,16 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class HoaDonController {
     @FXML private ScrollPane scrollPane;
-    @FXML private ListView<String> listHoaDon;
+//    @FXML private ListView<SanPham> listHoaDon;
+    @FXML private ListView<ItemHoaDon> listHoaDon;
+    private ObservableList<ItemHoaDon> dsMon = FXCollections.observableArrayList();
+
     @FXML private Label tongTienLabel;
     @FXML private Label tienThuaLabel;
     @FXML private TextField tienKhachDuaField;
@@ -50,6 +53,84 @@ public class HoaDonController {
 
         scrollPane.setContent(tilePane);
         scrollPane.setFitToWidth(true);
+
+//        listHoaDon.setCellFactory(param -> new ListCell<SanPham>() {
+//            @Override
+//            protected void updateItem(SanPham sp, boolean empty) {
+//                super.updateItem(sp, empty);
+//                if (empty || sp == null) {
+//                    setText(null);
+//                } else {
+//                    setText(sp.getTen() + " - " + String.format("%.0fđ", sp.getDonGia()));
+//                }
+//            }
+//        });
+        listHoaDon.setItems(dsMon);
+        listHoaDon.setCellFactory(param -> new ListCell<ItemHoaDon>() {
+            @Override
+            protected void updateItem(ItemHoaDon item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    SanPham sp = item.getSanPham();
+
+                    Label ten = new Label(sp.getTen());
+                    ten.setPrefWidth(150);
+                    Label gia = new Label(String.format("%.0fđ", sp.getDonGia()));
+                    gia.setPrefWidth(80);
+
+                    TextField soLuongField = new TextField(String.valueOf(item.getSoLuong()));
+                    soLuongField.setPrefWidth(40);
+                    soLuongField.setAlignment(Pos.CENTER);
+                    soLuongField.setStyle("-fx-background-radius: 4; -fx-border-radius: 4;");
+
+                    Button btnTang = new Button("+");
+                    Button btnGiam = new Button("-");
+                    btnTang.setOnAction(e -> {
+                        item.tangSoLuong();
+                        soLuongField.setText(String.valueOf(item.getSoLuong()));
+                        capNhatTongTien();
+                    });
+                    btnGiam.setOnAction(e -> {
+                        item.giamSoLuong();
+                        soLuongField.setText(String.valueOf(item.getSoLuong()));
+                        capNhatTongTien();
+                    });
+
+                    soLuongField.textProperty().addListener((obs, oldVal, newVal) -> {
+                        try {
+                            int sl = Integer.parseInt(newVal);
+                            if (sl > 0) {
+                                item.setSoLuong(sl);
+                                capNhatTongTien();
+                            }
+                        } catch (NumberFormatException ignored) {}
+                    });
+
+
+                    Button btnXoa = new Button("❌");
+                    btnXoa.setStyle("-fx-background-color: transparent; -fx-text-fill: red;");
+                    btnXoa.setOnAction(e -> {
+                        dsMon.remove(item);
+                        capNhatTongTien();
+                    });
+
+                    // Gom nhóm số lượng
+                    HBox soLuongBox = new HBox(5, btnGiam, soLuongField, btnTang);
+                    soLuongBox.setAlignment(Pos.CENTER);
+
+// Gom tất cả thành một hàng
+                    HBox box = new HBox(20, ten, gia, soLuongBox, btnXoa);
+                    box.setAlignment(Pos.CENTER_LEFT);
+                    box.setPadding(new Insets(5));
+//                    HBox box = new HBox(10, ten, gia, soLuong, btnXoa);
+//                    box.setAlignment(Pos.CENTER_LEFT);
+                    setGraphic(box);
+                }
+            }
+        });
+
     }
 
     private VBox createSanPhamBox(SanPham sp) {
@@ -72,10 +153,44 @@ public class HoaDonController {
         return box;
     }
 
+
+//    private void themVaoHoaDon(SanPham sp) {
+//        listHoaDon.getItems().add(sp);
+//        tongTien += sp.getDonGia();
+//        tongTienLabel.setText("Tổng: " + String.format("%.0fđ", tongTien));
+//    }
+
     private void themVaoHoaDon(SanPham sp) {
-        listHoaDon.getItems().add(sp.getTen() + " - " + String.format("%.0fđ", sp.getDonGia()));
-        tongTien += sp.getDonGia();
+        for (ItemHoaDon item : dsMon) {
+            if (item.getSanPham().getMa() == sp.getMa()) {
+                item.tangSoLuong();
+                listHoaDon.refresh();
+                capNhatTongTien();
+                return;
+            }
+        }
+        dsMon.add(new ItemHoaDon(sp, 1));
+        capNhatTongTien();
+    }
+
+    private void capNhatTongTien() {
+        tongTien = 0;
+        for (ItemHoaDon item : dsMon) {
+            tongTien += item.getSanPham().getDonGia() * item.getSoLuong();
+        }
         tongTienLabel.setText("Tổng: " + String.format("%.0fđ", tongTien));
+    }
+
+
+    private int generateMaHoaDon(Connection conn) throws SQLException {
+        String sql = "SELECT ISNULL(MAX(maHoaDon), 0) FROM HOADON";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt(1) + 1;
+            }
+        }
+        return 1; // nếu bảng rỗng thì bắt đầu từ 1
     }
 
     @FXML
@@ -91,6 +206,54 @@ public class HoaDonController {
                 alert.setContentText("Khách cần đưa thêm: " + String.format("%.0fđ", -tienThua));
                 alert.showAndWait();
                 return;
+            }
+
+            // ✅ Lưu vào DB
+            try (Connection conn = DatabaseConnection.getConnection()) {
+                conn.setAutoCommit(false);
+
+                // 1. Insert HOADON
+                int maHoaDon = generateMaHoaDon(conn);
+
+                String sqlHoaDon = "INSERT INTO HOADON (maHoaDon, tongKM, tongTien, ngayLap, phuongThucThanhToan, BANmaBan, TAIKHOANmaTaiKhoan, PHUONGTHUCTHANHTOANmaPT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement psHoaDon = conn.prepareStatement(sqlHoaDon);
+                psHoaDon.setInt(1, maHoaDon);
+                psHoaDon.setDouble(2, 0); // tongKM
+                psHoaDon.setDouble(3, tongTien);
+                psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
+                psHoaDon.setString(5, "Tiền mặt");
+                psHoaDon.setString(6, "b001");
+                psHoaDon.setInt(7, Session.getMaTaiKhoan());
+                psHoaDon.setInt(8, 1);
+                psHoaDon.executeUpdate();
+
+//                ResultSet rs = psHoaDon.getGeneratedKeys();
+//                int maHoaDon = 0;
+//                if (rs.next()) {
+//                    maHoaDon = rs.getInt(1);
+//                }
+
+                // 2. Insert CHITIETHOADON
+                String sqlCTHD = "INSERT INTO CHITIETHOADON (MONmaMon, HOADONmaHoaDon, soLuong) VALUES (?, ?, ?)";
+                PreparedStatement psCTHD = conn.prepareStatement(sqlCTHD);
+
+                for (ItemHoaDon item : listHoaDon.getItems()) {
+//                    String tenMon = item.split(" - ")[0];
+//                    SanPham sp = SanPhamDAO.findByTen(tenMon, conn); // cần viết hàm này trong DAO
+//                    psCTHD.setString(1, sp.getMa());
+//                    psCTHD.setInt(2, maHoaDon);
+//                    psCTHD.setInt(3, 1); // số lượng mặc định 1
+//                    psCTHD.addBatch();
+                    SanPham sp = item.getSanPham();
+                    int soLuong = item.getSoLuong();
+                    psCTHD.setString(1, sp.getMa()); // lấy mã sản phẩm trực tiếp
+                    psCTHD.setInt(2, maHoaDon);
+                    psCTHD.setInt(3, 1); // số lượng mặc định 1
+                    psCTHD.addBatch();
+                }
+                psCTHD.executeBatch();
+
+                conn.commit();
             }
 
             tienThuaLabel.setText("Tiền thừa: " + String.format("%.0fđ", tienThua));
@@ -113,6 +276,14 @@ public class HoaDonController {
             alert.setHeaderText("Tiền khách đưa không hợp lệ");
             alert.setContentText("Vui lòng nhập số tiền hợp lệ.");
             alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText("Không thể lưu hóa đơn");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
+
     }
 }

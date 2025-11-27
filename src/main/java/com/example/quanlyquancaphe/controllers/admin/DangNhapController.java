@@ -1,6 +1,7 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
+import com.example.quanlyquancaphe.models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +49,7 @@ public class DangNhapController {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                int maTaiKhoan = rs.getInt("maTaiKhoan");
                 String role = rs.getString("chucVu");
                 statusLabel.setText("Đăng nhập thành công!");
                 statusLabel.setStyle("-fx-text-fill: green;");
@@ -72,6 +74,7 @@ public class DangNhapController {
                     stage.setMaximized(true); // full màn hình
 
                 }
+                Session.setMaTaiKhoan(maTaiKhoan); // lưu thông tin đăng nhập
                 // chuyển sang màn hình chính nếu cần
             } else {
                 statusLabel.setText("Sai tên đăng nhập hoặc mật khẩu.");
