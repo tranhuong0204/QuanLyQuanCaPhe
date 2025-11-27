@@ -188,23 +188,38 @@ public class SanPhamController {
 //                System.err.println("Không tìm thấy ảnh: " + sp.getHinhAnh());
 //            }
 
-            Label ten = new Label(sp.getTen());
-            Label gia = new Label(String.format("%.2f", sp.getDonGia()));
+            //Label ten = new Label(sp.getTen());
+            //Label gia = new Label(String.format("%.2f", sp.getDonGia()));
 
-            VBox box = new VBox(5);
-            if (img != null) box.getChildren().add(img);
-            box.getChildren().addAll(ten, gia);
+            VBox box = new VBox(10);
             box.setAlignment(Pos.CENTER);
-            box.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10;");
+            box.getStyleClass().add("product-box");
+
+            if (img != null) {
+                img.setFitWidth(120);
+                img.setFitHeight(120);
+                img.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);");
+                box.getChildren().add(img);
+            }
+
+            Label ten = new Label(sp.getTen());
+            ten.getStyleClass().add("product-label");
+
+            Label gia = new Label(String.format("%.0f đ", sp.getDonGia()));
+            gia.setStyle("-fx-text-fill: #666666;");
+
+            box.getChildren().addAll(ten, gia);
+
 
             box.setOnMouseClicked(e -> {
                 if (selectedBox != null) {
-                    selectedBox.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10;");
+                    selectedBox.getStyleClass().remove("selected-box");
                 }
-                box.setStyle("-fx-background-color: #cce5ff; -fx-padding: 10; -fx-border-color: #2a9df4; -fx-border-width: 2;");
+                box.getStyleClass().add("selected-box");
                 selectedBox = box;
                 showDetails(sp);
             });
+
 
             tilePane.getChildren().add(box);
         }
