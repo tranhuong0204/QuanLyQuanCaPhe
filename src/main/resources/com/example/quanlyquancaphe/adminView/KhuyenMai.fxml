@@ -59,8 +59,9 @@
                 <!--Cái này ko có trong UC chỉ thêm vào để test với db to và muốn test cho nhanh-->
                 <Button text="Tìm" onAction="#onTim" />
             </HBox>
-            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown"
-                       style="-fx-border-color: #D2B48C; -fx-border-width: 2px; -fx-border-radius: 10; -fx-background-radius: 10;">
+<!--            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown"-->
+<!--                       style="-fx-border-color: #D2B48C; -fx-border-width: 2px; -fx-border-radius: 10; -fx-background-radius: 10;">-->
+            <TableView fx:id="tableKhuyenMai" layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0" stylesheets="@tableview.css">
                 <columns>
                     <TableColumn fx:id="colMa" text="Mã" prefWidth="100"/>
                     <TableColumn fx:id="colTen" text="Tên" prefWidth="220"/>
