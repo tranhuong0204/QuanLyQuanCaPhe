@@ -10,11 +10,11 @@
 
 <AnchorPane prefHeight="414.0" prefWidth="611.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.DangNhapController">
    <children>
-      <VBox layoutX="-5.0" layoutY="-6.0" prefHeight="465.0" prefWidth="370.0" styleClass="background_left" stylesheets="@DangNhap.css" />
-      <VBox alignment="CENTER" layoutX="364.0" layoutY="-6.0" prefHeight="465.0" prefWidth="340.0" styleClass="background_right" stylesheets="@DangNhap.css">
+      <VBox layoutX="-5.0" layoutY="-6.0" prefHeight="581.0" prefWidth="467.0" styleClass="background_left" stylesheets="@DangNhap.css" />
+      <VBox alignment="CENTER" layoutX="455.0" layoutY="-6.0" prefHeight="581.0" prefWidth="467.0" styleClass="background_right" stylesheets="@DangNhap.css">
          <children>
              <AnchorPane prefHeight="263.0" prefWidth="303.0" styleClass="transparent-box" stylesheets="@DangNhap.css">
-                 <Label layoutX="112.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">
+                 <Label layoutX="184.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">
                   <font>
                      <Font name="Times New Roman" size="27.0" />
                   </font>
@@ -24,14 +24,14 @@
                      <Font size="14.0" />
                   </font>
                </Label>
-                 <TextField fx:id="usernameField" layoutX="130.0" layoutY="68.0" promptText="Username" />
+                 <TextField fx:id="usernameField" layoutX="130.0" layoutY="68.0" prefHeight="33.0" prefWidth="206.0" promptText="Username" />
                  <Label layoutX="11.0" layoutY="116.0" text="Mật khẩu:" textFill="#3d1f12">
                   <font>
                      <Font size="14.0" />
                   </font>
                </Label>
-                 <PasswordField fx:id="passwordField" layoutX="130.0" layoutY="114.0" prefHeight="33.0" prefWidth="168.0" promptText="Password" />
-                 <Button layoutX="115.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" styleClass="signin-button" text="SIGN IN" textFill="#f8f8f8" />
+                 <PasswordField fx:id="passwordField" layoutX="130.0" layoutY="114.0" prefHeight="33.0" prefWidth="206.0" promptText="Password" />
+                 <Button layoutX="170.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" text="SIGN IN" textFill="#f8f8f8" />
                <Label fx:id="statusLabel" layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="133.0" text="" textFill="red" />
              </AnchorPane>
          </children></VBox>

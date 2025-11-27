@@ -28,3 +28,11 @@
     -fx-padding: 6 10 6 10;
     -fx-font-size: 13px;
 }
+
+/* Hiệu ứng khi hover */
+.button:hover {
+    -fx-background-color: #A0522D; /* màu nâu sáng hơn */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.5, 0, 1);
+}

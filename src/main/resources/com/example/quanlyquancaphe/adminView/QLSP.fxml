@@ -23,7 +23,7 @@
     <top>
         <HBox alignment="CENTER" spacing="10" styleClass="qlsp-topbar">
             <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="QUẢN LÝ SẢN PHẨM" />
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="QUẢN LÝ SẢN PHẨM" />
         </HBox>
     </top>
 
@@ -87,7 +87,7 @@
                     <TableColumn fx:id="colTenSanPham" prefWidth="200" text="Tên sản phẩm" />
                     <TableColumn fx:id="colAnh" prefWidth="120" text="Ảnh" />
                     <TableColumn fx:id="colDonGia" prefWidth="120" text="Đơn giá" />
-                    <TableColumn fx:id="colMoTa" prefWidth="220" text="Mô tả" />
+                    <TableColumn fx:id="colMoTa" prefWidth="500" text="Mô tả" />
                     <TableColumn fx:id="colThaoTac" prefWidth="160" text="Thao tác" />
                 </columns>
             </TableView>
