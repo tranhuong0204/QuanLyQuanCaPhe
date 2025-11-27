@@ -53,8 +53,9 @@ public class TrangChuController {
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/KhuyenMai.fxml");
                 } else if (label == hoaDonlb) {
                     loadIntoContent("/com/example/quanlyquancaphe/employeeView/HoaDon.fxml");
-                }
-                else if (label == thoatlb) {
+                } else if (label == banlb) {
+                    loadIntoContent("/com/example/quanlyquancaphe/employeeView/ChonBan.fxml");
+                } else if (label == thoatlb) {
                     try {
                         Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
                         Scene scene = new Scene(root);

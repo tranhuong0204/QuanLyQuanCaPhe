@@ -1,0 +1,168 @@
+/* ==============================
+   MÀU CHỦ ĐẠO & PHÔNG CHỮ
+   ============================== */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #d7b39a, #f0e1d3);
+}
+
+/* ==============================
+   TIÊU ĐỀ CHÍNH
+   ============================== */
+.label-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8b5e3b;
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-background-color: #8b5e3b;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+/* Label thường */
+.label-x {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3e1f00;
+}
+
+/* Thanh Title Background */
+.hbox {
+    -fx-background-color: #8b5e3b;
+    -fx-background-radius:10 10 10 10 ;
+}
+
+/* ==============================
+   BUTTON - NÚT BẤM
+   ============================== */
+.button {
+    -fx-background-color: #e7c4a6;
+    -fx-border-color: #8b5e3b;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-weight: 700;
+    -fx-text-fill: #3e1f00;
+}
+
+.button:hover {
+    -fx-background-color: #d4a984;
+}
+
+.button:pressed {
+    -fx-background-color: #b0815c;
+    -fx-text-fill: white;
+}
+
+/* Nút icon (Thêm, Xóa, Sửa) */
+.icon-button {
+    -fx-background-color: #d6b18a;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.icon-button:hover {
+    -fx-background-color: #b98e6f;
+}
+
+/* ==============================
+   TABLEVIEW
+   ============================== */
+.table-view {
+    -fx-background-color: #f7f1ec;
+    -fx-border-color: #8b5e3b;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+
+}
+
+/* Header của Table */
+.table-view .column-header-background {
+    -fx-background-color: #8b5e3b;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: #8b5e3b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Cell */
+.table-view .cell {
+    -fx-background-color: #f9f3ee;
+    -fx-text-fill: #3e1f00;
+}
+
+/* Hover row */
+.table-row-cell:hover {
+    -fx-background-color: #ecd8c7;
+}
+
+/* Selected row */
+.table-row-cell:selected {
+    -fx-background-color: #cfa47b !important;
+    -fx-text-fill: white;
+}
+/* Bo góc cho header trái */
+.table-view .column-header-background .nested-column-header .column-header:first-child {
+    -fx-background-radius: 10 0 0 0;
+}
+
+/* Bo góc cho header phải */
+.table-view .column-header-background .nested-column-header .column-header:last-child {
+    -fx-background-radius: 0 10 0 0;
+}
+
+/* ==============================
+   TEXTFIELD + COMBOBOX
+   ============================== */
+.text-field, .combo-box {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #8b5e3b;
+    -fx-background-color: white;
+    -fx-padding: 4;
+}
+
+.combo-box:hover, .text-field:hover {
+    -fx-border-color: #b0815c;
+}
+
+.combo-box:focused, .text-field:focused {
+    -fx-border-width: 2;
+    -fx-border-color: #5a371d;
+}
+
+/* Popup item ComboBox */
+.list-cell:hover {
+    -fx-background-color: #ecd8c7;
+}
+.list-cell:selected {
+    -fx-background-color: #cfa47b;
+    -fx-text-fill: white;
+}
+/* FIX không bo góc được */
+.table-view .column-header-background {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-color: #8b5e3b;
+    -fx-background-radius: 10 10 0 0;
+}
+
+/* Header trong suốt để không đè lên radius */
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+/* Filler trong suốt */
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+.table-row-cell:selected .cell {
+    -fx-background-color: #cfa47b !important;
+    -fx-text-fill: white !important;
+}
