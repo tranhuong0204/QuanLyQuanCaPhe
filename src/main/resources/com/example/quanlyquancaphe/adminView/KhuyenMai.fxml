@@ -6,9 +6,10 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.KhuyenMaiController" prefWidth="900" prefHeight="600" stylesheets="@KhuyenMai.css" styleClass="km-root">
     <top>
-        <HBox spacing="10" alignment="CENTER" styleClass="km-topbar">
+        <HBox spacing="10" alignment="CENTER" styleClass="km-topbar"
+              style="-fx-background-color: #8b5e3b; -fx-background-radius: 15;">
             <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-            <Label text="Quản lý khuyến mãi" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="Quản lý khuyến mãi" style="-fx-font-size: 18px; -fx-font-weight: bold; "/>
         </HBox>
     </top>
     <center>
@@ -55,9 +56,11 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <ComboBox fx:id="cbKieuLoc"/>
                 <TextField fx:id="txtTimKiem" promptText="Nhập từ khóa hoặc %"/>
-                <Button text="Tìm" onAction="#onTim"/>
+                <!--Cái này ko có trong UC chỉ thêm vào để test với db to và muốn test cho nhanh-->
+                <Button text="Tìm" onAction="#onTim" />
             </HBox>
-            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown">
+            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown"
+                       style="-fx-border-color: #D2B48C; -fx-border-width: 2px; -fx-border-radius: 10; -fx-background-radius: 10;">
                 <columns>
                     <TableColumn fx:id="colMa" text="Mã" prefWidth="100"/>
                     <TableColumn fx:id="colTen" text="Tên" prefWidth="220"/>
