@@ -2,7 +2,6 @@
   -fx-background-color: linear-gradient(to bottom, #d7b39a, #f0e1d3);
 }
 
-/* Keep inner containers soft */
 .km-root > .center > * {
   -fx-background-color: rgba(255,255,255,0.6);
   -fx-background-radius: 12;
@@ -23,14 +22,12 @@
   -fx-background-radius: 8;
 }
 
-/* Field labels like QuanLyBan */
 .label-x {
   -fx-font-size: 14px;
   -fx-font-weight: bold;
   -fx-text-fill: #3e1f00;
 }
 
-/* Buttons to match QuanLyBan */
 .button {
   -fx-background-color: #e7c4a6;
   -fx-border-color: #8b5e3b;
@@ -51,7 +48,6 @@
   -fx-font-weight: bold;
 }
 
-/* Dark-brown TitledPane */
 .titled-pane {
   -fx-text-fill: #F9EBDE;
 }
@@ -69,25 +65,21 @@
   -fx-background-radius: 0 0 10 10;
 }
 
-/* Inputs to match vibe */
 .text-field, .text-area, .date-picker, .combo-box-base {
   -fx-background-radius: 8;
 }
-/* 1. Chỉnh nền cho toàn bộ thanh tiêu đề */
 .header-brown .column-header-background {
-    -fx-background-color: #D2B48C; /* Màu nâu nhạt cho nền header */
-    -fx-background-radius: 10 10 0 0; /* Bo tròn 2 góc trên để khớp với border của table */
+    -fx-background-color: #D2B48C;
+    -fx-background-radius: 10 10 0 0;
     -fx-background-insets: 0;
 }
 
-/* 2. Chỉnh từng ô tiêu đề (để nó trong suốt, hiện màu nền bên trên) */
 .header-brown .column-header {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
-/* 3. (Tuỳ chọn) Chỉnh màu chữ trong tiêu đề cho nổi bật */
 .header-brown .column-header .label {
-    -fx-text-fill: white; /* Chữ màu trắng */
+    -fx-text-fill: white;
     -fx-font-weight: bold;
 }
