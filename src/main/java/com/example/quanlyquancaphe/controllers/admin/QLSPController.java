@@ -173,36 +173,76 @@ public class QLSPController {
 
     @FXML
     private void onThem() {
-        // Lấy thông tin sản phẩm từ form
+        // Lấy dữ liệu từ form
         String ma = txtMaSanPham.getText().trim();
         String ten = txtTenSanPham.getText().trim();
         String moTa = txtMoTa.getText().trim();
-        double donGia = Double.parseDouble(txtDonGia.getText().trim());
+        double donGia;
+
+        try {
+            donGia = Double.parseDouble(txtDonGia.getText().trim());
+        } catch (NumberFormatException e) {
+            showAlert("Lỗi", "Đơn giá phải là số hợp lệ!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Kết nối và xử lý database
         try (Connection conn = DatabaseConnection.getConnection()) {
-            // Kiểm tra sản phẩm đã tồn tại chưa
+
+            // Kiểm tra sản phẩm đã tồn tại
             String checkSql = "SELECT COUNT(*) FROM MON WHERE maMon=?";
             PreparedStatement checkPs = conn.prepareStatement(checkSql);
             checkPs.setString(1, ma);
-            ResultSet rs = checkPs.executeQuery(); rs.next();
+            ResultSet rs = checkPs.executeQuery();
+            rs.next();
             int count = rs.getInt(1);
+
             if (count > 0) {
                 // Nếu tồn tại → UPDATE
                 String updateSql = "UPDATE MON SET tenMon=?, giaCa=?, moTa=?, hinhAnh=? WHERE maMon=?";
                 PreparedStatement ps = conn.prepareStatement(updateSql);
-                ps.setString(1, ten); ps.setDouble(2, donGia); ps.setString(3, moTa); ps.setString(4, selectedImagePath); ps.setString(5, ma);
+                ps.setString(1, ten);
+                ps.setDouble(2, donGia);
+                ps.setString(3, moTa);
+                ps.setString(4, selectedImagePath);
+                ps.setString(5, ma);
                 ps.executeUpdate();
                 showAlert("Thành công", "Đã cập nhật sản phẩm!", Alert.AlertType.INFORMATION);
             } else {
-                // Nếu chưa có → INSERT
+                // Nếu chưa tồn tại → INSERT
                 String insertSql = "INSERT INTO MON(maMon, tenMon, giaCa, moTa, hinhAnh) VALUES (?,?,?,?,?)";
                 PreparedStatement ps = conn.prepareStatement(insertSql);
-                ps.setString(1, ma); ps.setString(2, ten); ps.setDouble(3, donGia); ps.setString(4, moTa); ps.setString(5, selectedImagePath);
+                ps.setString(1, ma);
+                ps.setString(2, ten);
+                ps.setDouble(3, donGia);
+                ps.setString(4, moTa);
+                ps.setString(5, selectedImagePath);
                 ps.executeUpdate();
                 showAlert("Thành công", "Đã thêm sản phẩm mới!", Alert.AlertType.INFORMATION);
             }
-        } catch (Exception e) { logError("Thêm/cập nhật sản phẩm", e); showAlert("Lỗi", "Không thể lưu sản phẩm!", Alert.AlertType.ERROR); }
-        loadDataFromDatabase(); // refresh lại bảng
+
+            // Xóa form sau khi thao tác thành công
+            clearForm();
+
+            // Load lại dữ liệu TableView
+            loadDataFromDatabase();
+
+        } catch (Exception e) {
+            logError("Thêm/cập nhật sản phẩm", e);
+            showAlert("Lỗi", "Không thể lưu sản phẩm!", Alert.AlertType.ERROR);
+        }
     }
+
+    // Phương thức xóa form
+    private void clearForm() {
+        txtMaSanPham.clear();
+        txtTenSanPham.clear();
+        txtDonGia.clear();
+        txtMoTa.clear();
+        imgSanPham.setImage(null);
+        selectedImagePath = null;
+    }
+
 
     @FXML
     private void onSua() { // ensure wired in FXML

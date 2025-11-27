@@ -30,6 +30,8 @@
             </padding></Label>
          <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
          <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
+         <Label fx:id="thoatlb" prefHeight="47.0" prefWidth="184.0" text="  THOÁT" />
+
         </VBox>
     </left>
     <center>

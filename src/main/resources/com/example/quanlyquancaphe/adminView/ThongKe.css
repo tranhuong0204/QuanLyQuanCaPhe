@@ -8,3 +8,7 @@
     -fx-border-radius: 8;
     -fx-border-color: #D3BFA6;
 }
+
+.background-color {
+    -fx-background-color: linear-gradient(to bottom, #f0e1d3, #f0e1d3);
+}

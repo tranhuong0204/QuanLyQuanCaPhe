@@ -12,6 +12,8 @@
          <Label fx:id="banlb" prefHeight="47.0" prefWidth="184.0" text="  BÀN" textFill="#281504"/>
          <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="  MÓN" />
          <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
+         <Label fx:id="hoaDonlb" prefHeight="47.0" prefWidth="184.0" text="  HÓA ĐƠN" />
+         <Label fx:id="thoatlb" prefHeight="47.0" prefWidth="184.0" text="  THOÁT" />
         </VBox>
     </left>
     <center>
