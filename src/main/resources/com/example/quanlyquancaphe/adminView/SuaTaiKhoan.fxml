@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="320.0" prefWidth="520.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.SuaTaiKhoanController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="330.0" prefWidth="490.0" spacing="15" stylesheets="@SuaTaiKhoan.css" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15" AnchorPane.topAnchor="15">
+            <Label styleClass="title-top" text="Sửa tài khoản">
+                <font><Font name="System Bold" size="20.0" /></font>
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="120" />
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+                </columnConstraints>
+
+                <children>
+                    <Label styleClass="label-b" text="Mã tài khoản" GridPane.rowIndex="0" />
+                    <TextField fx:id="txtMaTK" prefHeight="28" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label styleClass="label-b" text="Tên tài khoản" GridPane.rowIndex="1" />
+
+                    <Label styleClass="label-b" text="Mật khẩu" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtTenTK" prefHeight="28" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label styleClass="label-b" text="Chức vụ" GridPane.rowIndex="3" />
+                    <ComboBox fx:id="cbChucVu" prefHeight="33.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               <PasswordField fx:id="txtMatKhau" prefHeight="27.0" prefWidth="354.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                </children>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+
+            <Button fx:id="btnLuu" onAction="#onSave" prefHeight="36" prefWidth="120" text="OK" />
+         <Button fx:id="btnHuy" onAction="#close" mnemonicParsing="false" text="Hủy" />
+        </VBox>
+    </children>
+</AnchorPane>

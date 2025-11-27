@@ -72,7 +72,10 @@ public class TrangChuController {
                 else if (label == quanLyBan) {
 //                    openNewWindow("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml", "Quản lý bàn");
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml");
-
+                }
+                else if (label == taiKhoanlb) {
+//                    openNewWindow("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml", "Quản lý bàn");
+                    loadIntoContent("/com/example/quanlyquancaphe/adminView/QuanLyTaiKhoan.fxml");
                 }
             });
         }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="875.0" styleClass="root" stylesheets="@QuanLyTaiKhoan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.TaiKhoanController">
+    <children>
+        <HBox alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="64.0" prefWidth="742.0" styleClass="hbox" AnchorPane.bottomAnchor="607.6" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <Label styleClass="label-title" text="Quản Lý Tài Khoản">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <Pane layoutX="27.0" layoutY="96.0" prefHeight="561.0" prefWidth="698.0">
+            <children>
+                <TableView fx:id="tableTaiKhoan" layoutX="15.0" layoutY="67.0" prefHeight="473.0" prefWidth="651.0">
+                    <columns>
+                        <TableColumn fx:id="colMaTaiKhoan" prefWidth="107.19998550415039" text="Mã Tài Khoản" />
+                        <TableColumn fx:id="colTenTaiKhoan" minWidth="3.2000732421875" prefWidth="96.79998779296875" text="Tên Tài Khoản" />
+                        <TableColumn fx:id="colMatKhau" prefWidth="125.60003662109375" text="Mật Khẩu" />
+                        <TableColumn fx:id="colChucVu" prefWidth="311.20001220703125" text="Chức Vụ" />
+                    </columns>
+                </TableView>
+                <TextField fx:id="noiDungTim" layoutX="333.0" layoutY="18.0" prefHeight="33.0" prefWidth="266.0" />
+                <ComboBox fx:id="cbChucVu" layoutX="90.0" layoutY="16.0" prefHeight="33.0" prefWidth="106.0" styleClass="combo-box" />
+                <Label layoutX="226.0" layoutY="26.0" styleClass="label-x" text="Tìm nội dung :">
+                    <padding>
+                        <Insets right="10.0" />
+                    </padding>
+                </Label>
+                <Label layoutX="15.0" layoutY="23.0" styleClass="label-x" text="Chức Vụ:">
+                    <padding>
+                        <Insets right="10.0" />
+                    </padding>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <Button fx:id="btnThem" layoutX="725.0" layoutY="246.0" mnemonicParsing="false" onAction="#onThem" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Thêm ">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnXoa" layoutX="725.0" layoutY="348.0" mnemonicParsing="false" onAction="#onXoa" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Xóa" />
+        <Button fx:id="btnSua" layoutX="725.0" layoutY="296.0" mnemonicParsing="false" onAction="#onSua" prefHeight="35.0" prefWidth="103.0" styleClass="icon-button" text="Sửa" />
+    </children>
+</AnchorPane>
