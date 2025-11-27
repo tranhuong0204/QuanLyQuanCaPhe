@@ -1,20 +1,22 @@
 .qlsp-root {
-    -fx-background-color: linear-gradient(to bottom, #fff, #f8f8f8);
+    -fx-background-color: linear-gradient(to bottom, #d7b39a, #f0e1d3);
 }
 
 .qlsp-topbar {
-    -fx-background-color: #795548;
+    -fx-background-color: #8b5e3b;
     -fx-text-fill: white;
     -fx-padding: 10;
 }
 
 .button {
-    -fx-background-color: #795548;
-    -fx-text-fill: white;
+    -fx-background-color: #e7c4a6;
+    -fx-border-color: #8b5e3b;
+    -fx-border-radius: 6;
+    -fx-text-fill: #3e1f00;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
 }
 
 .button:hover {
-    -fx-background-color: #a56b5b;
+    -fx-background-color: #d4a984
 }
