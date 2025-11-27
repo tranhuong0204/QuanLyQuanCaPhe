@@ -20,6 +20,7 @@ public class HoaDonController {
 //    @FXML private ListView<SanPham> listHoaDon;
     @FXML private ListView<ItemHoaDon> listHoaDon;
     private ObservableList<ItemHoaDon> dsMon = FXCollections.observableArrayList();
+    private VBox selectedBox;
 
     @FXML private Label tongTienLabel;
     @FXML private Label tienThuaLabel;
@@ -120,7 +121,7 @@ public class HoaDonController {
                     HBox soLuongBox = new HBox(5, btnGiam, soLuongField, btnTang);
                     soLuongBox.setAlignment(Pos.CENTER);
 
-// Gom tất cả thành một hàng
+                    // Gom tất cả thành một hàng
                     HBox box = new HBox(20, ten, gia, soLuongBox, btnXoa);
                     box.setAlignment(Pos.CENTER_LEFT);
                     box.setPadding(new Insets(5));
@@ -134,20 +135,35 @@ public class HoaDonController {
     }
 
     private VBox createSanPhamBox(SanPham sp) {
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+        box.getStyleClass().add("product-box");
         ImageView img = null;
         URL imgUrl = getClass().getResource(sp.getHinhAnh());
         if (imgUrl != null) {
             img = new ImageView(new Image(imgUrl.toExternalForm()));
             img.setFitWidth(100);
             img.setFitHeight(100);
+            img.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 0, 2);");
+            box.getChildren().add(img);
         }
 
         Label ten = new Label(sp.getTen());
         Label gia = new Label(String.format("%.0fđ", sp.getDonGia()));
 
-        VBox box = new VBox(5);
-        if (img != null) box.getChildren().add(img);
         box.getChildren().addAll(ten, gia);
+
+//        box.setOnMouseClicked(e -> {
+//            if (selectedBox != null) {
+//                selectedBox.getStyleClass().remove("selected-box");
+//            }
+//            box.getStyleClass().add("selected-box");
+//            selectedBox = box;
+////            showDetails(sp);
+//        });
+//        VBox box = new VBox(5);
+//        if (img != null) box.getChildren().add(img);
+//        box.getChildren().addAll(ten, gia);
         box.setAlignment(Pos.CENTER);
         box.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10;");
         return box;
@@ -215,16 +231,15 @@ public class HoaDonController {
                 // 1. Insert HOADON
                 int maHoaDon = generateMaHoaDon(conn);
 
-                String sqlHoaDon = "INSERT INTO HOADON (maHoaDon, tongKM, tongTien, ngayLap, phuongThucThanhToan, BANmaBan, TAIKHOANmaTaiKhoan, PHUONGTHUCTHANHTOANmaPT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                String sqlHoaDon = "INSERT INTO HOADON (maHoaDon, tongKM, tongTien, ngayLap,  maBan, maTaiKhoan, maPT) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement psHoaDon = conn.prepareStatement(sqlHoaDon);
                 psHoaDon.setInt(1, maHoaDon);
                 psHoaDon.setDouble(2, 0); // tongKM
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
-                psHoaDon.setString(5, "Tiền mặt");
-                psHoaDon.setString(6, "b001");
-                psHoaDon.setInt(7, Session.getMaTaiKhoan());
-                psHoaDon.setInt(8, 1);
+                psHoaDon.setString(5, "b001");
+                psHoaDon.setInt(6, Session.getMaTaiKhoan());
+                psHoaDon.setInt(7, 1);
                 psHoaDon.executeUpdate();
 
 //                ResultSet rs = psHoaDon.getGeneratedKeys();
@@ -234,7 +249,7 @@ public class HoaDonController {
 //                }
 
                 // 2. Insert CHITIETHOADON
-                String sqlCTHD = "INSERT INTO CHITIETHOADON (MONmaMon, HOADONmaHoaDon, soLuong) VALUES (?, ?, ?)";
+                String sqlCTHD = "INSERT INTO CHITIETHOADON (maMon, maHoaDon, soLuong) VALUES (?, ?, ?)";
                 PreparedStatement psCTHD = conn.prepareStatement(sqlCTHD);
 
                 for (ItemHoaDon item : listHoaDon.getItems()) {
