@@ -54,7 +54,7 @@
     </left>
     <!-- Bên phải: danh sách sản phẩm -->
     <right>
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefWidth="600.0" stylesheets="@SanPham.css" />
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefWidth="600.0" styleClass="viewport" stylesheets="@SanPham.css" />
     </right>
 
 
