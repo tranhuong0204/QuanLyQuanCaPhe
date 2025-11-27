@@ -25,5 +25,6 @@ public class Launcher extends Application{
 //        scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/adminView/TrangChu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+//        primaryStage.setFullScreen(true);
     }
 }

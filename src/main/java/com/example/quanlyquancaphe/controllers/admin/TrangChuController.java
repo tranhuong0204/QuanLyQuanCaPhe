@@ -1,5 +1,6 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
+import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,6 +21,7 @@ public class TrangChuController {
     @FXML private Label KHUYENMAILABEL; // label "KHUYẾN MÃI" từ FXML
     @FXML private StackPane contentPane;
     @FXML private Label quanLyBan;
+    @FXML private Label thoatlb;
 
     private List<Label> labelList;
     private void openNewWindow(String fxmlPath, String title) {
@@ -48,6 +50,7 @@ public class TrangChuController {
             labelList.add(quanLyBan);
         }
         labelList.add(monlb);
+        labelList.add(thoatlb);
 
 
         for (Label label : labelList) {
@@ -72,7 +75,23 @@ public class TrangChuController {
                 else if (label == quanLyBan) {
 //                    openNewWindow("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml", "Quản lý bàn");
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/QuanLyBan.fxml");
-
+                }
+                else if (label == thoatlb) {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
+                        Scene scene = new Scene(root);
+                        scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.css").toExternalForm());
+                        // Đóng cửa sổ hiện tại
+                        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        currentStage.close();
+                        // Tạo cửa sổ mới
+                        Stage newStage = new Stage();
+                        newStage.setScene(scene);
+                        newStage.centerOnScreen(); // căn giữa cửa sổ
+                        newStage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -89,13 +108,13 @@ public class TrangChuController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void hienThongKe(MouseEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/adminView/ThongKe.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+//    @FXML
+//    private void hienThongKe(MouseEvent event) throws Exception {
+//        Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/adminView/ThongKe.fxml"));
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 
 }

@@ -59,6 +59,8 @@ public class DangNhapController {
 //                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
                     stage.setScene(scene);
                     stage.show();
+                    stage.centerOnScreen();
+                    stage.setMaximized(true); // full màn hình
                 } else if ("nhan vien".equalsIgnoreCase(role)) {
                     Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/employeeView/TrangChu.fxml"));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
@@ -66,6 +68,9 @@ public class DangNhapController {
 //                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
                     stage.setScene(scene);
                     stage.show();
+                    stage.centerOnScreen();
+                    stage.setMaximized(true); // full màn hình
+
                 }
                 // chuyển sang màn hình chính nếu cần
             } else {

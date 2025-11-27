@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <!--<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.quanlyquancaphe.controllers.employee.SanPhamController" spacing="10" padding="10">-->
 <!--    <ListView fx:id="listViewMon" prefHeight="400" />-->
 <!--</VBox>-->
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.ScrollPane?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.employee.SanPhamController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e6cfc1;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.employee.SanPhamController">
 
 <!--    <GridPane fx:id="gridMon" layoutY="36.0" prefHeight="354.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="36.0" />-->
-    <ScrollPane fx:id="scrollPane" layoutY="36.0" prefHeight="354.0" prefWidth="580.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="36.0" />
+    <ScrollPane fx:id="scrollPane" layoutY="36.0" prefHeight="354.0" prefWidth="580.0" stylesheets="@SanPham.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="36.0" />
 
-    <Label layoutX="69.0" layoutY="14.0" text="DS Mon" />
+    <Label layoutX="69.0" layoutY="14.0" text="DS Mon" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 </AnchorPane>

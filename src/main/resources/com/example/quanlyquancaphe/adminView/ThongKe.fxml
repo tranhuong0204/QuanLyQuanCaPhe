@@ -14,7 +14,7 @@
     <TabPane fx:id="thongKeTabs" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Tab text="Doanh thu">
             <content>
-                <VBox>
+                <VBox styleClass="background-color" stylesheets="@ThongKe.css">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="20" />
                     </padding>
@@ -28,7 +28,7 @@
                             </items>
                         </ComboBox>
 
-                        <ComboBox fx:id="cbNam" managed="false" onAction="#chonNam" promptText="Chọn năm" styleClass="tab-pane" visible="false" />
+                        <ComboBox fx:id="cbNam" managed="false" onAction="#chonNam" promptText="Chọn năm" style="-fx-background-color: rgb(255, 235, 205);" styleClass="tab-pane" visible="false" />
                     </HBox>
 
 <!--                    <AreaChart fx:id="areaChart" layoutY="58.0" prefHeight="403.0" prefWidth="600">-->

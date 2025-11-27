@@ -105,7 +105,7 @@ public class ThongKeController implements Initializable {
         xAxis.setLabel("Năm");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Doanh thu");
+        yAxis.setLabel("Doanh thu (nghìn đồng)");
 
         AreaChart<String, Number> newChart = new AreaChart<>(xAxis, yAxis);
         newChart.setTitle("Doanh thu theo năm");
