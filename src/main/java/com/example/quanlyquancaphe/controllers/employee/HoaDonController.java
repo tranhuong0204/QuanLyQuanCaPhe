@@ -238,7 +238,7 @@ public class HoaDonController {
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
                 psHoaDon.setString(5, "b001");
-                psHoaDon.setInt(6, Session.getMaTaiKhoan());
+                psHoaDon.setInt(6, TaiKhoan.getMaTaiKhoan());
                 psHoaDon.setInt(7, 1);
                 psHoaDon.executeUpdate();
 
