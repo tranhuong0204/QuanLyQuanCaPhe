@@ -131,6 +131,13 @@ public class TaiKhoanDAO {
         return "TK001";
     }
 
-
+    public ResultSet findByUsernameAndPassword(String username, String password) throws SQLException {
+        Connection conn = DatabaseConnection.getConnection();
+        String sql = "SELECT * FROM TAIKHOAN WHERE tenTaiKhoan = ? AND matKhau = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+        return stmt.executeQuery();
+    }
 
 }

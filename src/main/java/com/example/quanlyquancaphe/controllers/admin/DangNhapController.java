@@ -1,5 +1,6 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
+import com.example.quanlyquancaphe.models.TaiKhoan;
 import com.example.quanlyquancaphe.services.DangNhapService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,17 +48,23 @@ public class DangNhapController {
         }
 
         DangNhapService service = new DangNhapService();
-        String role = service.login(username, password);
+//        String role = service.login(username, password);
+        TaiKhoan tk = service.login(username, password); // trả về object thay vì chỉ role
 
-        if (role != null) {
+        if (tk.getChucVu() != null) {
             statusLabel.setText("Đăng nhập thành công!");
             statusLabel.setStyle("-fx-text-fill: green;");
+            TaiKhoan.setMaTaiKhoan(tk.getMaTaiKhoan());
+//            TaiKhoan tkInstant = service.login(username, password);
+//            tk.setMaTaiKhoan(tk.getMaTaiKhoan());
             // điều hướng theo role
-            if ("quan ly".equalsIgnoreCase(role)) {
+            if ("quan ly".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/adminView/TrangChu.fxml");
-            } else if ("nhan vien".equalsIgnoreCase(role)) {
+            } else if ("nhan vien".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/employeeView/TrangChu.fxml");
             }
+//            TaiKhoan.setMaTaiKhoan(maTaiKhoan); // lưu thông tin đăng nhập
+
         } else {
             statusLabel.setText("Sai tên đăng nhập hoặc mật khẩu.");
         }

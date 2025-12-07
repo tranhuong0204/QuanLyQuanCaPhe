@@ -238,7 +238,7 @@ public class HoaDonController {
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
                 psHoaDon.setString(5, "b001");
-                psHoaDon.setInt(6, TaiKhoan.getMaTaiKhoan());
+                psHoaDon.setString(6, TaiKhoan.getMaTaiKhoan());
                 psHoaDon.setInt(7, 1);
                 psHoaDon.executeUpdate();
 
@@ -263,7 +263,7 @@ public class HoaDonController {
                     int soLuong = item.getSoLuong();
                     psCTHD.setString(1, sp.getMa()); // lấy mã sản phẩm trực tiếp
                     psCTHD.setInt(2, maHoaDon);
-                    psCTHD.setInt(3, 1); // số lượng mặc định 1
+                    psCTHD.setInt(3, soLuong); // số lượng mặc định 1
                     psCTHD.addBatch();
                 }
                 psCTHD.executeBatch();
