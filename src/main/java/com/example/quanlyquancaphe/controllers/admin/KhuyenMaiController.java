@@ -4,6 +4,7 @@ import com.example.quanlyquancaphe.models.DatabaseConnection;
 import com.example.quanlyquancaphe.models.KhuyenMai;
 import com.example.quanlyquancaphe.models.KhuyenMaiDAO;
 import com.example.quanlyquancaphe.models.SanPham;
+import com.example.quanlyquancaphe.models.MonKhuyenMaiDAO;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -57,6 +58,7 @@ public class KhuyenMaiController {
     private FilteredList<KhuyenMaiVM> filtered;
     private SortedList<KhuyenMaiVM> sorted; // kept as field intentionally for future dynamic sorting
     private ObservableList<SanPham> sanPhamApDung; // holds selected products mapping
+    private final MonKhuyenMaiDAO monKhuyenMaiDAO = new MonKhuyenMaiDAO();
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final KhuyenMaiDAO dao = new KhuyenMaiDAO();
@@ -145,10 +147,19 @@ public class KhuyenMaiController {
         // Generate code from DB to avoid gaps
         String code;
         try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
             code = dao.nextCode(conn);
             KhuyenMai km = readFormAsEntity(code);
-            if (km == null) return;
+            if (km == null) {
+                conn.rollback();
+                return;
+            }
             dao.insert(conn, km);
+            // Lưu mapping sản phẩm - khuyến mãi nếu có chọn
+            if (sanPhamApDung != null && !sanPhamApDung.isEmpty()) {
+                monKhuyenMaiDAO.insertMany(conn, code, sanPhamApDung);
+            }
+            conn.commit();
         } catch (SQLException e) {
             showError("Lỗi thêm khuyến mãi", e);
             return;
@@ -157,6 +168,7 @@ public class KhuyenMaiController {
         reloadFromDb();
         setNextCodeFromDb();
         clearFormExceptMa();
+        sanPhamApDung = null;
         // Select the new row
         data.stream().filter(vm -> vm.ma.get().equals(code)).findFirst()
                 .ifPresent(vm -> tableKhuyenMai.getSelectionModel().select(vm));
@@ -170,9 +182,19 @@ public class KhuyenMaiController {
             return;
         }
         try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
             KhuyenMai km = readFormAsEntity(sel.ma.get());
-            if (km == null) return;
+            if (km == null) {
+                conn.rollback();
+                return;
+            }
             dao.update(conn, km);
+            // Cập nhật lại mapping: xóa cũ, thêm mới
+            monKhuyenMaiDAO.deleteByMaKM(conn, sel.ma.get());
+            if (sanPhamApDung != null && !sanPhamApDung.isEmpty()) {
+                monKhuyenMaiDAO.insertMany(conn, sel.ma.get(), sanPhamApDung);
+            }
+            conn.commit();
         } catch (SQLException e) {
             showError("Lỗi cập nhật khuyến mãi", e);
             return;
@@ -180,6 +202,7 @@ public class KhuyenMaiController {
         reloadFromDb();
         setNextCodeFromDb();
         clearFormExceptMa();
+        sanPhamApDung = null;
     }
 
     @FXML
@@ -257,6 +280,8 @@ public class KhuyenMaiController {
         txtGhiChu.clear();
         dpNgayBatDau.setValue(null);
         dpNgayKetThuc.setValue(null);
+        if (lstSanPhamApDung != null) lstSanPhamApDung.getItems().clear();
+        if (txtSanPhamApDung != null) txtSanPhamApDung.clear();
     }
 
     private void alert(Alert.AlertType type, String title, String content) {
