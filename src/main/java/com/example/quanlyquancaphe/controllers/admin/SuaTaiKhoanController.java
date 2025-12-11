@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SuaTaiKhoanController {
 
     @FXML private TextField txtMaTK;
@@ -16,7 +19,7 @@ public class SuaTaiKhoanController {
     @FXML private Button btnHuy;
 
     private TaiKhoanController parent;
-    private TaiKhoan taiKhoan;
+    private TaiKhoan taiKhoan; // Tài khoản gốc trước khi sửa
 
     public void setParent(TaiKhoanController parent) {
         this.parent = parent;
@@ -47,24 +50,71 @@ public class SuaTaiKhoanController {
         String mk = txtMatKhau.getText().trim();
         String chucVu = cbChucVu.getValue();
 
-        // Gọi validate trước khi lưu
-        if (!validate(ma, ten, mk, chucVu)) {
+        // Gọi validate tổng hợp trước khi lưu
+        if (!validateInput(ten, mk, chucVu)) {
             return;
         }
 
         TaiKhoan tk = new TaiKhoan(
-                taiKhoan.getMaTaiKhoan(),
+                taiKhoan.getMaTaiKhoan(), // Giữ nguyên Mã TK cũ
                 ten,
                 mk,
                 chucVu
         );
 
         if (TaiKhoanDAO.update(tk)) {
-            show("Cập nhật thành công!");
-            parent.loadData();
+            showSuccess("Cập nhật thành công!");
+            if (parent != null) parent.loadData();
             close();
         } else {
-            show("Cập nhật thất bại!");
+            String errorMessage= "Cập nhật thất bại! (Có thể do lỗi DB)";
+            showError(errorMessage,"Cập nhật thất bại");
+        }
+    }
+
+
+    private boolean validateInput(String ten, String mk, String chucVu) {
+
+        List<String> errors = new ArrayList<>();
+
+        // 1. Kiểm tra trống
+        if (ten.isEmpty()) {
+            errors.add("- Tên tài khoản không được để trống.");
+        }
+        if (mk.isEmpty()) {
+            errors.add("- Mật khẩu không được để trống.");
+        }
+        if (chucVu == null || chucVu.isEmpty()) {
+            errors.add("- Vui lòng chọn chức vụ.");
+        }
+
+        // 2. Kiểm tra định dạng Tên TK (Chỉ kiểm tra nếu Tên TK không trống)
+        if (!ten.isEmpty() && !ten.matches("^[a-zA-Z0-9._-]{4,20}$")) {
+            errors.add("- Tên tài khoản 4-20 ký tự, không dấu, không khoảng trắng.");
+        }
+
+        // 3. Kiểm tra trùng lặp Tên TK: Chỉ kiểm tra nếu tên mới khác tên cũ và đã tồn tại
+        if (!ten.equalsIgnoreCase(taiKhoan.getTenTaiKhoan()) && TaiKhoanDAO.existsByUsername(ten)) {
+            errors.add("- Tên tài khoản đã tồn tại trong hệ thống.");
+        }
+
+        // 4. Kiểm tra định dạng Mật khẩu (Chỉ kiểm tra nếu Mật khẩu không trống)
+        if (!mk.isEmpty() && !mk.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
+            errors.add("- Mật khẩu phải có ít nhất 6 ký tự gồm chữ và số.");
+        }
+
+        // ==========================================================
+        // Xử lý và hiển thị lỗi
+        // ==========================================================
+
+        if (errors.isEmpty()) {
+            return true;
+        } else {
+            String errorMessage = "Vui lòng khắc phục các lỗi sau:\n\n" +
+                    String.join("\n", errors);
+
+            showError(errorMessage, "Lỗi Nhập Liệu");
+            return false;
         }
     }
 
@@ -74,28 +124,20 @@ public class SuaTaiKhoanController {
         st.close();
     }
 
-    private void show(String msg) {
+    private void showSuccess(String msg) {
         new Alert(Alert.AlertType.INFORMATION, msg).show();
     }
-    private boolean validate(String ma, String ten, String mk, String chucVu) {
 
-        if (ten.isEmpty() || mk.isEmpty() || chucVu == null) {
-            show("Không được để trống!");
-            return false;
-        }
-
-        if (!ten.matches("^[a-zA-Z0-9._-]{4,20}$")) {
-            show("Tên tài khoản 4-20 ký tự, không dấu, không khoảng trắng!");
-            return false;
-        }
-
-        if (!mk.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
-            show("Mật khẩu phải có ít nhất 6 ký tự gồm chữ và số!");
-            return false;
-        }
-
-        return true;
+    private void showError(String msg, String title) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
-
+    // Giữ lại phương thức show cũ để tránh lỗi nếu nó được gọi ở đâu đó ngoài onSave
+    private void show(String msg) {
+        showSuccess(msg);
+    }
 }

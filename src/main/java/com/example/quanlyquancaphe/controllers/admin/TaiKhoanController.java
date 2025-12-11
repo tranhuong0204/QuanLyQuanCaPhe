@@ -105,6 +105,7 @@ public class TaiKhoanController {
         if (confirm.showAndWait().get() == ButtonType.OK) {
             if (TaiKhoanDAO.delete(tk.getMaTaiKhoan())) {
                 loadData();
+                showSuccess("Xóa tài khoản thành công!");
             } else {
                 show("Xoá thất bại!");
             }
@@ -178,5 +179,8 @@ public class TaiKhoanController {
     // ==================== ALERT ====================
     private void show(String msg) {
         new Alert(Alert.AlertType.WARNING, msg).show();
+    }
+    private void showSuccess(String msg) {
+        new Alert(Alert.AlertType.INFORMATION, msg).show();
     }
 }
