@@ -105,6 +105,22 @@ public class BanDAO {
             return false;
         }
     }
+    // Trong lớp BanDAO.java
+    public boolean updateTrangThai(String maBan, String trangThaiMoi) {
+        String sql = "UPDATE Ban SET TrangThai = ? WHERE MaBan = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, trangThaiMoi);
+            ps.setString(2, maBan);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 

@@ -1,6 +1,7 @@
 package com.example.quanlyquancaphe.controllers.employee;
 
 import com.example.quanlyquancaphe.models.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +10,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage; // Import Stage
 
+import java.io.FileWriter; // Import FileWriter cho chức năng in file
+import java.io.IOException; // Import IOException
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
@@ -17,7 +21,6 @@ import java.util.List;
 
 public class HoaDonController {
     @FXML private ScrollPane scrollPane;
-    //    @FXML private ListView<SanPham> listHoaDon;
     @FXML private ListView<ItemHoaDon> listHoaDon;
     private ObservableList<ItemHoaDon> dsMon = FXCollections.observableArrayList();
     private VBox selectedBox;
@@ -25,12 +28,34 @@ public class HoaDonController {
     @FXML private Label tongTienLabel;
     @FXML private Label tienThuaLabel;
     @FXML private TextField tienKhachDuaField;
-
+    @FXML private Label lblThongTinBan; // Đổi tên từ lbThongTinBan sang lblThongTinBan
 
     private double tongTien = 0;
-    // ĐÃ XÓA: private TaiKhoan taiKhoanNhanVien;
+    private Ban banHienTai;
+    private BanDAO banDAO = new BanDAO();
+    private ChonBanController parentController;
 
-    // ĐÃ XÓA: public void setTaiKhoanNhanVien(TaiKhoan tk) { this.taiKhoanNhanVien = tk; }
+    // PHƯƠNG THỨC SETTER CHO PARENT
+    public void setParentController(ChonBanController parent) {
+        this.parentController = parent;
+    }
+
+    // PHƯƠNG THỨC NHẬN DỮ LIỆU BÀN
+    public void setData(Ban selectedBan) {
+        this.banHienTai = selectedBan;
+
+        if (banHienTai != null) {
+            // Cập nhật Label trên giao diện
+            if (lblThongTinBan != null) {
+                lblThongTinBan.setText("Lập Hóa Đơn cho: " + banHienTai.getMaBan() + " (" + banHienTai.getViTri() + ")");
+            } else {
+                System.err.println("Lỗi: lblThongTinBan chưa được ánh xạ trong FXML.");
+            }
+
+            System.out.println("Hóa đơn được lập cho Bàn: " + banHienTai.getMaBan());
+            // TODO: Nếu bàn có trạng thái "Có khách", load hóa đơn cũ.
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -54,6 +79,41 @@ public class HoaDonController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // === LOGIC XỬ LÝ SỰ KIỆN ĐÓNG CỬA SỔ ===
+        Platform.runLater(() -> {
+            Stage stage = (Stage) scrollPane.getScene().getWindow();
+
+            stage.setOnCloseRequest(event -> {
+
+                // 1. Nếu danh sách món ĐÃ CÓ (đã gọi món), CHẶN đóng cửa sổ
+                if (!dsMon.isEmpty()) {
+                    event.consume(); // Ngăn chặn sự kiện đóng cửa sổ mặc định
+
+                    new Alert(Alert.AlertType.WARNING,
+                            "Bạn đã thêm món vào hóa đơn. Vui lòng sử dụng nút 'Thanh toán' để kết thúc giao dịch.").show();
+
+                } else {
+                    // 2. Nếu danh sách món RỖNG (chưa gọi món nào), CHO PHÉP đóng
+
+                    // === LOGIC QUAN TRỌNG: HOÀN TÁC TRẠNG THÁI BÀN ===
+                    if (banHienTai != null && banDAO != null && parentController != null) {
+                        // Cập nhật trạng thái bàn trong DB về "Trống"
+                        if (banDAO.updateTrangThai(banHienTai.getMaBan(), "Trống")) {
+
+                            // Cập nhật đối tượng Ban trong bộ nhớ và giao diện chính
+                            banHienTai.setTrangThai("Trống");
+                            parentController.loadData();
+                            System.out.println("DEBUG: Đã hoàn tác Bàn " + banHienTai.getMaBan() + " về trạng thái 'Trống'.");
+
+                        } else {
+                            System.err.println("LỖI: Không thể hoàn tác trạng thái bàn trong DB.");
+                        }
+                    }
+
+                    // Do không gọi event.consume(), cửa sổ sẽ đóng bình thường.
+                }
+            });
+        });
 
         scrollPane.setContent(tilePane);
         scrollPane.setFitToWidth(true);
@@ -181,9 +241,55 @@ public class HoaDonController {
         return 1; // nếu bảng rỗng thì bắt đầu từ 1
     }
 
+    // Phương thức in hóa đơn ra file TXT
+    private void printHoaDonToTxt(int maHoaDon, double tienKhachDua, double tienThua) {
+        String maNhanVien = (TaiKhoan.isUserLoggedIn() && TaiKhoan.getUserLoggedIn().getMaTaiKhoan() != null) ? TaiKhoan.getUserLoggedIn().getMaTaiKhoan() : "UNKNOWN";
+
+        try (FileWriter writer = new FileWriter("HoaDon_" + maHoaDon + ".txt")) {
+            writer.write("================= COFFEE SHOP =================\n");
+            writer.write("          HOÁ ĐƠN THANH TOÁN (BILL)\n");
+            writer.write("Mã HĐ: " + maHoaDon + "\n");
+            writer.write("Bàn: " + banHienTai.getMaBan() + " - NV: " + maNhanVien + "\n");
+            writer.write("Ngày: " + LocalDate.now() + "\n");
+            writer.write("-----------------------------------------------\n");
+            writer.write(String.format("%-15s %-5s %10s\n", "Tên Món", "SL", "Thành Tiền"));
+            writer.write("-----------------------------------------------\n");
+
+            for (ItemHoaDon item : listHoaDon.getItems()) {
+                double thanhTien = item.getSanPham().getDonGia() * item.getSoLuong();
+                writer.write(String.format("%-15s %-5d %10.0fđ\n",
+                        item.getSanPham().getTen(),
+                        item.getSoLuong(),
+                        thanhTien));
+            }
+            writer.write("-----------------------------------------------\n");
+            writer.write(String.format("%-21s %15.0fđ\n", "TỔNG CỘNG:", tongTien));
+            writer.write(String.format("%-21s %15.0fđ\n", "KHÁCH ĐƯA:", tienKhachDua));
+            writer.write(String.format("%-21s %15.0fđ\n", "TIỀN THỪA:", tienThua));
+            writer.write("===============================================\n");
+            System.out.println("DEBUG: Đã in hóa đơn " + maHoaDon + " ra file.");
+        } catch (IOException e) {
+            System.err.println("Lỗi khi in hóa đơn ra file TXT: " + e.getMessage());
+        }
+    }
+
+
     @FXML
     private void handleThanhToan() {
+
+        // Cần phải khai báo biến Stage ở ngoài để đóng cửa sổ.
+        Stage currentStage = (Stage) tienKhachDuaField.getScene().getWindow();
+
+        Connection conn = null; // Khai báo Connection ở phạm vi cao hơn
+
         try {
+
+            // 0. KIỂM TRA TÍNH TOÀN VẸN DỮ LIỆU
+            if (banHienTai == null || banHienTai.getMaBan().isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Lỗi: Không tìm thấy thông tin bàn để lập hóa đơn.").showAndWait();
+                return;
+            }
+
             double tienKhachDua = Double.parseDouble(tienKhachDuaField.getText());
             double tienThua = tienKhachDua - tongTien;
 
@@ -202,8 +308,16 @@ public class HoaDonController {
                 return;
             }
 
-            // ✅ Lưu vào DB
-            try (Connection conn = DatabaseConnection.getConnection()) {
+            // KIỂM TRA HÀNG HÓA
+            if (dsMon.isEmpty()) {
+                new Alert(Alert.AlertType.WARNING, "Vui lòng chọn ít nhất một món để thanh toán.").showAndWait();
+                return;
+            }
+
+
+            // ✅ Xử lý DB
+            try {
+                conn = DatabaseConnection.getConnection(); // Gán giá trị cho conn
                 conn.setAutoCommit(false);
 
                 // 1. Insert HOADON
@@ -215,9 +329,9 @@ public class HoaDonController {
                 psHoaDon.setDouble(2, 0); // tongKM
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
-                psHoaDon.setString(5, "b001");
 
-                // DÒNG ĐÃ SỬA: Lấy mã tài khoản từ đối tượng đã lưu trong phiên
+                psHoaDon.setString(5, banHienTai.getMaBan());
+
                 psHoaDon.setString(6, TaiKhoan.getUserLoggedIn().getMaTaiKhoan());
 
                 psHoaDon.setInt(7, 1);
@@ -238,15 +352,42 @@ public class HoaDonController {
                 psCTHD.executeBatch();
 
                 conn.commit();
+
+                // === XỬ LÝ SAU KHI THÀNH CÔNG ===
+
+                // 3. Cập nhật Trạng Thái Bàn về "Trống"
+                banDAO.updateTrangThai(banHienTai.getMaBan(), "Trống");
+
+                // 4. Cập nhật dữ liệu trên màn hình chọn bàn (Parent Controller)
+                if (parentController != null) {
+                    parentController.loadData();
+                }
+
+                // 5. In hóa đơn ra file TXT
+                printHoaDonToTxt(maHoaDon, tienKhachDua, tienThua);
+
+                // 6. Thông báo và đóng cửa sổ
+                tienThuaLabel.setText("Tiền thừa: " + String.format("%.0fđ", tienThua));
+                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                infoAlert.setTitle("Thanh toán");
+                infoAlert.setHeaderText("Hóa đơn đã được thanh toán");
+                infoAlert.setContentText("Tổng tiền: " + String.format("%.0fđ", tongTien) + "\nTiền thừa: " + String.format("%.0fđ", tienThua));
+                infoAlert.showAndWait();
+
+                currentStage.close(); // Đóng cửa sổ chỉ khi thanh toán thành công
+
+            } catch (Exception e) {
+                // Xử lý Rollback nếu có lỗi DB
+                if (conn != null) {
+                    conn.rollback();
+                }
+                throw e;
+            } finally {
+                // Đóng kết nối (Đảm bảo an toàn)
+                if (conn != null) {
+                    conn.close();
+                }
             }
-
-            tienThuaLabel.setText("Tiền thừa: " + String.format("%.0fđ", tienThua));
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thanh toán");
-            alert.setHeaderText("Hóa đơn đã được thanh toán");
-            alert.setContentText("Tổng tiền: " + String.format("%.0fđ", tongTien) + "\nTiền thừa: " + String.format("%.0fđ", tienThua));
-            alert.showAndWait();
 
             listHoaDon.getItems().clear();
             tongTien = 0;

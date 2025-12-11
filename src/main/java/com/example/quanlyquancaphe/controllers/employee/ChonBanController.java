@@ -46,12 +46,28 @@ public class ChonBanController {
         cbTrangThai.valueProperty().addListener((obs, oldV, newV) -> onSearch());
         cbViTri.valueProperty().addListener((obs, oldV, newV) -> onSearch());
 
-        // --- Double click mở ChonMon ---
+
         tableListBan.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 Ban b = tableListBan.getSelectionModel().getSelectedItem();
                 if (b != null) {
-                    openChonMon("/com/example/quanlyquancaphe/employeeView/ChonMon.fxml","Chọn món",b);
+                    // Kiểm tra trạng thái
+                    if (b.getTrangThai().equals("Trống")) {
+                        // 1. Cập nhật trạng thái trong DB thành "Có khách"
+                        if (banDAO.updateTrangThai(b.getMaBan(), "Có khách")) {
+
+                            // 2. Cập nhật đối tượng Ban trong bộ nhớ và giao diện
+                            b.setTrangThai("Có khách");
+                            tableListBan.refresh(); // Làm mới bảng
+
+                            // 3. Mở cửa sổ Hóa Đơn và truyền đối tượng Ban đã cập nhật
+                            openHoaDon("/com/example/quanlyquancaphe/employeeView/HoaDon.fxml", "Lập Hóa Đơn", b);
+                        } else {
+                            new Alert(Alert.AlertType.ERROR, "Không thể chuyển trạng thái bàn trong DB.").show();
+                        }
+                    } else {
+                        new Alert(Alert.AlertType.WARNING, "Bàn này hiện đang 'Có khách'.").show();
+                    }
                 }
             }
         });
@@ -102,14 +118,17 @@ public class ChonBanController {
     }
 
     // --- Mở ChonMon.fxml ---
-    private void openChonMon(String fxmlPath, String title, Ban selectedBan) {
+    // --- Mở HoaDon.fxml ---
+    private void openHoaDon(String fxmlPath, String title, Ban selectedBan) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            // Cast đúng controller của ChonMon.fxml
-            ChonMonController controller = loader.getController();
+            HoaDonController controller = loader.getController();
+
+            // TRUYỀN DỮ LIỆU BÀN VÀ THAM CHIẾU ĐẾN CHÍNH CONTROLLER NÀY
             controller.setData(selectedBan);
+            controller.setParentController(this); // <<<< THÊM DÒNG NÀY
 
             Stage stage = new Stage();
             stage.setTitle(title);
