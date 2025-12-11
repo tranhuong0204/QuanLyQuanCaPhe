@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SuaBanController {
 
     @FXML private TextField txtMaBan;
@@ -69,7 +72,7 @@ public class SuaBanController {
                     setText(null);
                     return;
                 }
-                if (item.equals("Trống")) setStyle("🟢 Trống");
+                if (item.equals("Trống")) setText("🟢 Trống"); // Đã sửa setStyle thành setText
                 else if (item.equals("Có khách")) setText("🔴 Có khách");
             }
         });
@@ -116,24 +119,93 @@ public class SuaBanController {
        =============================== */
     @FXML
     private void onOK() {
-        Ban b = new Ban(
-                txtMaBan.getText(),
-                cbViTri.getValue(),
-                Integer.parseInt(txtSoGhe.getText()),
-                cbTrangThai.getValue(),
-                txtGhiChu.getText()
-        );
+        String maBan = txtMaBan.getText();
+        String viTri = cbViTri.getValue();
+        String soGheText = txtSoGhe.getText().trim();
+        String trangThai = cbTrangThai.getValue();
+        String ghiChu = txtGhiChu.getText();
+
+        // 1. Validate
+        if (!validateInput(soGheText, viTri, trangThai)) {
+            return;
+        }
+
+        // 2. Chuyển đổi dữ liệu sau khi đã validate
+        int soGhe = Integer.parseInt(soGheText);
+
+        Ban b = new Ban(maBan, viTri, soGhe, trangThai, ghiChu);
 
         if (banDAO.update(b)) {
-            parent.loadData();
+            new Alert(Alert.AlertType.INFORMATION, "Cập nhật bàn thành công!").show();
+            if (parent != null) parent.loadData();
             close();
         } else {
-            new Alert(Alert.AlertType.ERROR, "Cập nhật thất bại!").show();
+            showError("Cập nhật thất bại!", "Lỗi DB");
+        }
+    }
+
+    /* ===============================
+              VALIDATION TỔNG HỢP
+       =============================== */
+    private boolean validateInput(String soGheText, String viTri, String trangThai) {
+        List<String> errors = new ArrayList<>();
+
+        // 1. Kiểm tra trống/Chọn
+        if (soGheText.isEmpty()) {
+            errors.add("- Số ghế không được để trống.");
+        }
+        if (viTri == null || viTri.isEmpty()) {
+            errors.add("- Vui lòng chọn vị trí cho bàn.");
+        }
+        if (trangThai == null || trangThai.isEmpty()) {
+            errors.add("- Vui lòng chọn trạng thái cho bàn.");
+        }
+
+        // 2. Kiểm tra định dạng Số Ghế (Phải là số nguyên dương)
+        if (!soGheText.isEmpty()) {
+            try {
+                int soGhe = Integer.parseInt(soGheText);
+                if (soGhe <= 0) {
+                    errors.add("- Số ghế phải là số nguyên dương (> 0).");
+                }
+            } catch (NumberFormatException e) {
+                errors.add("- Số ghế phải là số nguyên (không chứa chữ cái hay ký tự đặc biệt).");
+            }
+        }
+
+        // 3. Kiểm tra các lỗi khác (Nếu cần, ví dụ: độ dài Ghi Chú)
+        // ... (Bạn có thể thêm các kiểm tra khác ở đây)
+
+        // ==========================================================
+        // Xử lý và hiển thị lỗi
+        // ==========================================================
+
+        if (errors.isEmpty()) {
+            return true;
+        } else {
+            String errorMessage = "Vui lòng khắc phục các lỗi sau:\n\n" +
+                    String.join("\n", errors);
+
+            showError(errorMessage, "Lỗi Nhập Liệu");
+            return false;
         }
     }
 
     private void close() {
         Stage s = (Stage) btnOK.getScene().getWindow();
         s.close();
+    }
+
+    private void showError(String msg, String title) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    // Giữ lại hàm showError cũ để tránh lỗi gọi hàm bị thiếu tham số
+    private void showError(String msg) {
+        showError(msg, "Cảnh báo");
     }
 }

@@ -145,7 +145,10 @@ public class QuanLyBanController {
         confirm.setTitle("Xác nhận xóa");
 
         if (confirm.showAndWait().get() == ButtonType.OK) {
-            if (banDAO.delete(b.getMaBan())) loadData();
+            if (banDAO.delete(b.getMaBan())) {
+                loadData();
+                show("Xóa thành công!");
+            }
             else show("Xóa thất bại!");
         }
     }
