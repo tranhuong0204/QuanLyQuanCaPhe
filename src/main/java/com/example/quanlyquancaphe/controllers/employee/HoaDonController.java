@@ -28,12 +28,15 @@ public class HoaDonController {
     @FXML private Label tongTienLabel;
     @FXML private Label tienThuaLabel;
     @FXML private TextField tienKhachDuaField;
-    @FXML private Label lblThongTinBan; // Đổi tên từ lbThongTinBan sang lblThongTinBan
+    @FXML private Label lblThongTinBan;
+    @FXML private ComboBox<String> cbPhuongThuc;
+    @FXML private VBox boxTienMat;
 
     private double tongTien = 0;
     private Ban banHienTai;
     private BanDAO banDAO = new BanDAO();
     private ChonBanController parentController;
+
 
     // PHƯƠNG THỨC SETTER CHO PARENT
     public void setParentController(ChonBanController parent) {
@@ -111,6 +114,24 @@ public class HoaDonController {
                     }
 
                     // Do không gọi event.consume(), cửa sổ sẽ đóng bình thường.
+                }
+            });
+            // === THÊM SETUP PHƯƠNG THỨC THANH TOÁN ===
+            cbPhuongThuc.getItems().addAll("Tiền mặt", "Chuyển khoản");
+            cbPhuongThuc.setValue("Tiền mặt"); // Mặc định là Tiền mặt
+
+            cbPhuongThuc.valueProperty().addListener((obs, oldVal, newVal) -> {
+                // Ẩn/hiện trường Tiền Khách Đưa và Tiền Thừa
+                boolean isCash = "Tiền mặt".equals(newVal);
+                boxTienMat.setVisible(isCash);
+                boxTienMat.setManaged(isCash); // Đảm bảo giao diện co lại
+
+                // Nếu chuyển khoản, xóa trường tiền đưa
+                if (!isCash) {
+                    tienKhachDuaField.setText(String.format("%.0f", tongTien)); // Đặt bằng Tổng tiền
+                    tienThuaLabel.setText("Tiền thừa: 0đ");
+                } else {
+                    tienKhachDuaField.setText("");
                 }
             });
         });
@@ -238,12 +259,11 @@ public class HoaDonController {
                 return rs.getInt(1) + 1;
             }
         }
-        return 1; // nếu bảng rỗng thì bắt đầu từ 1
+        return 1;
     }
-
-    // Phương thức in hóa đơn ra file TXT
     private void printHoaDonToTxt(int maHoaDon, double tienKhachDua, double tienThua) {
         String maNhanVien = (TaiKhoan.isUserLoggedIn() && TaiKhoan.getUserLoggedIn().getMaTaiKhoan() != null) ? TaiKhoan.getUserLoggedIn().getMaTaiKhoan() : "UNKNOWN";
+        String phuongThuc = cbPhuongThuc.getValue(); // Lấy phương thức thanh toán
 
         try (FileWriter writer = new FileWriter("HoaDon_" + maHoaDon + ".txt")) {
             writer.write("================= COFFEE SHOP =================\n");
@@ -251,6 +271,7 @@ public class HoaDonController {
             writer.write("Mã HĐ: " + maHoaDon + "\n");
             writer.write("Bàn: " + banHienTai.getMaBan() + " - NV: " + maNhanVien + "\n");
             writer.write("Ngày: " + LocalDate.now() + "\n");
+            writer.write("Phương thức: " + phuongThuc + "\n"); // <<< THÊM DÒNG NÀY
             writer.write("-----------------------------------------------\n");
             writer.write(String.format("%-15s %-5s %10s\n", "Tên Món", "SL", "Thành Tiền"));
             writer.write("-----------------------------------------------\n");
@@ -264,8 +285,13 @@ public class HoaDonController {
             }
             writer.write("-----------------------------------------------\n");
             writer.write(String.format("%-21s %15.0fđ\n", "TỔNG CỘNG:", tongTien));
-            writer.write(String.format("%-21s %15.0fđ\n", "KHÁCH ĐƯA:", tienKhachDua));
-            writer.write(String.format("%-21s %15.0fđ\n", "TIỀN THỪA:", tienThua));
+
+            // Chỉ in Tiền Khách Đưa và Tiền Thừa nếu là Tiền mặt
+            if ("Tiền mặt".equals(phuongThuc)) {
+                writer.write(String.format("%-21s %15.0fđ\n", "KHÁCH ĐƯA:", tienKhachDua));
+                writer.write(String.format("%-21s %15.0fđ\n", "TIỀN THỪA:", tienThua));
+            }
+
             writer.write("===============================================\n");
             System.out.println("DEBUG: Đã in hóa đơn " + maHoaDon + " ra file.");
         } catch (IOException e) {
@@ -274,26 +300,38 @@ public class HoaDonController {
     }
 
 
+    // Trong HoaDonController.java, phương thức handleThanhToan()
+
     @FXML
     private void handleThanhToan() {
 
-        // Cần phải khai báo biến Stage ở ngoài để đóng cửa sổ.
+        // Lấy Stage hiện tại để đóng cửa sổ
         Stage currentStage = (Stage) tienKhachDuaField.getScene().getWindow();
-
         Connection conn = null; // Khai báo Connection ở phạm vi cao hơn
 
         try {
+            // Lấy phương thức thanh toán và mã PT
+            String phuongThuc = cbPhuongThuc.getValue();
+            int maPT = "Chuyển khoản".equals(phuongThuc) ? 2 : 1;
 
-            // 0. KIỂM TRA TÍNH TOÀN VẸN DỮ LIỆU
-            if (banHienTai == null || banHienTai.getMaBan().isEmpty()) {
-                new Alert(Alert.AlertType.ERROR, "Lỗi: Không tìm thấy thông tin bàn để lập hóa đơn.").showAndWait();
-                return;
+            double tienKhachDua = 0;
+
+            if (maPT == 1) { // Tiền mặt
+                try {
+                    // Lấy tiền khách đưa và kiểm tra thiếu tiền
+                    tienKhachDua = Double.parseDouble(tienKhachDuaField.getText());
+                } catch (NumberFormatException e) {
+                    new Alert(Alert.AlertType.ERROR, "Vui lòng nhập số tiền hợp lệ vào trường 'Tiền khách đưa'.").showAndWait();
+                    return;
+                }
+            } else { // Chuyển khoản
+                tienKhachDua = tongTien; // Coi như khách chuyển khoản đủ tổng tiền
             }
 
-            double tienKhachDua = Double.parseDouble(tienKhachDuaField.getText());
             double tienThua = tienKhachDua - tongTien;
 
-            if (tienThua < 0) {
+            // Kiểm tra thiếu tiền (Chỉ cần kiểm tra nếu là Tiền mặt)
+            if (maPT == 1 && tienThua < 0) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Thiếu tiền");
                 alert.setHeaderText("Khách đưa chưa đủ tiền");
@@ -302,13 +340,17 @@ public class HoaDonController {
                 return;
             }
 
-            // KIỂM TRA PHIÊN ĐĂNG NHẬP
+            // 0. KIỂM TRA TÍNH TOÀN VẸN DỮ LIỆU
+            if (banHienTai == null || banHienTai.getMaBan().isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Lỗi: Không tìm thấy thông tin bàn để lập hóa đơn.").showAndWait();
+                return;
+            }
+
             if (!TaiKhoan.isUserLoggedIn() || TaiKhoan.getUserLoggedIn().getMaTaiKhoan() == null) {
                 new Alert(Alert.AlertType.ERROR, "Không tìm thấy thông tin nhân viên lập hóa đơn. Vui lòng đăng nhập lại!").showAndWait();
                 return;
             }
 
-            // KIỂM TRA HÀNG HÓA
             if (dsMon.isEmpty()) {
                 new Alert(Alert.AlertType.WARNING, "Vui lòng chọn ít nhất một món để thanh toán.").showAndWait();
                 return;
@@ -334,7 +376,7 @@ public class HoaDonController {
 
                 psHoaDon.setString(6, TaiKhoan.getUserLoggedIn().getMaTaiKhoan());
 
-                psHoaDon.setInt(7, 1);
+                psHoaDon.setInt(7, maPT); // <<< SỬ DỤNG MÃ PHƯƠNG THỨC THANH TOÁN MỚI
                 psHoaDon.executeUpdate();
 
                 // 2. Insert CHITIETHOADON
@@ -370,7 +412,7 @@ public class HoaDonController {
                 tienThuaLabel.setText("Tiền thừa: " + String.format("%.0fđ", tienThua));
                 Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                 infoAlert.setTitle("Thanh toán");
-                infoAlert.setHeaderText("Hóa đơn đã được thanh toán");
+                infoAlert.setHeaderText("Hóa đơn đã được thanh toán (" + phuongThuc + ")");
                 infoAlert.setContentText("Tổng tiền: " + String.format("%.0fđ", tongTien) + "\nTiền thừa: " + String.format("%.0fđ", tienThua));
                 infoAlert.showAndWait();
 
@@ -396,16 +438,19 @@ public class HoaDonController {
             tienThuaLabel.setText("Tiền thừa: 0đ");
 
         } catch (NumberFormatException e) {
+            // Lỗi này đã được xử lý cụ thể cho trường tiền mặt bên trong.
+            // Đây là khối catch cho các lỗi khác.
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi nhập liệu");
-            alert.setHeaderText("Tiền khách đưa không hợp lệ");
-            alert.setContentText("Vui lòng nhập số tiền hợp lệ.");
+            alert.setTitle("Lỗi");
+            alert.setHeaderText("Không thể lưu hóa đơn");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Lỗi");
-            alert.setHeaderText("Không thể lưu hóa đơn");
+            alert.setHeaderText("Đã xảy ra lỗi không xác định");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
