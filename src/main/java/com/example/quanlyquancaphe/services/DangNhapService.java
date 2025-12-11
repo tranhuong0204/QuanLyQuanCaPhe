@@ -8,19 +8,14 @@ public class DangNhapService {
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
 
     public TaiKhoan login(String username, String password) {
-        try {
-            ResultSet rs = taiKhoanDAO.findByUsernameAndPassword(username, password);
-            if (rs.next()) {
-                TaiKhoan tk = new TaiKhoan();
-                tk.setMaTaiKhoan(rs.getString("maTaiKhoan"));
-                tk.setTenTaiKhoan(rs.getString("tenTaiKhoan"));
-                tk.setChucVu(rs.getString("chucVu"));
-                // thêm các field khác nếu cần
-                return tk;            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        TaiKhoan tk = taiKhoanDAO.findByUsernameAndPassword(username, password);
+
+        if (tk == null) {
+            System.out.println("Sai tài khoản hoặc mật khẩu!");
             return null;
         }
-        return null; // không tìm thấy
+
+        return tk;
     }
+
 }

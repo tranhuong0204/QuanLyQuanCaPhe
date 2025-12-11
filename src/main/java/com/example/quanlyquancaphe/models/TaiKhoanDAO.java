@@ -18,10 +18,10 @@ public class TaiKhoanDAO {
 
             while (rs.next()) {
                 list.add(new TaiKhoan(
-                        rs.getString("MaTaiKhoan"),
-                        rs.getString("TenTaiKhoan"),
-                        rs.getString("MatKhau"),
-                        rs.getString("ChucVu")
+                        rs.getString("maTaiKhoan"),
+                        rs.getString("tenTaiKhoan"),
+                        rs.getString("matKhau"),
+                        rs.getString("chucVu")
                 ));
             }
 
@@ -29,9 +29,25 @@ public class TaiKhoanDAO {
 
         return list;
     }
+    public static boolean existsByUsername(String username) {
+        String sql = "SELECT 1 FROM taikhoan WHERE tenTaiKhoan = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next();  // true = đã tồn tại
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static TaiKhoan getById(String ma) {
-        String sql = "SELECT * FROM taikhoan WHERE MaTaiKhoan = ?";
+        String sql = "SELECT * FROM taikhoan WHERE maTaiKhoan = ?";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -41,10 +57,10 @@ public class TaiKhoanDAO {
 
             if (rs.next()) {
                 return new TaiKhoan(
-                        rs.getString("MaTaiKhoan"),
-                        rs.getString("TenTaiKhoan"),
-                        rs.getString("MatKhau"),
-                        rs.getString("ChucVu")
+                        rs.getString("maTaiKhoan"),
+                        rs.getString("tenTaiKhoan"),
+                        rs.getString("matKhau"),
+                        rs.getString("chucVu")
                 );
             }
         } catch (Exception e) { e.printStackTrace(); }
@@ -53,7 +69,14 @@ public class TaiKhoanDAO {
     }
 
     public static boolean insert(TaiKhoan tk) {
-        String sql = "INSERT INTO taikhoan VALUES (?, ?, ?, ?)";
+
+        // Kiểm tra trùng tên tài khoản
+        if (existsByUsername(tk.getTenTaiKhoan())) {
+            System.out.println("Tên tài khoản đã tồn tại!");
+            return false;
+        }
+
+        String sql = "INSERT INTO taikhoan (maTaiKhoan, tenTaiKhoan, matKhau, chucVu) VALUES (?, ?, ?, ?)";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -65,13 +88,16 @@ public class TaiKhoanDAO {
 
             return ps.executeUpdate() > 0;
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return false;
     }
 
+
     public static boolean update(TaiKhoan tk) {
-        String sql = "UPDATE taikhoan SET TenTaiKhoan=?, MatKhau=?, ChucVu=? WHERE MaTaiKhoan=?";
+        String sql = "UPDATE taikhoan SET tenTaiKhoan=?, matKhau=?, chucVu=? WHERE maTaiKhoan=?";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -89,7 +115,7 @@ public class TaiKhoanDAO {
     }
 
     public static boolean delete(String ma) {
-        String sql = "DELETE FROM taikhoan WHERE MaTaiKhoan=?";
+        String sql = "DELETE FROM taikhoan WHERE maTaiKhoan=?";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -102,24 +128,16 @@ public class TaiKhoanDAO {
         return false;
     }
     public static String generateNewId() {
-        String sql = "SELECT TOP 1 maTaiKhoan FROM TaiKhoan ORDER BY maTaiKhoan DESC";
+        String sql = "SELECT MaTaiKhoan FROM TaiKhoan " +
+                "WHERE MaTaiKhoan LIKE 'TK%' " +
+                "ORDER BY CAST(SUBSTRING(MaTaiKhoan, 3, LEN(MaTaiKhoan)) AS INT) DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             if (rs.next()) {
-                String lastId = rs.getString(1);
-
-                if (lastId == null) return "TK001";
-
-                lastId = lastId.trim(); // quan trọng
-
-                // Nếu sai định dạng thì reset về TK001
-                if (!lastId.matches("TK\\d{3}")) {
-                    return "TK001";
-                }
-
+                String lastId = rs.getString(1); // ví dụ: TK007
                 int number = Integer.parseInt(lastId.substring(2)) + 1;
                 return String.format("TK%03d", number);
             }
@@ -131,13 +149,34 @@ public class TaiKhoanDAO {
         return "TK001";
     }
 
-    public ResultSet findByUsernameAndPassword(String username, String password) throws SQLException {
-        Connection conn = DatabaseConnection.getConnection();
-        String sql = "SELECT * FROM TAIKHOAN WHERE tenTaiKhoan = ? AND matKhau = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, username);
-        stmt.setString(2, password);
-        return stmt.executeQuery();
+
+
+    public TaiKhoan findByUsernameAndPassword(String username, String password) {
+        String sql = "SELECT * FROM taikhoan WHERE tenTaiKhoan = ? AND matKhau = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new TaiKhoan(
+                        rs.getString("maTaiKhoan"),
+                        rs.getString("tenTaiKhoan"),
+                        rs.getString("matKhau"),
+                        rs.getString("chucVu")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
+
 
 }

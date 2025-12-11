@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="360.0" prefWidth="550.0"
-            stylesheets="@ThemBan.css"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.quanlyquancaphe.controllers.admin.ThemTaiKhoanController">
+<AnchorPane prefHeight="360.0" prefWidth="550.0" stylesheets="@ThemBan.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.ThemTaiKhoanController">
 
     <children>
 
         <!-- ================== TITLE ================== -->
-        <HBox alignment="CENTER"
-              AnchorPane.topAnchor="10"
-              AnchorPane.leftAnchor="15"
-              AnchorPane.rightAnchor="15"
-              styleClass="hbox">
+        <HBox alignment="CENTER" styleClass="hbox" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15" AnchorPane.topAnchor="10">
 
             <padding>
-                <Insets top="10" bottom="10" left="10" right="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
             <children>
-                <Label text="Thêm tài khoản" styleClass="title-top">
-                    <font><Font name="System Bold" size="18"/></font>
+                <Label styleClass="title-top" text="Tạo tài khoản">
+                    <font><Font name="System Bold" size="18" /></font>
                 </Label>
             </children>
         </HBox>
 
         <!-- ================== FORM GRID ================== -->
-        <GridPane hgap="20" vgap="18"
-                  AnchorPane.topAnchor="70"
-                  AnchorPane.leftAnchor="40"
-                  AnchorPane.rightAnchor="40">
+        <GridPane hgap="20" vgap="18" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="70">
 
             <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" prefWidth="140"/>
-                <ColumnConstraints hgrow="ALWAYS"/>
+                <ColumnConstraints halignment="RIGHT" prefWidth="140" />
+                <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
 
             <!-- Mã tài khoản -->
-            <Label text="Mã Tài Khoản" styleClass="label-b" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                <font><Font size="18"/></font>
+            <Label styleClass="label-b" text="Mã Tài Khoản" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <font><Font size="18" /></font>
             </Label>
 
-            <TextField fx:id="txtMaTK" GridPane.rowIndex="0" GridPane.columnIndex="1" prefHeight="32">
-                <font><Font size="14"/></font>
+            <TextField fx:id="txtMaTK" prefHeight="32" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <font><Font size="14" /></font>
             </TextField>
 
             <!-- Tên tài khoản -->
-            <Label text="Tên Tài Khoản" styleClass="label-b" GridPane.rowIndex="1" GridPane.columnIndex="0">
-                <font><Font size="18"/></font>
+            <Label styleClass="label-b" text="Tên Tài Khoản" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <font><Font size="18" /></font>
             </Label>
 
-            <TextField fx:id="txtTenTK" GridPane.rowIndex="1" GridPane.columnIndex="1" prefHeight="32">
-                <font><Font size="14"/></font>
+            <TextField fx:id="txtTenTK" prefHeight="32" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <font><Font size="14" /></font>
             </TextField>
 
             <!-- Mật khẩu -->
-            <Label text="Mật khẩu" styleClass="label-b" GridPane.rowIndex="2" GridPane.columnIndex="0">
-                <font><Font size="18"/></font>
+            <Label styleClass="label-b" text="Mật khẩu" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <font><Font size="18" /></font>
             </Label>
 
-            <PasswordField fx:id="txtMatKhau" GridPane.rowIndex="2" GridPane.columnIndex="1" prefHeight="32"/>
+            <PasswordField fx:id="txtMatKhau" prefHeight="32" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
             <!-- Chức vụ -->
-            <Label text="Chức vụ" styleClass="label-b" GridPane.rowIndex="3" GridPane.columnIndex="0">
-                <font><Font size="18"/></font>
+            <Label styleClass="label-b" text="Chức vụ" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <font><Font size="18" /></font>
             </Label>
 
-            <ComboBox fx:id="cbChucVu" GridPane.rowIndex="3" GridPane.columnIndex="1" prefHeight="35"/>
+            <ComboBox fx:id="cbChucVu" prefHeight="35" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
 
         </GridPane>
 
         <!-- ================== BUTTONS ================== -->
-        <HBox spacing="15"
-              alignment="CENTER_RIGHT"
-              AnchorPane.bottomAnchor="20"
-              AnchorPane.rightAnchor="40">
+        <HBox alignment="CENTER_RIGHT" spacing="15" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="40">
 
             <children>
-                <Button fx:id="btnLuu" text="OK" prefWidth="90" prefHeight="35" onAction="#onSave"/>
-                <Button fx:id="btnHuy" text="Hủy" prefWidth="90" prefHeight="35" onAction="#close"/>
+                <Button fx:id="btnLuu" onAction="#onSave" prefHeight="35" prefWidth="90" text="OK" />
+                <Button fx:id="btnHuy" onAction="#close" prefHeight="35" prefWidth="90" text="Hủy" />
             </children>
 
         </HBox>

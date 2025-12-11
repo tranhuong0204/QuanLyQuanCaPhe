@@ -36,7 +36,7 @@ public class ThemTaiKhoanController {
     }
 
     public void onSave() {
-        String ma = txtMaTK.getText().trim();
+        String ma = TaiKhoanDAO.generateNewId();
         String ten = txtTenTK.getText().trim();
         String mk = txtMatKhau.getText().trim();
         String chucVu = cbChucVu.getValue();
@@ -55,6 +55,7 @@ public class ThemTaiKhoanController {
         }
     }
 
+
     private boolean validate(String ma, String ten, String mk, String chucVu) {
 
         if (ten.isEmpty() || mk.isEmpty() || chucVu == null) {
@@ -69,6 +70,10 @@ public class ThemTaiKhoanController {
 
         if (!mk.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
             show("Mật khẩu phải có ít nhất 6 ký tự gồm chữ và số!");
+            return false;
+        }
+        if (TaiKhoanDAO.existsByUsername(ten)) {
+            show("Tên tài khoản đã tồn tại!");
             return false;
         }
 

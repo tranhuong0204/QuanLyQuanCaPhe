@@ -1,7 +1,7 @@
 package com.example.quanlyquancaphe.models;
 
 public class TaiKhoan {
-    private static String maTaiKhoan;
+    private String maTaiKhoan;
     private String tenTaiKhoan;
     private String matKhau;
     private String chucVu;
@@ -16,12 +16,12 @@ public class TaiKhoan {
         this.chucVu = chucVu;
     }
 
-    public static String getMaTaiKhoan() {
+    public String getMaTaiKhoan() {
         return maTaiKhoan;
     }
 
-    public static void setMaTaiKhoan(String maTaiKhoan) {
-        TaiKhoan.maTaiKhoan = maTaiKhoan;
+    public void setMaTaiKhoan(String maTaiKhoan) {
+        this.maTaiKhoan = maTaiKhoan;
     }
 
     public String getTenTaiKhoan() {
