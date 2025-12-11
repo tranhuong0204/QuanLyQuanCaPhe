@@ -23,6 +23,9 @@ public class DangNhapController {
     @FXML
     private Label statusLabel;
 
+    // ĐÃ XÓA: private TaiKhoan taiKhoan;
+    // ĐÃ XÓA: public void setTaiKhoan(TaiKhoan tk) { this.taiKhoan = tk; }
+
     private void loadScene(ActionEvent event, String fxmlPath) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
@@ -35,11 +38,11 @@ public class DangNhapController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleLogin(ActionEvent event) throws Exception{
         String username = usernameField.getText();
         String password = passwordField.getText();
-        //String role =
 
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Vui lòng nhập đầy đủ thông tin.");
@@ -48,68 +51,25 @@ public class DangNhapController {
         }
 
         DangNhapService service = new DangNhapService();
-//        String role = service.login(username, password);
-        TaiKhoan tk = service.login(username, password); // trả về object thay vì chỉ role
+        TaiKhoan tk = service.login(username, password);
 
-        if (tk.getChucVu() != null) {
+        // Kiểm tra đối tượng tk có tồn tại không (đăng nhập thành công)
+        if (tk != null) {
             statusLabel.setText("Đăng nhập thành công!");
             statusLabel.setStyle("-fx-text-fill: green;");
-            TaiKhoan.setMaTaiKhoan(tk.getMaTaiKhoan());
-//            TaiKhoan tkInstant = service.login(username, password);
-//            tk.setMaTaiKhoan(tk.getMaTaiKhoan());
+
+            // LƯU THÔNG TIN TÀI KHOẢN VÀO SESSION (đã sửa trong TaiKhoan.java)
+            TaiKhoan.setUserLoggedIn(tk);
+
             // điều hướng theo role
             if ("quan ly".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/adminView/TrangChu.fxml");
             } else if ("nhan vien".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/employeeView/TrangChu.fxml");
             }
-//            TaiKhoan.setMaTaiKhoan(maTaiKhoan); // lưu thông tin đăng nhập
-
         } else {
             statusLabel.setText("Sai tên đăng nhập hoặc mật khẩu.");
         }
-//        try (Connection conn = DatabaseConnection.getConnection()) {
-//            String sql = "SELECT * FROM TAIKHOAN WHERE tenTaiKhoan = ? AND matKhau = ?";
-//            PreparedStatement stmt = conn.prepareStatement(sql);
-//            stmt.setString(1, username);
-//            stmt.setString(2, password);
-//
-//            ResultSet rs = stmt.executeQuery();
-//            if (rs.next()) {
-//                int maTaiKhoan = rs.getInt("maTaiKhoan");
-//                String role = rs.getString("chucVu");
-//                statusLabel.setText("Đăng nhập thành công!");
-//                statusLabel.setStyle("-fx-text-fill: green;");
-//                // chuyển sang màn hình chính
-//                if("quan ly".equalsIgnoreCase(role)) {
-//                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/adminView/TrangChu.fxml"));
-//                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
-//                    Scene scene = new Scene(root);
-////                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
-//                    stage.setScene(scene);
-//                    stage.show();
-//                    stage.centerOnScreen();
-//                    stage.setMaximized(true); // full màn hình
-//                } else if ("nhan vien".equalsIgnoreCase(role)) {
-//                    Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/employeeView/TrangChu.fxml"));
-//                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //mark
-//                    Scene scene = new Scene(root);
-////                scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/TrangChu.css").toExternalForm());
-//                    stage.setScene(scene);
-//                    stage.show();
-//                    stage.centerOnScreen();
-//                    stage.setMaximized(true); // full màn hình
-//
-//                }
-//                TaiKhoan.setMaTaiKhoan(maTaiKhoan); // lưu thông tin đăng nhập
-//                // chuyển sang màn hình chính nếu cần
-//            } else {
-//                statusLabel.setText("Sai tên đăng nhập hoặc mật khẩu.");
-//            }
-//        } catch (SQLException e) {
-//            statusLabel.setText("Lỗi kết nối CSDL.");
-//            e.printStackTrace();
-//        }
     }
 
 }

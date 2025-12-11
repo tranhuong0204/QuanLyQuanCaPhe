@@ -17,7 +17,7 @@ import java.util.List;
 
 public class HoaDonController {
     @FXML private ScrollPane scrollPane;
-//    @FXML private ListView<SanPham> listHoaDon;
+    //    @FXML private ListView<SanPham> listHoaDon;
     @FXML private ListView<ItemHoaDon> listHoaDon;
     private ObservableList<ItemHoaDon> dsMon = FXCollections.observableArrayList();
     private VBox selectedBox;
@@ -28,6 +28,9 @@ public class HoaDonController {
 
 
     private double tongTien = 0;
+    // ĐÃ XÓA: private TaiKhoan taiKhoanNhanVien;
+
+    // ĐÃ XÓA: public void setTaiKhoanNhanVien(TaiKhoan tk) { this.taiKhoanNhanVien = tk; }
 
     @FXML
     public void initialize() {
@@ -55,17 +58,6 @@ public class HoaDonController {
         scrollPane.setContent(tilePane);
         scrollPane.setFitToWidth(true);
 
-//        listHoaDon.setCellFactory(param -> new ListCell<SanPham>() {
-//            @Override
-//            protected void updateItem(SanPham sp, boolean empty) {
-//                super.updateItem(sp, empty);
-//                if (empty || sp == null) {
-//                    setText(null);
-//                } else {
-//                    setText(sp.getTen() + " - " + String.format("%.0fđ", sp.getDonGia()));
-//                }
-//            }
-//        });
         listHoaDon.setItems(dsMon);
         listHoaDon.setCellFactory(param -> new ListCell<ItemHoaDon>() {
             @Override
@@ -125,8 +117,6 @@ public class HoaDonController {
                     HBox box = new HBox(20, ten, gia, soLuongBox, btnXoa);
                     box.setAlignment(Pos.CENTER_LEFT);
                     box.setPadding(new Insets(5));
-//                    HBox box = new HBox(10, ten, gia, soLuong, btnXoa);
-//                    box.setAlignment(Pos.CENTER_LEFT);
                     setGraphic(box);
                 }
             }
@@ -153,28 +143,10 @@ public class HoaDonController {
 
         box.getChildren().addAll(ten, gia);
 
-//        box.setOnMouseClicked(e -> {
-//            if (selectedBox != null) {
-//                selectedBox.getStyleClass().remove("selected-box");
-//            }
-//            box.getStyleClass().add("selected-box");
-//            selectedBox = box;
-////            showDetails(sp);
-//        });
-//        VBox box = new VBox(5);
-//        if (img != null) box.getChildren().add(img);
-//        box.getChildren().addAll(ten, gia);
         box.setAlignment(Pos.CENTER);
         box.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10;");
         return box;
     }
-
-
-//    private void themVaoHoaDon(SanPham sp) {
-//        listHoaDon.getItems().add(sp);
-//        tongTien += sp.getDonGia();
-//        tongTienLabel.setText("Tổng: " + String.format("%.0fđ", tongTien));
-//    }
 
     private void themVaoHoaDon(SanPham sp) {
         for (ItemHoaDon item : dsMon) {
@@ -224,6 +196,12 @@ public class HoaDonController {
                 return;
             }
 
+            // KIỂM TRA PHIÊN ĐĂNG NHẬP
+            if (!TaiKhoan.isUserLoggedIn() || TaiKhoan.getUserLoggedIn().getMaTaiKhoan() == null) {
+                new Alert(Alert.AlertType.ERROR, "Không tìm thấy thông tin nhân viên lập hóa đơn. Vui lòng đăng nhập lại!").showAndWait();
+                return;
+            }
+
             // ✅ Lưu vào DB
             try (Connection conn = DatabaseConnection.getConnection()) {
                 conn.setAutoCommit(false);
@@ -238,32 +216,23 @@ public class HoaDonController {
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
                 psHoaDon.setString(5, "b001");
-                psHoaDon.setString(6, TaiKhoan.getMaTaiKhoan());
+
+                // DÒNG ĐÃ SỬA: Lấy mã tài khoản từ đối tượng đã lưu trong phiên
+                psHoaDon.setString(6, TaiKhoan.getUserLoggedIn().getMaTaiKhoan());
+
                 psHoaDon.setInt(7, 1);
                 psHoaDon.executeUpdate();
-
-//                ResultSet rs = psHoaDon.getGeneratedKeys();
-//                int maHoaDon = 0;
-//                if (rs.next()) {
-//                    maHoaDon = rs.getInt(1);
-//                }
 
                 // 2. Insert CHITIETHOADON
                 String sqlCTHD = "INSERT INTO CHITIETHOADON (maMon, maHoaDon, soLuong) VALUES (?, ?, ?)";
                 PreparedStatement psCTHD = conn.prepareStatement(sqlCTHD);
 
                 for (ItemHoaDon item : listHoaDon.getItems()) {
-//                    String tenMon = item.split(" - ")[0];
-//                    SanPham sp = SanPhamDAO.findByTen(tenMon, conn); // cần viết hàm này trong DAO
-//                    psCTHD.setString(1, sp.getMa());
-//                    psCTHD.setInt(2, maHoaDon);
-//                    psCTHD.setInt(3, 1); // số lượng mặc định 1
-//                    psCTHD.addBatch();
                     SanPham sp = item.getSanPham();
                     int soLuong = item.getSoLuong();
-                    psCTHD.setString(1, sp.getMa()); // lấy mã sản phẩm trực tiếp
+                    psCTHD.setString(1, sp.getMa());
                     psCTHD.setInt(2, maHoaDon);
-                    psCTHD.setInt(3, soLuong); // số lượng mặc định 1
+                    psCTHD.setInt(3, soLuong);
                     psCTHD.addBatch();
                 }
                 psCTHD.executeBatch();

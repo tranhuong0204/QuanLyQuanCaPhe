@@ -128,7 +128,7 @@ public class TaiKhoanDAO {
         return false;
     }
     public static String generateNewId() {
-        String sql = "SELECT MaTaiKhoan FROM TaiKhoan " +
+        String sql = "SELECT TOP 1 MaTaiKhoan FROM TaiKhoan " +
                 "WHERE MaTaiKhoan LIKE 'TK%' " +
                 "ORDER BY CAST(SUBSTRING(MaTaiKhoan, 3, LEN(MaTaiKhoan)) AS INT) DESC";
 
@@ -136,13 +136,24 @@ public class TaiKhoanDAO {
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
+            System.out.println("DEBUG: Truy vấn tìm Max ID thành công.");
+
             if (rs.next()) {
-                String lastId = rs.getString(1); // ví dụ: TK007
-                int number = Integer.parseInt(lastId.substring(2)) + 1;
+                // SỬA LỖI: Thêm .trim() để loại bỏ khoảng trắng thừa từ DB
+                String lastId = rs.getString(1).trim();
+                System.out.println("DEBUG: Last ID found (trimmed): " + lastId);
+
+                // Lấy phần số sau "TK"
+                String numberString = lastId.substring(2);
+
+                int number = Integer.parseInt(numberString) + 1;
                 return String.format("TK%03d", number);
+            } else {
+                System.out.println("DEBUG: Bảng TaiKhoan rỗng hoặc không tìm thấy ID hợp lệ nào.");
             }
 
         } catch (Exception e) {
+            System.err.println("LỖI KẾT NỐI/SQL khi sinh ID: " + e.getMessage());
             e.printStackTrace();
         }
 
