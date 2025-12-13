@@ -170,9 +170,51 @@ public class QLSPController {
             showAlert("Lỗi", "Không thể load dữ liệu từ SQL Server!", Alert.AlertType.ERROR);
         }
     }
+    // Phương thức kiểm tra dữ liệu nhập
+    private boolean validateForm() {
+        String ma = txtMaSanPham.getText().trim();
+        String ten = txtTenSanPham.getText().trim();
+        String donGiaStr = txtDonGia.getText().trim();
+        String moTa = txtMoTa.getText().trim();
+
+        if (ma.isEmpty()) {
+            showAlert("Lỗi", "Mã sản phẩm không được để trống!", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (ten.isEmpty()) {
+            showAlert("Lỗi", "Tên sản phẩm không được để trống!", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (donGiaStr.isEmpty()) {
+            showAlert("Lỗi", "Đơn giá không được để trống!", Alert.AlertType.ERROR);
+            return false;
+        }
+        double donGia;
+        try {
+            donGia = Double.parseDouble(donGiaStr);
+            if (donGia <= 0) {
+                showAlert("Lỗi", "Đơn giá phải lớn hơn 0!", Alert.AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Lỗi", "Đơn giá phải là số hợp lệ!", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (moTa.isEmpty()) {
+            showAlert("Lỗi", "Mô tả không được để trống!", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (selectedImagePath == null || selectedImagePath.isEmpty()) {
+            showAlert("Lỗi", "Vui lòng chọn ảnh sản phẩm!", Alert.AlertType.ERROR);
+            return false;
+        }
+        return true;
+    }
+
 
     @FXML
     private void onThem() {
+        if (!validateForm()) return;
         // Lấy dữ liệu từ form
         String ma = txtMaSanPham.getText().trim();
         String ten = txtTenSanPham.getText().trim();
@@ -246,6 +288,7 @@ public class QLSPController {
 
     @FXML
     private void onSua() { // ensure wired in FXML
+        if (!validateForm()) return;
         SanPham sp = tableSanPham.getSelectionModel().getSelectedItem();
         if (sp == null) { showAlert("Thông báo", "Vui lòng chọn sản phẩm cần sửa!", Alert.AlertType.WARNING); return; }
         String ma = txtMaSanPham.getText(); String ten = txtTenSanPham.getText(); String moTa = txtMoTa.getText(); double donGia;
