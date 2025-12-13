@@ -21,7 +21,7 @@ public class TaiKhoanDAO {
                         rs.getString("maTaiKhoan"),
                         rs.getString("tenTaiKhoan"),
                         rs.getString("matKhau"),
-                        rs.getString("chucVu")
+                        rs.getString("chucVu").trim()
                 ));
             }
 
@@ -60,7 +60,7 @@ public class TaiKhoanDAO {
                         rs.getString("maTaiKhoan"),
                         rs.getString("tenTaiKhoan"),
                         rs.getString("matKhau"),
-                        rs.getString("chucVu")
+                        rs.getString("chucVu").trim()
                 );
             }
         } catch (Exception e) { e.printStackTrace(); }
@@ -178,7 +178,7 @@ public class TaiKhoanDAO {
                         rs.getString("maTaiKhoan"),
                         rs.getString("tenTaiKhoan"),
                         rs.getString("matKhau"),
-                        rs.getString("chucVu")
+                        rs.getString("chucVu").trim()
                 );
             }
 

@@ -62,9 +62,9 @@ public class DangNhapController {
             TaiKhoan.setUserLoggedIn(tk);
 
             // điều hướng theo role
-            if ("quan ly".equalsIgnoreCase(tk.getChucVu())) {
+            if ("Quản lý".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/adminView/TrangChu.fxml");
-            } else if ("nhan vien".equalsIgnoreCase(tk.getChucVu())) {
+            } else if ("Nhân viên".equalsIgnoreCase(tk.getChucVu())) {
                 loadScene(event, "/com/example/quanlyquancaphe/employeeView/TrangChu.fxml");
             }
         } else {
