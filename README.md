@@ -152,13 +152,6 @@ QuanLyQuanCaPhe/
 └── pom.xml
 ```
 
----
-
-## Screenshots
-
-*(Thêm screenshots của ứng dụng tại đây)*
-
----
 
 ## Thành viên
 
