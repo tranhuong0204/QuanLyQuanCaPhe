@@ -1,0 +1,33 @@
+.root {
+   -fx-background-color: linear-gradient(to bottom, #d7b39a, #f0e1d3);
+}
+
+
+.label {
+    -fx-text-fill: #5c3317;
+    -fx-font-weight: bold;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #d2b48c;
+    -fx-font-size: 14px;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.button {
+    -fx-background-color: #8b4513;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.button-delete {
+    -fx-background-color: #b22222;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}

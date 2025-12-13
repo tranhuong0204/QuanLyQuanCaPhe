@@ -1,59 +1,46 @@
 package com.example.quanlyquancaphe.models;
 
-import com.example.quanlyquancaphe.models.*;
-import com.example.quanlyquancaphe.models.DatabaseConnection;
-
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDAO {
 
-    public boolean insertHoaDon(HoaDon hd) {
-        String sql = "INSERT INTO HOADON VALUES (?,?,?,?,?,?,?,?)";
+    public List<HoaDon> getAllHoaDon() {
+        List<HoaDon> list = new ArrayList<>();
+        String sql = "SELECT * FROM HOADON";
         try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            ps.setString(1, hd.getMaHoaDon());
-            ps.setInt(2, hd.getTongKM());
-            ps.setInt(3, hd.getTongTien());
-            ps.setDate(4, new java.sql.Date(hd.getNgayLap().getTime()));
-            ps.setString(5, hd.getPhuongThucThanhToan());
-            ps.setString(6, hd.getMaBan());
-            ps.setString(7, hd.getMaTaiKhoan());
-            ps.setString(8, hd.getMaPT());
-
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) { e.printStackTrace(); return false; }
-    }
-
-    public boolean insertCTHD(List<ChiTietHoaDon> list) {
-        String sql = "INSERT INTO CHITIETHOADON VALUES (?,?,?)";
-
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-
-            for (ChiTietHoaDon ct : list) {
-                ps.setString(1, ct.getMaMon());
-                ps.setString(2, ct.getMaHoaDon());
-                ps.setInt(3, ct.getSoLuong());
-                ps.addBatch();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon(
+                        rs.getString("maHoaDon"),
+                        rs.getInt("tongKM"),
+                        rs.getBigDecimal("tongTien"),   // dùng BigDecimal
+                        rs.getDate("ngayLap"),
+                        //rs.getString("phuongThucThanhToan"),
+                        rs.getString("maBan"),
+                        rs.getString("maTaiKhoan"),
+                        rs.getString("maPT")
+                );
+                list.add(hd);
             }
-
-            ps.executeBatch();
-            return true;
-
-        } catch (Exception e) { e.printStackTrace(); return false; }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
-    public boolean capNhatTrangThaiBan(String maBan, String trangThai) {
-        String sql = "UPDATE BAN SET trangThai=? WHERE maBan=?";
+    public boolean deleteHoaDon(String maHoaDon) {
+        String sql = "DELETE FROM HOADON WHERE maHoaDon=?";
         try (Connection c = DatabaseConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
-
-            ps.setString(1, trangThai);
-            ps.setString(2, maBan);
+            ps.setString(1, maHoaDon);
             return ps.executeUpdate() > 0;
-
-        } catch (Exception e) { e.printStackTrace(); return false; }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
