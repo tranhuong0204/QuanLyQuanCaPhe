@@ -24,9 +24,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class KhuyenMaiController {
+    private static final Logger LOGGER = Logger.getLogger(KhuyenMaiController.class.getName());
+
     // Form fields
     @FXML private TextField txtMa;
     @FXML private TextField txtTen;
@@ -50,6 +55,7 @@ public class KhuyenMaiController {
     @FXML private TableColumn<KhuyenMaiVM, LocalDate> colNgayBatDau;
     @FXML private TableColumn<KhuyenMaiVM, LocalDate> colNgayKetThuc;
     @FXML private TableColumn<KhuyenMaiVM, String> colGhiChu;
+    @FXML private TableColumn<KhuyenMaiVM, String> colSanPham; // Cột mới để hiển thị sản phẩm áp dụng
 
     @FXML private ListView<String> lstSanPhamApDung; // list of selected products codes/names
     @FXML private TextField txtSanPhamApDung; // new compact display of selected products
@@ -78,6 +84,10 @@ public class KhuyenMaiController {
         colNgayBatDau.setCellValueFactory(c -> c.getValue().ngayBatDau);
         colNgayKetThuc.setCellValueFactory(c -> c.getValue().ngayKetThuc);
         colGhiChu.setCellValueFactory(c -> c.getValue().ghiChu);
+        // Gán dữ liệu cho cột sản phẩm: chuỗi mã món áp dụng
+        if (colSanPham != null) {
+            colSanPham.setCellValueFactory(c -> c.getValue().maMonApDung);
+        }
 
         // Render LocalDate nicely
         colNgayBatDau.setCellFactory(col -> new TableCell<>() {
@@ -115,7 +125,19 @@ public class KhuyenMaiController {
         data.clear();
         try (Connection conn = DatabaseConnection.getConnection()) {
             for (KhuyenMai km : dao.findAll(conn)) {
-                data.add(toVM(km));
+                KhuyenMaiVM vm = toVM(km);
+                try {
+                    // nạp tên sản phẩm áp dụng (nếu cần dùng ở nơi khác)
+                    String tenSp = monKhuyenMaiDAO.getTenSanPhamApDung(conn, km.getMaKM());
+                    vm.sanPhamApDung.set(tenSp);
+                    // nạp danh sách mã món áp dụng để hiển thị trong cột colSanPham
+                    String maMons = monKhuyenMaiDAO.getMaMonApDungAsString(conn, km.getMaKM());
+                    vm.maMonApDung.set(maMons);
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.WARNING,
+                            "Không load được danh sách sản phẩm/mã món áp dụng cho khuyến mãi " + km.getMaKM(), ex);
+                }
+                data.add(vm);
             }
         } catch (SQLException e) {
             showError("Lỗi tải dữ liệu", e);
@@ -232,6 +254,8 @@ public class KhuyenMaiController {
     private void onChonDong(MouseEvent event) {
         KhuyenMaiVM sel = tableKhuyenMai.getSelectionModel().getSelectedItem();
         fillForm(sel);
+        // đồng thời nạp danh sách sản phẩm áp dụng cho khuyến mãi được chọn
+        loadSanPhamApDungForSelected(sel);
     }
 
     private void fillForm(KhuyenMaiVM sel) {
@@ -242,6 +266,57 @@ public class KhuyenMaiController {
         txtGhiChu.setText(sel.ghiChu.get());
         dpNgayBatDau.setValue(sel.ngayBatDau.get());
         dpNgayKetThuc.setValue(sel.ngayKetThuc.get());
+    }
+
+    /**
+     * Nạp lại danh sách sản phẩm áp dụng cho khuyến mãi được chọn
+     * và hiển thị lên txtSanPhamApDung / lstSanPhamApDung để có thể sửa.
+     */
+    private void loadSanPhamApDungForSelected(KhuyenMaiVM sel) {
+        if (sel == null) return;
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            List<String> maMons = monKhuyenMaiDAO.getMaMonByMaKM(conn, sel.getMa());
+            if (maMons == null || maMons.isEmpty()) {
+                sanPhamApDung = FXCollections.observableArrayList();
+                if (txtSanPhamApDung != null) txtSanPhamApDung.clear();
+                if (lstSanPhamApDung != null) lstSanPhamApDung.getItems().clear();
+                return;
+            }
+            // Lấy đầy đủ thông tin sản phẩm theo các mã này từ bảng MON
+            ObservableList<SanPham> list = FXCollections.observableArrayList();
+            String placeholders = String.join(",", java.util.Collections.nCopies(maMons.size(), "?"));
+            String sql = "SELECT maMon, tenMon, giaCa, moTa, hinhAnh FROM MON WHERE maMon IN (" + placeholders + ")";
+            try (java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+                for (int i = 0; i < maMons.size(); i++) {
+                    ps.setString(i + 1, maMons.get(i));
+                }
+                try (java.sql.ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        String ma = rs.getString("maMon");
+                        String ten = rs.getString("tenMon");
+                        double gia = rs.getDouble("giaCa");
+                        String moTa = rs.getString("moTa");
+                        String hinhAnh = rs.getString("hinhAnh");
+                        list.add(new SanPham(ma, ten, gia, moTa, hinhAnh));
+                    }
+                }
+            }
+            this.sanPhamApDung = list;
+            // cập nhật hiển thị như khi nhận từ popup
+            if (lstSanPhamApDung != null) {
+                lstSanPhamApDung.getItems().setAll(
+                        list.stream().map(sp -> sp.getMa() + " - " + sp.getTen()).toList()
+                );
+            }
+            if (txtSanPhamApDung != null) {
+                String joined = list.stream().map(SanPham::getTen)
+                        .reduce((a,b) -> a + ", " + b).orElse("");
+                txtSanPhamApDung.setText(joined.isEmpty() ? "" : joined);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING,
+                    "Không thể tải danh sách sản phẩm áp dụng khi chọn khuyến mãi " + sel.getMa(), e);
+        }
     }
 
     private KhuyenMai readFormAsEntity(String code) {
@@ -323,8 +398,17 @@ public class KhuyenMaiController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/quanlyquancaphe/adminView/ProductSelection.fxml"));
             Scene scene = new Scene(loader.load());
-            // Fully qualified to help resolver
-            com.example.quanlyquancaphe.controllers.admin.ProductSelectionController productController = loader.getController();
+            ProductSelectionController productController = loader.getController();
+            // nếu đang sửa một khuyến mãi đã có trong DB, preload danh sách món đang áp dụng
+            KhuyenMaiVM sel = tableKhuyenMai.getSelectionModel().getSelectedItem();
+            if (sel != null) {
+                try (Connection conn = DatabaseConnection.getConnection()) {
+                    java.util.List<String> maMons = monKhuyenMaiDAO.getMaMonByMaKM(conn, sel.getMa());
+                    productController.setSelectedMaMon(maMons);
+                } catch (SQLException e) {
+                    showError("Không tải được danh sách món đang áp dụng", e);
+                }
+            }
             productController.setCallback(this::nhanSanPhamChon);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -358,8 +442,13 @@ public class KhuyenMaiController {
         final SimpleStringProperty ghiChu = new SimpleStringProperty();
         final SimpleObjectProperty<LocalDate> ngayBatDau = new SimpleObjectProperty<>();
         final SimpleObjectProperty<LocalDate> ngayKetThuc = new SimpleObjectProperty<>();
+        // Thuộc tính cũ: danh sách tên sản phẩm áp dụng dạng chuỗi (nếu muốn dùng)
+        final SimpleStringProperty sanPhamApDung = new SimpleStringProperty("");
+        // Thuộc tính mới: danh sách mã món áp dụng dạng chuỗi để bind với colSanPham
+        final SimpleStringProperty maMonApDung = new SimpleStringProperty("");
 
-        public KhuyenMaiVM(String ma, String ten, double phanTram, String ghiChu, LocalDate ngayBatDau, LocalDate ngayKetThuc) {
+        public KhuyenMaiVM(String ma, String ten, double phanTram, String ghiChu,
+                           LocalDate ngayBatDau, LocalDate ngayKetThuc) {
             this.ma.set(ma);
             this.ten.set(ten);
             this.phanTram.set(phanTram);
@@ -374,5 +463,7 @@ public class KhuyenMaiController {
         public String getGhiChu() { return ghiChu.get(); }
         public LocalDate getNgayBatDau() { return ngayBatDau.get(); }
         public LocalDate getNgayKetThuc() { return ngayKetThuc.get(); }
+        public String getSanPhamApDung() { return sanPhamApDung.get(); }
+        public String getMaMonApDung() { return maMonApDung.get(); }
     }
 }

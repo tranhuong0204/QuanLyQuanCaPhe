@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.function.Consumer;
 
 @SuppressWarnings({"unused"})
@@ -108,5 +109,21 @@ public class ProductSelectionController {
         alert.setHeaderText("Không thể tải danh sách sản phẩm");
         alert.setContentText(details);
         alert.showAndWait();
+    }
+
+    /**
+     * Được gọi từ KhuyenMaiController để truyền vào danh sách mã món
+     * đang được áp dụng cho khuyến mãi -> pre-select trong bảng.
+     */
+    public void setSelectedMaMon(List<String> maMons) {
+        daChon.clear();
+        if (maMons == null || maMons.isEmpty()) return;
+        // Sau khi dữ liệu sản phẩm đã load xong, chọn lại các món trùng mã
+        for (SanPham sp : danhSach) {
+            if (maMons.contains(sp.getMa())) {
+                daChon.add(sp);
+            }
+        }
+        tableSanPham.refresh();
     }
 }

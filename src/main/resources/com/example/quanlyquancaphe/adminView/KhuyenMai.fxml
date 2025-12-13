@@ -59,9 +59,11 @@
                 <!--Cái này ko có trong UC chỉ thêm vào để test với db to và muốn test cho nhanh-->
                 <Button text="Tìm" onAction="#onTim" />
             </HBox>
-<!--            <TableView fx:id="tableKhuyenMai" prefHeight="350" onMouseClicked="#onChonDong" styleClass="header-brown"-->
-<!--                       style="-fx-border-color: #D2B48C; -fx-border-width: 2px; -fx-border-radius: 10; -fx-background-radius: 10;">-->
-            <TableView fx:id="tableKhuyenMai" layoutX="15.0" layoutY="89.0" prefHeight="473.0" prefWidth="786.0" stylesheets="@tableview.css">
+            <!-- TableView khuyến mãi: thêm onMouseClicked để gọi onChonDong -->
+            <TableView fx:id="tableKhuyenMai" layoutX="15.0" layoutY="89.0"
+                       prefHeight="473.0" prefWidth="786.0"
+                       stylesheets="@tableview.css"
+                       onMouseClicked="#onChonDong">
                 <columns>
                     <TableColumn fx:id="colMa" text="Mã" prefWidth="100"/>
                     <TableColumn fx:id="colTen" text="Tên" prefWidth="220"/>
@@ -69,6 +71,7 @@
                     <TableColumn fx:id="colNgayBatDau" text="Ngày bắt đầu" prefWidth="160"/>
                     <TableColumn fx:id="colNgayKetThuc" text="Ngày kết thúc" prefWidth="160"/>
                     <TableColumn fx:id="colGhiChu" text="Ghi chú" prefWidth="200"/>
+                    <TableColumn fx:id="colSanPham" text="Sản phẩm áp dụng" prefWidth="260"/>
                 </columns>
             </TableView>
         </VBox>
