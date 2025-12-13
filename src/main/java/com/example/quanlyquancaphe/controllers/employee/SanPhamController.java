@@ -2,7 +2,7 @@
 package com.example.quanlyquancaphe.controllers.employee;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
-import com.example.quanlyquancaphe.models.SanPhamDAO;
+import com.example.quanlyquancaphe.DAO.SanPhamDAO;
 import com.example.quanlyquancaphe.models.SanPham;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +21,6 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 
 public class SanPhamController {

@@ -1,6 +1,6 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
-import com.example.quanlyquancaphe.models.BanDAO;
+import com.example.quanlyquancaphe.DAO.BanDAO;
 import com.example.quanlyquancaphe.models.Ban;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

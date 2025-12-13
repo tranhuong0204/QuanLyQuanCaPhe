@@ -1,7 +1,7 @@
 package com.example.quanlyquancaphe.controllers.employee;
 
 import com.example.quanlyquancaphe.models.Ban;
-import com.example.quanlyquancaphe.models.BanDAO;
+import com.example.quanlyquancaphe.DAO.BanDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

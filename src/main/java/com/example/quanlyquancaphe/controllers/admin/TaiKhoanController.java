@@ -1,7 +1,7 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.TaiKhoan;
-import com.example.quanlyquancaphe.models.TaiKhoanDAO;
+import com.example.quanlyquancaphe.DAO.TaiKhoanDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

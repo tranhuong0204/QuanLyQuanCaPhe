@@ -1,7 +1,7 @@
 package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.HoaDon;
-import com.example.quanlyquancaphe.models.HoaDonDAO;
+import com.example.quanlyquancaphe.DAO.HoaDonDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

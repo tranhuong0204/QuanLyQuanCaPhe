@@ -1,4 +1,4 @@
-package com.example.quanlyquancaphe.models;
+package com.example.quanlyquancaphe.DAO;
 
 import com.example.quanlyquancaphe.models.SanPham;
 import com.example.quanlyquancaphe.models.DatabaseConnection;

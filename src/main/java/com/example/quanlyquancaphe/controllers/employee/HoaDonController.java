@@ -1,5 +1,7 @@
 package com.example.quanlyquancaphe.controllers.employee;
 
+import com.example.quanlyquancaphe.DAO.BanDAO;
+import com.example.quanlyquancaphe.DAO.SanPhamDAO;
 import com.example.quanlyquancaphe.models.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

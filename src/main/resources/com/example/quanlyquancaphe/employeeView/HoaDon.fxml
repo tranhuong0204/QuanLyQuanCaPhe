@@ -26,7 +26,7 @@
 <!--            <Label fx:id="tienThuaLabel" text="Tiền thừa: 0đ" />-->
 <!--            <Button onAction="#handleThanhToan" text="THANH TOÁN" />-->
 <!--        </VBox>-->
-        <VBox fx:id="hoaDonPane" prefWidth="498.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom, #d7b39a, #e2d1c3); -fx-padding: 20; -fx-background-radius: 12;">
+        <VBox fx:id="hoaDonPane" prefWidth="498.0" spacing="15" style="-fx-background-color: #e6cfc1; -fx-padding: 20; ">
 
             <!-- Tiêu đề -->
             <Label alignment="CENTER" prefHeight="40" prefWidth="500" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4e342e;" text="🧾 HÓA ĐƠN" />
@@ -56,9 +56,9 @@
 
     </left>
     <!-- Bên phải: danh sách sản phẩm -->
-    <right>
+    <center>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" prefWidth="600.0" styleClass="viewport" stylesheets="@SanPham.css" />
-    </right>
+    </center>
 
 
 </BorderPane>

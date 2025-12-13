@@ -1,8 +1,7 @@
 package com.example.quanlyquancaphe.services;
 
 import com.example.quanlyquancaphe.models.TaiKhoan;
-import com.example.quanlyquancaphe.models.TaiKhoanDAO;
-import java.sql.ResultSet;
+import com.example.quanlyquancaphe.DAO.TaiKhoanDAO;
 
 public class DangNhapService {
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();

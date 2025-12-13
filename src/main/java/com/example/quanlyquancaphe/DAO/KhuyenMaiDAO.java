@@ -1,4 +1,6 @@
-package com.example.quanlyquancaphe.models;
+package com.example.quanlyquancaphe.DAO;
+
+import com.example.quanlyquancaphe.models.KhuyenMai;
 
 import java.sql.*;
 import java.time.LocalDate;

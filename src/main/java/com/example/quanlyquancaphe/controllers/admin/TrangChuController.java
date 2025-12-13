@@ -20,6 +20,7 @@ public class TrangChuController {
     @FXML private Label KHUYENMAILABEL; // label "KHUYẾN MÃI" từ FXML
     @FXML private StackPane contentPane;
     @FXML private Label quanLyBan;
+    @FXML private Label quanLyHD;
     @FXML private Label thoatlb;
 
 
@@ -50,7 +51,9 @@ public class TrangChuController {
             labelList.add(quanLyBan);
         }
         labelList.add(monlb);
+        labelList.add(quanLyHD);
         labelList.add(thoatlb);
+
 
 
         for (Label label : labelList) {
@@ -78,6 +81,9 @@ public class TrangChuController {
                 else if(label == taiKhoanlb){
                     loadIntoContent("/com/example/quanlyquancaphe/adminView/QuanLyTaiKhoan.fxml");
                     }
+                else if(label == quanLyHD){
+                    loadIntoContent("/com/example/quanlyquancaphe/adminView/QLHD.fxml");
+                }
 
                 else if (label == thoatlb) {
                     try {

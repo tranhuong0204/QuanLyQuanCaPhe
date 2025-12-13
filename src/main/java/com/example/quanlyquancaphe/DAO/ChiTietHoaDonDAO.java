@@ -1,4 +1,7 @@
-package com.example.quanlyquancaphe.models;
+package com.example.quanlyquancaphe.DAO;
+
+import com.example.quanlyquancaphe.models.ChiTietHoaDon;
+import com.example.quanlyquancaphe.models.DatabaseConnection;
 
 import java.sql.*;
 

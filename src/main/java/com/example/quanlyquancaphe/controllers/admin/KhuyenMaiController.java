@@ -2,9 +2,9 @@ package com.example.quanlyquancaphe.controllers.admin;
 
 import com.example.quanlyquancaphe.models.DatabaseConnection;
 import com.example.quanlyquancaphe.models.KhuyenMai;
-import com.example.quanlyquancaphe.models.KhuyenMaiDAO;
+import com.example.quanlyquancaphe.DAO.KhuyenMaiDAO;
 import com.example.quanlyquancaphe.models.SanPham;
-import com.example.quanlyquancaphe.models.MonKhuyenMaiDAO;
+import com.example.quanlyquancaphe.DAO.MonKhuyenMaiDAO;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

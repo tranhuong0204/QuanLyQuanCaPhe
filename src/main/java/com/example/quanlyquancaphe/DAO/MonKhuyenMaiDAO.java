@@ -1,4 +1,6 @@
-package com.example.quanlyquancaphe.models;
+package com.example.quanlyquancaphe.DAO;
+
+import com.example.quanlyquancaphe.models.SanPham;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
