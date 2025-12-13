@@ -11,22 +11,18 @@
     -fx-background-radius: 8;
     -fx-padding: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.3, 0, 2);
-    -fx-transition: all 0.3s ease;
 }
 
 .product-box:hover {
-    -fx-background-color: #e6f7ff;
-    -fx-border-color: #2a9df4;
+    -fx-background-color: #e6f7ff;   /* chỉ đổi màu nền */
+    -fx-border-color: #2a9df4;       /* đổi màu viền */
     -fx-border-width: 2;
+    -fx-border-radius: 8;
 }
 
-.product-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-}
 .selected-box {
     -fx-background-color: #cce5ff;
     -fx-border-color: #2a9df4;
     -fx-border-width: 2;
+    -fx-border-radius: 8;
 }
