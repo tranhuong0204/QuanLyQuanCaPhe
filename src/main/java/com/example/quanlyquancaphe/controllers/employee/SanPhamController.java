@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -94,10 +96,28 @@ public class SanPhamController {
             Label ten = new Label(sp.getTen());
             ten.getStyleClass().add("product-label");
 
-            Label gia = new Label(String.format("%.0f đ", sp.getDonGia()));
-            gia.setStyle("-fx-text-fill: #666666;");
+//            Label gia = new Label(String.format("%.0f đ", sp.getDonGia()));
+//            gia.setStyle("-fx-text-fill: #666666;");
+//            box.getChildren().addAll(ten, gia);
 
-            box.getChildren().addAll(ten, gia);
+            if (sp.getGiaKM() != null && sp.getGiaKM() > 0 && sp.getGiaKM() < sp.getDonGia()) {
+//                Label giaGoc = new Label(String.format("%.0f đ", sp.getDonGia()));
+//                giaGoc.setStyle("-fx-text-fill: #999999; -fx-strikethrough: true;");
+                Text giaGoc = new Text(String.format("%.0f đ", sp.getDonGia()));
+                giaGoc.setFill(Color.BLACK);
+                giaGoc.setStrikethrough(true);
+
+                Label giaKM = new Label(String.format("%.0f đ", sp.getGiaKM()));
+                giaKM.setStyle("-fx-text-fill: #28a745; -fx-font-weight: bold;"); // màu xanh
+
+                // add giá gốc trước, giá KM sau => gốc trên, KM dưới
+                box.getChildren().addAll(ten, giaGoc, giaKM);
+            } else {
+                Label gia = new Label(String.format("%.0f đ", sp.getDonGia()));
+                gia.setStyle("-fx-text-fill: #000000;");
+                box.getChildren().addAll(ten, gia);
+            }
+
 
 
             box.setOnMouseClicked(e -> {

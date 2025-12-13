@@ -10,6 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage; // Import Stage
 
 import java.io.FileWriter; // Import FileWriter cho chức năng in file
@@ -151,9 +153,8 @@ public class HoaDonController {
 
                     Label ten = new Label(sp.getTen());
                     ten.setPrefWidth(150);
-                    Label gia = new Label(String.format("%.0fđ", sp.getDonGia()));
-                    gia.setPrefWidth(80);
 
+                    // Tạo số lượng và nút xóa trước
                     TextField soLuongField = new TextField(String.valueOf(item.getSoLuong()));
                     soLuongField.setPrefWidth(40);
                     soLuongField.setAlignment(Pos.CENTER);
@@ -182,7 +183,6 @@ public class HoaDonController {
                         } catch (NumberFormatException ignored) {}
                     });
 
-
                     Button btnXoa = new Button("❌");
                     btnXoa.setStyle("-fx-background-color: transparent; -fx-text-fill: red;");
                     btnXoa.setOnAction(e -> {
@@ -190,12 +190,32 @@ public class HoaDonController {
                         capNhatTongTien();
                     });
 
-                    // Gom nhóm số lượng
                     HBox soLuongBox = new HBox(5, btnGiam, soLuongField, btnTang);
                     soLuongBox.setAlignment(Pos.CENTER);
 
-                    // Gom tất cả thành một hàng
-                    HBox box = new HBox(20, ten, gia, soLuongBox, btnXoa);
+                    // Hiển thị giá
+                    HBox box;
+                    if (sp.getGiaKM() != null && sp.getGiaKM() > 0 && sp.getGiaKM() < sp.getDonGia()) {
+                        Text giaGoc = new Text(String.format("%.0fđ", sp.getDonGia()));
+                        giaGoc.setFill(Color.GRAY);
+                        giaGoc.setStrikethrough(true);
+
+                        Label giaKM = new Label(String.format("%.0fđ", sp.getGiaHienThi()));
+                        giaKM.setStyle("-fx-text-fill: #28a745; -fx-font-weight: bold;");
+
+                        VBox giaBox = new VBox(2, giaGoc, giaKM);
+                        giaBox.setAlignment(Pos.CENTER_LEFT);
+                        giaBox.setPrefWidth(80);
+
+                        box = new HBox(20, ten, giaBox, soLuongBox, btnXoa);
+                    } else {
+                        Label gia = new Label(String.format("%.0fđ", sp.getGiaHienThi()));
+                        gia.setStyle("-fx-text-fill: #000000;");
+                        gia.setPrefWidth(80);
+
+                        box = new HBox(20, ten, gia, soLuongBox, btnXoa);
+                    }
+
                     box.setAlignment(Pos.CENTER_LEFT);
                     box.setPadding(new Insets(5));
                     setGraphic(box);
@@ -220,11 +240,25 @@ public class HoaDonController {
         }
 
         Label ten = new Label(sp.getTen());
-        Label gia = new Label(String.format("%.0fđ", sp.getDonGia()));
+        // Giá hiển thị
+        if (sp.getGiaKM() != null && sp.getGiaKM() > 0 && sp.getGiaKM() < sp.getDonGia()) {
+            Text giaGoc = new Text(String.format("%.0fđ", sp.getDonGia()));
+            giaGoc.setFill(Color.BLACK);
+            giaGoc.setStrikethrough(true);
 
-        box.getChildren().addAll(ten, gia);
+            Label giaKM = new Label(String.format("%.0fđ", sp.getGiaKM()));
+            giaKM.setStyle("-fx-text-fill: #28a745; -fx-font-weight: bold;");
 
-        box.setAlignment(Pos.CENTER);
+            VBox giaBox = new VBox(2, giaGoc, giaKM);
+            giaBox.setAlignment(Pos.CENTER);
+
+            box.getChildren().addAll(ten, giaBox);
+        } else {
+            Label gia = new Label(String.format("%.0fđ", sp.getDonGia()));
+            gia.setStyle("-fx-text-fill: #000000;");
+            box.getChildren().addAll(ten, gia);
+        }
+
         box.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10;");
         return box;
     }
@@ -245,7 +279,7 @@ public class HoaDonController {
     private void capNhatTongTien() {
         tongTien = 0;
         for (ItemHoaDon item : dsMon) {
-            tongTien += item.getSanPham().getDonGia() * item.getSoLuong();
+            tongTien += item.getSanPham().getGiaHienThi() * item.getSoLuong();
         }
         tongTienLabel.setText("Tổng: " + String.format("%.0fđ", tongTien));
     }
@@ -277,7 +311,7 @@ public class HoaDonController {
             writer.write("-----------------------------------------------\n");
 
             for (ItemHoaDon item : listHoaDon.getItems()) {
-                double thanhTien = item.getSanPham().getDonGia() * item.getSoLuong();
+                double thanhTien = item.getSanPham().getGiaHienThi() * item.getSoLuong();
                 writer.write(String.format("%-15s %-5d %10.0fđ\n",
                         item.getSanPham().getTen(),
                         item.getSoLuong(),
