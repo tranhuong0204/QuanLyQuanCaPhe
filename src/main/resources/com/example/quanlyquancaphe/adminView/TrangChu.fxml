@@ -5,32 +5,31 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
-<BorderPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.TrangChuController">
+<?import javafx.scene.layout.Pane?> <BorderPane prefHeight="600.0" prefWidth="1180.0" stylesheets="@TrangChu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.TrangChuController">
     <left>
         <VBox prefHeight="600.0" prefWidth="184.0" spacing="0" style="-fx-background-color: #E0C7B5;">
-         <Label prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: rgb(139,69,19);" text="Label" />
-         <Label fx:id="taiKhoanlb" prefHeight="47.0" prefWidth="184.0" text="  TÀI KHOẢN" textFill="#281504">
-            <styleClass>
-<!--               <String fx:value="label-custom" />-->
-<!--               <String fx:value="label-selected" />-->
-            </styleClass>
-         </Label>
-         <Label fx:id="quanLyBan" prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-            <padding>
-               <Insets left="10.0" />
-            </padding>
-         </Label>
-         <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504">
-            <padding>
-               <Insets left="10.0" />
-            </padding></Label>
-         <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
-         <Label fx:id="quanLyHD" prefHeight="47.0" prefWidth="184.0" text="  HÓA ĐƠN" />
+            <Label prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: rgb(139,69,19);" text="Label" />
+            <Label fx:id="taiKhoanlb" prefHeight="47.0" prefWidth="184.0" text="  TÀI KHOẢN" textFill="#281504">
+                <styleClass>
+                </styleClass>
+            </Label>
+            <Label fx:id="quanLyBan" prefHeight="47.0" prefWidth="184.0" text="QUẢN LÝ BÀN">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <padding>
+                    <Insets left="10.0" />
+                </padding>
+            </Label>
+            <Label fx:id="monlb" prefHeight="47.0" prefWidth="184.0" text="MÓN" textFill="#281504">
+                <padding>
+                    <Insets left="10.0" />
+                </padding></Label>
+            <Label fx:id="KHUYENMAILABEL" prefHeight="47.0" prefWidth="184.0" text="  KHUYẾN MÃI" />
+            <Label fx:id="quanLyHD" prefHeight="47.0" prefWidth="184.0" text="  HÓA ĐƠN" />
             <Label fx:id="thongKelb" prefHeight="47.0" prefWidth="184.0" text="  THỐNG KÊ" />
+
+            <Pane VBox.vgrow="ALWAYS" />
 
             <Label fx:id="thoatlb" prefHeight="47.0" prefWidth="184.0" text="  THOÁT" />
 
