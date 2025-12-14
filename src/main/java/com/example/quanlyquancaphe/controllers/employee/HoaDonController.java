@@ -344,6 +344,17 @@ public class HoaDonController {
         // Lấy Stage hiện tại để đóng cửa sổ
         Stage currentStage = (Stage) tienKhachDuaField.getScene().getWindow();
         Connection conn = null; // Khai báo Connection ở phạm vi cao hơn
+        double tongKM = 0;
+        for (ItemHoaDon item : listHoaDon.getItems()) {
+            SanPham sp = item.getSanPham();
+            double giaGoc = sp.getDonGia();          // giá gốc từ DB
+            double giaHienThi = sp.getGiaHienThi();  // giá hiển thị (đã tính KM nếu có)
+            double giam = (giaGoc - giaHienThi) * item.getSoLuong();
+            if (giam > 0) {
+                tongKM += giam;
+            }
+        }
+
 
         try {
             // Lấy phương thức thanh toán và mã PT
@@ -404,7 +415,7 @@ public class HoaDonController {
                 String sqlHoaDon = "INSERT INTO HOADON (maHoaDon, tongKM, tongTien, ngayLap,  maBan, maTaiKhoan, maPT) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement psHoaDon = conn.prepareStatement(sqlHoaDon);
                 psHoaDon.setInt(1, maHoaDon);
-                psHoaDon.setDouble(2, 0); // tongKM
+                psHoaDon.setDouble(2, tongKM); // tongKM
                 psHoaDon.setDouble(3, tongTien);
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
 
