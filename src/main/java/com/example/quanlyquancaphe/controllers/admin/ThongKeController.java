@@ -122,6 +122,9 @@ public class ThongKeController implements Initializable {
             series.getData().add(new XYChart.Data<>((String) row[0], (Integer) row[1]));
         }
         barChartSP.getData().setAll(series);
+        // Cố định độ rộng cột
+        barChartSP.setCategoryGap(30);
+        barChartSP.setBarGap(10);
     }
 
     private void loadSanPhamBanChayTheoThang(int nam, int thang) {
@@ -157,7 +160,15 @@ public class ThongKeController implements Initializable {
         for (Object[] row : data) {
             series.getData().add(new XYChart.Data<>((String) row[0], (Integer) row[1]));
         }
-        barChartSP.getData().setAll(series);
+//        barChartSP.getData().setAll(series);
+        // 👉 Thêm đoạn này ngay sau khi tạo series
+        barChartSP.getData().clear();
+        barChartSP.getData().add(series);
+        barChartSP.getData().clear();
+        barChartSP.setAnimated(false);
+        barChartSP.getXAxis().setAnimated(false);
+        barChartSP.getYAxis().setAnimated(false);
+        barChartSP.getData().add(series);
     }
 
     private void loadSanPhamBanChay() {
@@ -297,8 +308,6 @@ public class ThongKeController implements Initializable {
 
 //        newChart.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/ThongKe.css").toExternalForm());
 //        newChart.getStyleClass().add("area-chart-custom");
-
-        //LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Doanh thu theo năm");
         List<String> danhSachNam = new ArrayList<>();
