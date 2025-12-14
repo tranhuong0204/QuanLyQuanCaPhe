@@ -10,6 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <AnchorPane prefHeight="488.0" prefWidth="600.0" stylesheets="@ThongKe.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.ThongKeController">
     <TabPane fx:id="thongKeTabs" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Tab text="Doanh thu">
@@ -45,9 +50,29 @@
 
         </Tab>
         <Tab text="Sản phẩm bán chạy">
-            <VBox fx:id="sanPhamPane">
-                <!-- Bảng sản phẩm + biểu đồ -->
+            <VBox fx:id="sanPhamPane" spacing="10">
+                <HBox spacing="10">
+                    <ComboBox fx:id="cbNamSP" promptText="Chọn năm" />
+                    <ComboBox fx:id="cbThangSP" promptText="Chọn tháng" />
+                </HBox>
+
+                <TableView fx:id="tableSanPham">
+                    <columns>
+                        <TableColumn fx:id="colTenSP" text="Tên sản phẩm"/>
+                        <TableColumn fx:id="colSoLuong" text="Số lượng bán"/>
+                        <TableColumn fx:id="colDoanhThu" text="Doanh thu"/>
+                    </columns>
+                </TableView>
+                <BarChart fx:id="barChartSP">
+                    <xAxis>
+                        <CategoryAxis label="Sản phẩm"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Số lượng bán"/>
+                    </yAxis>
+                </BarChart>
             </VBox>
+
         </Tab>
     </TabPane>
 

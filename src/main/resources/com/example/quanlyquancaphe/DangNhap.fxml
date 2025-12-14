@@ -85,69 +85,68 @@
 <!--        </children>-->
 <!--    </HBox>-->
 <!--</StackPane>-->
+<!--<?import javafx.scene.layout.HBox?>-->
+<!--<?import javafx.scene.layout.StackPane?>-->
+<!--<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"-->
+<!--           fx:controller="com.example.quanlyquancaphe.controllers.admin.DangNhapController">-->
+<!--<HBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"-->
+<!--      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">-->
+<!--    <VBox styleClass="background_left" HBox.hgrow="ALWAYS"/>-->
+<!--    <VBox styleClass="background_right" alignment="CENTER" HBox.hgrow="ALWAYS">-->
+<!--        &lt;!&ndash; nội dung đăng nhập &ndash;&gt;-->
+<!--        <children>-->
+<!--            <AnchorPane prefHeight="263.0" prefWidth="303.0" styleClass="transparent-box" stylesheets="@DangNhap.css">-->
+<!--                <Label layoutX="198.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">-->
+<!--                    <font>-->
+<!--                        <Font name="Times New Roman" size="27.0" />-->
+<!--                    </font>-->
+<!--                </Label>-->
+<!--                <Label layoutX="30.0" layoutY="71.0" text="Tên tài khoản:" textFill="#3d1f12">-->
+<!--                    <font>-->
+<!--                        <Font size="14.0" />-->
+<!--                    </font>-->
+<!--                </Label>-->
+<!--                <TextField fx:id="usernameField" layoutX="170.0" layoutY="64.0" prefHeight="33.0" prefWidth="273.0" promptText="Username" />-->
+<!--                <Label layoutX="30.0" layoutY="122.0" text="Mật khẩu:" textFill="#3d1f12">-->
+<!--                    <font>-->
+<!--                        <Font size="14.0" />-->
+<!--                    </font>-->
+<!--                </Label>-->
+<!--                <PasswordField fx:id="passwordField" layoutX="170.0" layoutY="115.0" prefHeight="33.0" prefWidth="273.0" promptText="Password" />-->
+<!--                <Button layoutX="181.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" text="SIGN IN" textFill="#f8f8f8" />-->
+<!--                <Label fx:id="statusLabel" layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="133.0" text="" textFill="red" />-->
+<!--            </AnchorPane>-->
+<!--        </children>-->
+<!--    </VBox>-->
+<!--</HBox>-->
+<!--</StackPane>-->
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.quanlyquancaphe.controllers.admin.DangNhapController">
-<HBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-    <VBox styleClass="background_left" HBox.hgrow="ALWAYS"/>
-    <VBox styleClass="background_right" alignment="CENTER" HBox.hgrow="ALWAYS">
-        <!-- nội dung đăng nhập -->
-        <children>
-            <AnchorPane prefHeight="263.0" prefWidth="303.0" styleClass="transparent-box" stylesheets="@DangNhap.css">
-                <Label layoutX="198.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">
-                    <font>
-                        <Font name="Times New Roman" size="27.0" />
-                    </font>
-                </Label>
-                <Label layoutX="30.0" layoutY="71.0" text="Tên tài khoản:" textFill="#3d1f12">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="usernameField" layoutX="170.0" layoutY="64.0" prefHeight="33.0" prefWidth="273.0" promptText="Username" />
-                <Label layoutX="30.0" layoutY="122.0" text="Mật khẩu:" textFill="#3d1f12">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <PasswordField fx:id="passwordField" layoutX="170.0" layoutY="115.0" prefHeight="33.0" prefWidth="273.0" promptText="Password" />
-                <Button layoutX="181.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" text="SIGN IN" textFill="#f8f8f8" />
-                <Label fx:id="statusLabel" layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="133.0" text="" textFill="red" />
-            </AnchorPane>
-        </children>
-    </VBox>
-</HBox>
-</StackPane>
-
-<!--<AnchorPane prefHeight="703.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.DangNhapController">-->
-<!--   <children>-->
-<!--      <VBox layoutX="-5.0" layoutY="-6.0" prefHeight="712.0" prefWidth="579.0" styleClass="background_left" stylesheets="@DangNhap.css" />-->
-<!--      <VBox alignment="CENTER" layoutX="570.0" layoutY="-6.0" prefHeight="712.0" prefWidth="503.0" styleClass="background_right" stylesheets="@DangNhap.css">-->
-<!--         <children>-->
-<!--             <AnchorPane prefHeight="263.0" prefWidth="303.0" styleClass="transparent-box" stylesheets="@DangNhap.css">-->
-<!--                 <Label layoutX="198.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">-->
-<!--                  <font>-->
-<!--                     <Font name="Times New Roman" size="27.0" />-->
-<!--                  </font>-->
-<!--               </Label>-->
-<!--                 <Label layoutX="30.0" layoutY="71.0" text="Tên tài khoản:" textFill="#3d1f12">-->
-<!--                  <font>-->
-<!--                     <Font size="14.0" />-->
-<!--                  </font>-->
-<!--               </Label>-->
-<!--                 <TextField fx:id="usernameField" layoutX="170.0" layoutY="64.0" prefHeight="33.0" prefWidth="273.0" promptText="Username" />-->
-<!--                 <Label layoutX="30.0" layoutY="122.0" text="Mật khẩu:" textFill="#3d1f12">-->
-<!--                  <font>-->
-<!--                     <Font size="14.0" />-->
-<!--                  </font>-->
-<!--               </Label>-->
-<!--                 <PasswordField fx:id="passwordField" layoutX="170.0" layoutY="115.0" prefHeight="33.0" prefWidth="273.0" promptText="Password" />-->
-<!--                 <Button layoutX="181.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" text="SIGN IN" textFill="#f8f8f8" />-->
-<!--               <Label fx:id="statusLabel" layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="133.0" text="" textFill="red" />-->
-<!--             </AnchorPane>-->
-<!--         </children></VBox>-->
-<!--   </children>-->
-<!--</AnchorPane>-->
+<AnchorPane prefHeight="646.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.quanlyquancaphe.controllers.admin.DangNhapController">
+   <children>
+      <VBox layoutX="-2.0" layoutY="-6.0" prefHeight="657.0" prefWidth="576.0" styleClass="background_left" stylesheets="@DangNhap.css" />
+      <VBox alignment="CENTER" layoutX="572.0" layoutY="-6.0" prefHeight="657.0" prefWidth="629.0" styleClass="background_right" stylesheets="@DangNhap.css">
+         <children>
+             <AnchorPane prefHeight="263.0" prefWidth="635.0" styleClass="transparent-box" stylesheets="@DangNhap.css">
+                 <Label layoutX="250.0" layoutY="14.0" style="-fx-font-family: stoic;" styleClass="title" text="Sign in" textFill="#3d1f12">
+                  <font>
+                     <Font name="Times New Roman" size="27.0" />
+                  </font>
+               </Label>
+                 <Label layoutX="30.0" layoutY="71.0" text="Tên tài khoản:" textFill="#3d1f12">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
+                 <TextField fx:id="usernameField" layoutX="170.0" layoutY="64.0" prefHeight="33.0" prefWidth="287.0" promptText="Username" />
+                 <Label layoutX="30.0" layoutY="122.0" text="Mật khẩu:" textFill="#3d1f12">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
+                 <PasswordField fx:id="passwordField" layoutX="170.0" layoutY="115.0" prefHeight="33.0" prefWidth="287.0" promptText="Password" />
+                 <Button layoutX="236.0" layoutY="175.0" onAction="#handleLogin" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #9E7356; -fx-font-weight: bold;" text="SIGN IN" textFill="#f8f8f8" />
+               <Label fx:id="statusLabel" layoutX="103.0" layoutY="206.0" prefHeight="17.0" prefWidth="133.0" text="" textFill="red" />
+             </AnchorPane>
+         </children></VBox>
+   </children>
+</AnchorPane>

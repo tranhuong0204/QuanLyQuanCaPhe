@@ -50,7 +50,7 @@ public class TrangChuController {
                 if (label == monlb) {
                     loadIntoContent("/com/example/quanlyquancaphe/employeeView/SanPham.fxml");
                 } else if (label == KHUYENMAILABEL) {
-                    loadIntoContent("/com/example/quanlyquancaphe/adminView/KhuyenMai.fxml");
+                    loadIntoContent("/com/example/quanlyquancaphe/employeeView/KhuyenMai.fxml");
                 } else if (label == hoaDonlb) {
                     loadIntoContent("/com/example/quanlyquancaphe/employeeView/HoaDon.fxml");
                 } else if (label == banlb) {
@@ -73,6 +73,14 @@ public class TrangChuController {
                     }
                 }
             });
+        }
+
+        if (banlb != null) {
+            for (Label l : labelList) {
+                l.getStyleClass().remove("label-selected");
+            }
+            banlb.getStyleClass().add("label-selected");
+            loadIntoContent("/com/example/quanlyquancaphe/employeeView/ChonBan.fxml");
         }
     }
 

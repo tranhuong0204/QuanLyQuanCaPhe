@@ -104,6 +104,14 @@ public class TrangChuController {
                 }
             });
         }
+
+        if (thongKelb != null) {
+            for (Label l : labelList) {
+                l.getStyleClass().remove("label-selected");
+            }
+            thongKelb.getStyleClass().add("label-selected");
+            loadIntoContent("/com/example/quanlyquancaphe/adminView/ThongKe.fxml");
+        }
     }
 
     private void loadIntoContent(String fxmlPath) {

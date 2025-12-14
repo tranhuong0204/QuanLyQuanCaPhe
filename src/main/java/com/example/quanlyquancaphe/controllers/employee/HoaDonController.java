@@ -420,6 +420,12 @@ public class HoaDonController {
                 psHoaDon.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
 
                 psHoaDon.setString(5, banHienTai.getMaBan());
+//                if (banHienTai == null || banHienTai.getMaBan() == null) {
+//                    psHoaDon.setNull(5, java.sql.Types.VARCHAR);
+//                } else {
+//                    psHoaDon.setString(5, banHienTai.getMaBan());
+//                }
+
 
                 psHoaDon.setString(6, TaiKhoan.getUserLoggedIn().getMaTaiKhoan());
 
