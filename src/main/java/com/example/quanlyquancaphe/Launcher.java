@@ -13,19 +13,13 @@ public class Launcher extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//      Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
-//      primaryStage.setTitle("Đăng Nhập");
-//      primaryStage.setScene(new Scene(root));
-//      primaryStage.show();
+//
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/DangNhap.css").toExternalForm());
-//      Parent root = FXMLLoader.load(getClass().getResource("/com/example/quanlyquancaphe/adminView/TrangChu.fxml"));
-//      Scene scene = new Scene(root);
-//      scene.getStylesheets().add(getClass().getResource("/com/example/quanlyquancaphe/adminView/TrangChu.css").toExternalForm());
+
         primaryStage.setScene(scene);
-//        primaryStage.setMaximized(true);
+
         primaryStage.show();
-//      primaryStage.setFullScreen(true);
     }
 }

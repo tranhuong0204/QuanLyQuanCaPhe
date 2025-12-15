@@ -23,8 +23,6 @@ public class DangNhapController {
     @FXML
     private Label statusLabel;
 
-    // ĐÃ XÓA: private TaiKhoan taiKhoan;
-    // ĐÃ XÓA: public void setTaiKhoan(TaiKhoan tk) { this.taiKhoan = tk; }
 
     private void loadScene(ActionEvent event, String fxmlPath) {
         try {

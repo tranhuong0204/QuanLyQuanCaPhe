@@ -42,7 +42,6 @@ public class ChonBanController {
         setupComboboxTrangThai();
         setupComboboxViTri();
 
-        // --- Filter tự động ---
         cbTrangThai.valueProperty().addListener((obs, oldV, newV) -> onSearch());
         cbViTri.valueProperty().addListener((obs, oldV, newV) -> onSearch());
 
@@ -79,7 +78,6 @@ public class ChonBanController {
         tableListBan.setItems(listBan);
     }
 
-    // --- Filter ---
     @FXML
     private void onSearch() {
         String trangThai = cbTrangThai.getValue();
@@ -95,7 +93,6 @@ public class ChonBanController {
         tableListBan.setItems(filtered);
     }
 
-    // --- ComboBox Trạng thái ---
     private void setupComboboxTrangThai() {
         cbTrangThai.getItems().addAll(null, "Trống", "Có khách");
         cbTrangThai.setConverter(new StringConverter<>() {
@@ -106,7 +103,6 @@ public class ChonBanController {
         });
     }
 
-    // --- ComboBox Vị trí ---
     private void setupComboboxViTri() {
         cbViTri.getItems().addAll(null, "Trong nhà", "Ngoài trời");
         cbViTri.setConverter(new StringConverter<>() {
@@ -117,8 +113,7 @@ public class ChonBanController {
         });
     }
 
-    // --- Mở ChonMon.fxml ---
-    // --- Mở HoaDon.fxml ---
+
     private void openHoaDon(String fxmlPath, String title, Ban selectedBan) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

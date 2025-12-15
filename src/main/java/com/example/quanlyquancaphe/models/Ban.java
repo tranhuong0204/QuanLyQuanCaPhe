@@ -1,11 +1,11 @@
 package com.example.quanlyquancaphe.models;
 
 public class Ban {
-    private String maBan;      // Mã định danh của bàn
-    private String viTri;      // Khu vực: Tầng 1, Tầng 2, Sảnh, VIP...
-    private int soGhe;         // Số lượng ghế
-    private String trangThai;  // Ví dụ: "Trống", "Đang dùng", "Đặt trước"
-    private String ghiChu;     // Ghi chú thêm
+    private String maBan;
+    private String viTri;
+    private int soGhe;
+    private String trangThai;
+    private String ghiChu;
 
     public Ban(){
 

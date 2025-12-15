@@ -140,7 +140,7 @@ public class TaiKhoanDAO {
             System.out.println("DEBUG: Truy vấn tìm Max ID thành công.");
 
             if (rs.next()) {
-                // SỬA LỖI: Thêm .trim() để loại bỏ khoảng trắng thừa từ DB
+
                 String lastId = rs.getString(1).trim();
                 System.out.println("DEBUG: Last ID found (trimmed): " + lastId);
 

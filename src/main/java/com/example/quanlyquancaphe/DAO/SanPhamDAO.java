@@ -14,14 +14,7 @@ public class SanPhamDAO {
 
     public List<SanPham> getAllSanPham() throws SQLException {
         List<SanPham> list = new ArrayList<>();
-//        String sql = "SELECT sp.maMon, sp.tenMon, sp.giaCa, sp.moTa, sp.hinhAnh, " +
-//                "km.giaTri, " +
-//                "CASE WHEN km.maKM IS NOT NULL AND km.ngayBatDau <= GETDATE() AND km.ngayKetThuc >= GETDATE() " +
-//                "     THEN sp.giaCa * (1 - km.giaTri / 100.0) " +
-//                "     ELSE sp.giaCa END AS giaKM " +
-//                "FROM MON sp " +
-//                "LEFT JOIN MON_KHUYENMAI mk ON sp.maMon = mk.maMon " +
-//                "LEFT JOIN KHUYENMAI km ON mk.maKM = km.maKM";
+//
         String sql = "SELECT sp.maMon, sp.tenMon, sp.giaCa, sp.moTa, sp.hinhAnh, " +
                 "MIN(CASE WHEN km.maKM IS NOT NULL " +
                 "          AND km.ngayBatDau <= GETDATE() " +
